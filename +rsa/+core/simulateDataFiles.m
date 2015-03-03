@@ -78,7 +78,7 @@ if overwriteFlag
 	        V = fullfile(saveDir, betaCorrespondence_true(1,condition).identifier);
 	        
 			% Write this image
-% 			spm_write_vol(V, trueBetaImage);
+% 			rsa.core.spmFiles4rsatoolbox.spm_write_vol(V, trueBetaImage);
             betaImage = trueBetaImage;
 	        save(V,'betaImage');clear V
 			% Do the same for the noisy image
@@ -88,7 +88,7 @@ if overwriteFlag
 			% Write the image
             betaImage = noisyBetaImage;
             save(V,'betaImage');clear V
-% 			spm_write_vol(V, noisyBetaImage);
+% 			rsa.core.spmFiles4rsatoolbox.spm_write_vol(V, noisyBetaImage);
 	
 		end%for:condition
 	

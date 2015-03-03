@@ -178,7 +178,7 @@ if overwriteFlag
 				
 				gotoDir(userOptions.rootPath, 'Maps');
 				
-				spm_write_vol(rMapMetadataStruct_nS, rMaps_nS.(modelName).(subject).(maskName));
+				rsa.core.spmFiles4rsatoolbox.spm_write_vol(rMapMetadataStruct_nS, rMaps_nS.(modelName).(subject).(maskName));
 				
 				if isfield(userOptions, 'structuralsPath')
 
@@ -188,7 +188,7 @@ if overwriteFlag
 					maskMetadataStruct_nS.descrip =  'Native space mask';
 					maskMetadataStruct_nS.dim = size(mask);
 					
-					spm_write_vol(maskMetadataStruct_nS, mask);
+					rsa.core.spmFiles4rsatoolbox.spm_write_vol(maskMetadataStruct_nS, mask);
 
 					% Load in common space warp definition
 % 					wildFiles = replaceWildcards(fullfile(userOptions.structuralsPath, ['*' subject '*_seg_sn.mat']), '[[subjectName]]', subject);
@@ -228,7 +228,7 @@ if overwriteFlag
 					
 					maskMetadataStruct_sS.dim = size(mask_sS);
 					
-					spm_write_vol(maskMetadataStruct_sS, mask_sS);
+					rsa.core.spmFiles4rsatoolbox.spm_write_vol(maskMetadataStruct_sS, mask_sS);
 
 					% Smooth the normalised data
 
@@ -254,7 +254,7 @@ if overwriteFlag
 					maskedDataMetadataStruct_nS.descrip =  'Masked smoothed normalised data';
 					maskedDataMetadataStruct_nS.dim = size(maskedData);
 					
-					spm_write_vol(maskedDataMetadataStruct_nS, maskedData);
+					rsa.core.spmFiles4rsatoolbox.spm_write_vol(maskedDataMetadataStruct_nS, maskedData);
 					
 				end%if:structuralsPath
 

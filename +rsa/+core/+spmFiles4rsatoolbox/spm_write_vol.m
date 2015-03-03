@@ -79,6 +79,6 @@ end
 
 %-Create and write image
 %-----------------------------------------------------------------------
-V = spm_create_vol(V);
-V = spm_write_plane(V,Y,':');
+V = rsa.core.spmFiles4rsatoolbox.spm_create_vol(V);
+V = rsa.core.spmFiles4rsatoolbox.spm_write_plane(V,Y,':');
 

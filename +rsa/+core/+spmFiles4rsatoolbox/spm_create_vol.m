@@ -51,10 +51,10 @@ if V.n(1)>1 && V.n(2)>1,
 end;
 
 if ~isfield(V,'dt'),
-    V.dt = [spm_type('float64') spm_platform('bigend')];
+    V.dt = [rsa.core.spmFiles4rsatoolbox.spm_type('float64') spm_platform('bigend')];
 end;
 
-dt{1} = spm_type(V.dt(1));
+dt{1} = rsa.core.spmFiles4rsatoolbox.spm_type(V.dt(1));
 if strcmp(dt{1},'unknown'),
     error(['"' dt{1} '" is an unrecognised datatype (' num2str(V.dt(1)) ').']);
 end;
@@ -73,7 +73,7 @@ case {'.nii'}
 otherwise
     error(['"' ext '" is not a recognised extension.']);
 end;
-bits   = spm_type(V.dt(1),'bits');
+bits   = rsa.core.spmFiles4rsatoolbox.spm_type(V.dt(1),'bits');
 minoff = minoff + ceil(prod(V.dim(1:2))*bits/8)*V.dim(3)*(V.n(1)-1+V.n(2)-1);
 V.pinfo(3,1) = max(V.pinfo(3,:),minoff);
 
