@@ -14,9 +14,6 @@ function userOptions = defineUserOptions()
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
-import rsa.*
-import rsa.core.*
-
 %% Project details
 
 % This name identifies a collection of files which all belong to the same run of a project.

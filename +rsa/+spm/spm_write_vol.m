@@ -14,6 +14,9 @@ function V = spm_write_vol(V,Y)
 % John Ashburner
 % $Id: spm_write_vol.m 1020 2007-12-06 20:20:31Z john $
 
+import rsa.*
+import rsa.spm.*
+
 use_offset = false;
 
 if ndims(Y)>3, error('Can only handle a maximum of 3 dimensions.'), end
@@ -79,6 +82,5 @@ end
 
 %-Create and write image
 %-----------------------------------------------------------------------
-V = rsa.core.spmFiles4rsatoolbox.spm_create_vol(V);
-V = rsa.core.spmFiles4rsatoolbox.spm_write_plane(V,Y,':');
-
+V = spm_create_vol(V);
+V = spm_write_plane(V,Y,':');

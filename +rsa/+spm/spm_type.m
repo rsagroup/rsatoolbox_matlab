@@ -24,7 +24,8 @@ function T = spm_type(x, arg)
 % John Ashburner & Andrew Holmes
 % $Id: spm_type.m 112 2005-05-04 18:20:52Z john $
 
-
+import rsa.*
+import rsa.spm.*
 
 prec = char('uint8','int16','int32','float32','float64','int8','uint16','uint32');
 types   = [    2      4      8   16   64   256    512    768];

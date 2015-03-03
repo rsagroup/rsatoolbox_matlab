@@ -23,6 +23,9 @@ function V = spm_write_plane(V,dat,n)
 % multiple planes or even entire volumes should be handled here. 
 % Dimension checking is left to mat2file. 
 
+import rsa.*
+import rsa.spm.*
+
 if isfield(V,'n'), 
     n1= num2cell(V.n);
     n = {n n1{:}}; 
