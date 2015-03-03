@@ -15,36 +15,36 @@ userOptions = defineUserOptions();
 %% Data preparation %%
 %%%%%%%%%%%%%%%%%%%%%%
 
-fullBrainVols = fMRIDataPreparation('SPM', userOptions);
-binaryMasks_nS = fMRIMaskPreparation(userOptions);
-responsePatterns = fMRIDataMasking(fullBrainVols, binaryMasks_nS, 'SPM', userOptions);
+fullBrainVols = rsa.core.fMRIDataPreparation('SPM', userOptions);
+binaryMasks_nS = rsa.core.fMRIMaskPreparation(userOptions);
+responsePatterns = rsa.core.fMRIDataMasking(fullBrainVols, binaryMasks_nS, 'SPM', userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%
 %% RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%
 
-RDMs = constructRDMs(responsePatterns, 'SPM', userOptions);
-sRDMs = averageRDMs_subjectSession(RDMs, 'session');
-RDMs = averageRDMs_subjectSession(RDMs, 'session', 'subject');
+RDMs = rsa.constructRDMs(responsePatterns, 'SPM', userOptions);
+sRDMs = rsa.core.averageRDMs_subjectSession(RDMs, 'session');
+RDMs = rsa.core.averageRDMs_subjectSession(RDMs, 'session', 'subject');
 
-Models = constructModelRDMs(modelRDMs(), userOptions);
+Models = rsa.core.constructModelRDMs(modelRDMs(), userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% First-order visualisation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-figureRDMs(RDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1));
-figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2));
+rsa.figureRDMs(RDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1));
+rsa.figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2));
 
-MDSConditions(RDMs, userOptions);
-dendrogramConditions(RDMs, userOptions);
+rsa.MDSConditions(RDMs, userOptions);
+rsa.dendrogramConditions(RDMs, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% relationship amongst multiple RDMs %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-pairwiseCorrelateRDMs({RDMs, Models}, userOptions);
-MDSRDMs({RDMs, Models}, userOptions);
+rsa.pairwiseCorrelateRDMs({RDMs, Models}, userOptions);
+rsa.MDSRDMs({RDMs, Models}, userOptions);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% statistical inference %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,4 +61,4 @@ userOptions.RDMrelatednessMultipleTesting = 'FDR';
 userOptions.candRDMdifferencesTest = 'subjectRFXsignedRank';
 userOptions.candRDMdifferencesThreshold = 0.05;
 userOptions.candRDMdifferencesMultipleTesting = 'none';
-stats_p_r=compareRefRDM2candRDMs(RDMs(roiIndex), models, userOptions);
+stats_p_r=rsa.compareRefRDM2candRDMs(RDMs(roiIndex), models, userOptions);

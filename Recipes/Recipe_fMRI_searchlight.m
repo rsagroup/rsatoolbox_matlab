@@ -9,23 +9,23 @@
 %%%%%%%%%%%%%%%%%%%%
 
 toolboxRoot = 'toolboxPathOnYourMachine'; addpath(genpath(toolboxRoot)); % Catch sight of the toolbox code
-userOptions = defineUserOptions();
+userOptions = rsa.core.defineUserOptions();
 
 %%%%%%%%%%%%%%%%%%%%%%
 %% Data preparation %%
 %%%%%%%%%%%%%%%%%%%%%%
 
-fullBrainVols = fMRIDataPreparation('SPM', userOptions);
-binaryMasks_nS = fMRIMaskPreparation(userOptions);
+fullBrainVols = rsa.core.fMRIDataPreparation('SPM', userOptions);
+binaryMasks_nS = rsa.core.fMRIMaskPreparation(userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%
 %% RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%
 
-models = constructModelRDMs(modelRDMs(), userOptions);
+models = rsa.constructModelRDMs(modelRDMs(), userOptions);
 
 %%%%%%%%%%%%%%%%%
 %% Searchlight %%
 %%%%%%%%%%%%%%%%%
 
-fMRISearchlight(fullBrainVols, binaryMasks_nS, models, 'SPM', userOptions);
+rsa.core.fMRISearchlight(fullBrainVols, binaryMasks_nS, models, 'SPM', userOptions);

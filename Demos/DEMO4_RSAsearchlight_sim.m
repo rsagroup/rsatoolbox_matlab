@@ -58,7 +58,7 @@ for subI = 1:Nsubjects
     cd(returnHere);
 end
 %% display the design matrix, model RDMs and simulated RDMs and the SL
-selectPlot(1);
+rsa.core.selectPlot(1);
 subplot(321);imagesc(fMRI_sub.X);axis square
 ylabel('\bfscans');xlabel('\bfregressors')
 title('\bfdesign matrix')
@@ -67,14 +67,14 @@ subplot(322);plot(fMRI_sub.X(:,12:14))
 xlabel('scans');title('\bfregressors for 3 example conditions')
 
 subplot(323);
-image(rsa.core.scale01(rankTransform_equalsStayEqual(squareform(pdist(fMRI_sub.groundTruth)),1)),'CDataMapping','scaled','AlphaData',~isnan(squareform(pdist(fMRI_sub.groundTruth))));
+image(rsa.core.scale01(rsa.core.rankTransform_equalsStayEqual(squareform(pdist(fMRI_sub.groundTruth)),1)),'CDataMapping','scaled','AlphaData',~isnan(squareform(pdist(fMRI_sub.groundTruth))));
 axis square off
 title('\bfsimulated ground truth RDM')
 
 subplot(324);
 image(rsa.core.scale01(rsa.core.rankTransform_equalsStayEqual(models(1).RDM,1)),'CDataMapping','scaled','AlphaData',~isnan(models(1).RDM));
 axis square off
-colormap(RDMcolormap)
+colormap(rsa.core.RDMcolormap)
 title('\bftested model RDM')
 
 
@@ -111,7 +111,7 @@ for modelI = 1:numel(models)
                 end
             end
         end
-        disp(x)
+        disp(x);
     end
     % apply FDR correction
     pThrsh_t  = rsa.core.FDRthreshold(p1,0.05,mask);

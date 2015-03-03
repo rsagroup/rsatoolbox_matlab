@@ -29,7 +29,7 @@ rdm_mIT=rsa.core.squareRDMs(RDMs_mIT_hIT_fig1(1).RDM);
 rdm_hIT=rsa.core.squareRDMs(RDMs_mIT_hIT_fig1(2).RDM);
 
 load([pwd,filesep,'92imageData',filesep,'92_brainRDMs.mat'])
-RDMs_hIT_bySubject = rsa.averageRDMs_subjectSession(RDMs, 'session');
+RDMs_hIT_bySubject = rsa.core.averageRDMs_subjectSession(RDMs, 'session');
 rsa.core.showRDMs(RDMs_hIT_bySubject,1);
 rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'subjectRDMs_hIT_fMRI'],userOptions);
 
@@ -48,7 +48,7 @@ end
 
 avgSubjectRDM=mean(subjectRDMs,3);
 
-rsa.core.showRDMs(concatRDMs_unwrapped(subjectRDMs,avgSubjectRDM),2);
+rsa.core.showRDMs(rsa.core.concatRDMs_unwrapped(subjectRDMs,avgSubjectRDM),2);
 rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'simulatedSubjAndAverage'],userOptions);
 
 
@@ -153,11 +153,11 @@ rsa.dendrogramConditions(avgRDM, userOptions,...
 struct('titleString', 'Dendrogram of the subject-averaged RDM', 'useAlternativeConditionLabels', true, 'alternativeConditionLabels', {blankConditionLabels}, 'figureNumber', 9));
 
 % one-subject MDS (e.g. simulated subject1), noisier
-rsa.MDSConditions(wrapAndNameRDMs(subjectRDMs(:,:,1),{'single-subject RDM'}), userOptions,struct('titleString','sample subject MDS',...
+rsa.MDSConditions(rsa.core.wrapAndNameRDMs(subjectRDMs(:,:,1),{'single-subject RDM'}), userOptions,struct('titleString','sample subject MDS',...
     'fileName','single-subject RDM','figureNumber',10));
 
 % one-subject Dendrogram
-rsa.dendrogramConditions(wrapAndNameRDMs(subjectRDMs(:,:,3),{'single-subject RDM'}), userOptions,...
+rsa.dendrogramConditions(rsa.core.wrapAndNameRDMs(subjectRDMs(:,:,3),{'single-subject RDM'}), userOptions,...
 struct('titleString', 'Dendrogram of a single-subject RDM', 'useAlternativeConditionLabels', true, 'alternativeConditionLabels', {blankConditionLabels}, 'figureNumber', 11));
 
 
@@ -208,8 +208,3 @@ userOptions.figure1filename = 'compareRefRDM2candRDMs_barGraph_hITasRef';
 userOptions.figure2filename = 'compareRefRDM2candRDMs_pValues_hITasRef';
 userOptions.figureIndex = [16 17];
 stats_p_r=rsa.compareRefRDM2candRDMs(RDMs_hIT_bySubject, modelRDMs_cell(1:end-1), userOptions);
-
-
-
-
-

@@ -67,12 +67,12 @@ responsePatterns_noisy.(['noisy' RoIName]) = fullBrainVols_noisy;
 % Construct RDMs for the 'true' data. One RDM for each subject (sessions
 % have
 % not been simulated) and one for the average across subjects.
-RDMs_true = rsa.core.constructRDMs(responsePatterns_true, betaCorrespondence_true, userOptions_true);
+RDMs_true = rsa.constructRDMs(responsePatterns_true, betaCorrespondence_true, userOptions_true);
 RDMs_true = rsa.core.averageRDMs_subjectSession(RDMs_true, 'session');
 averageRDMs_true = rsa.core.averageRDMs_subjectSession(RDMs_true, 'subject');
 
 % Do the same for the 'noisy' data.
-RDMs_noisy = rsa.core.constructRDMs(responsePatterns_noisy, betaCorrespondence_noisy, userOptions_noisy);
+RDMs_noisy = rsa.constructRDMs(responsePatterns_noisy, betaCorrespondence_noisy, userOptions_noisy);
 RDMs_noisy = rsa.core.averageRDMs_subjectSession(RDMs_noisy, 'session');
 averageRDMs_noisy = rsa.core.averageRDMs_subjectSession(RDMs_noisy, 'subject');
 
@@ -84,8 +84,8 @@ RDMs_model = rsa.core.constructModelRDMs(modelRDMs_demo2, userOptions_common);
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % % Display the three sets of RDMs: true, noisy and model
-rsa.figureRDMs(concatenateRDMs(RDMs_true, averageRDMs_true), userOptions_true, struct('fileName', 'noiselessRDMs', 'figureNumber', 1));
-rsa.figureRDMs(concatenateRDMs(RDMs_noisy, averageRDMs_noisy), userOptions_noisy, struct('fileName', 'noisyRDMs', 'figureNumber', 2));
+rsa.figureRDMs(rsa.core.concatenateRDMs(RDMs_true, averageRDMs_true), userOptions_true, struct('fileName', 'noiselessRDMs', 'figureNumber', 1));
+rsa.figureRDMs(rsa.core.concatenateRDMs(RDMs_noisy, averageRDMs_noisy), userOptions_noisy, struct('fileName', 'noisyRDMs', 'figureNumber', 2));
 rsa.figureRDMs(RDMs_model, userOptions_common, struct('fileName', 'modelRDMs', 'figureNumber', 3));
 % 
 % Determine dendrograms for the clustering of the conditions for the two data
