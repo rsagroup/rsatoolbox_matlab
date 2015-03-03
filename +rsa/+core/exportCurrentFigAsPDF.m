@@ -9,6 +9,7 @@ function exportCurrentFigAsPDF(filespec,userOptions)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~isfield(userOptions,'dpi'), userOptions.dpi = 300; end;
 if ~isfield(userOptions,'tightInset'), userOptions.tightInset = false; end;

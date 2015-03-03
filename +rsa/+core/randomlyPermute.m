@@ -4,6 +4,7 @@ function v = randomlyPermute(v)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 v = v(randomPermutation(numel(v)));
 

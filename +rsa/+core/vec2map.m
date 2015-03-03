@@ -19,6 +19,7 @@ function map=vec2map(vec,mask)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 mask=logical(mask);
 map=zeros(size(mask));

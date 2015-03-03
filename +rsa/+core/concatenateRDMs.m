@@ -9,6 +9,7 @@ function RDMsOut = concatenateRDMs(varargin)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 	if nargin == 1
 		RDMsIn = varargin{1};
@@ -27,6 +28,7 @@ end%function
 
 function RDMs = catTwoRDMs(RDMs1, RDMs2)
 	import rsa.*
+import rsa.core.*
 	RDMs1 = interleaveRDMs(RDMs1, true);
 	RDMs2 = interleaveRDMs(RDMs2, true);
 	RDMs2 = orderfields(RDMs2, fieldnames(RDMs1));

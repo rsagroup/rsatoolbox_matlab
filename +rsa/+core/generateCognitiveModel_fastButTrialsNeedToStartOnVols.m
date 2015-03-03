@@ -19,6 +19,7 @@ function [cognitiveX,BVstimProt,standardIndexSequence,hirf_ms]=generateCognitive
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% control variables
 if ~exist('scaleTrialResponseTo1','var');

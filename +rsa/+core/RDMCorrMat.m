@@ -11,6 +11,7 @@ function corrMat=RDMCorrMat(RDMs,figPlotSpec,type)
 % Copyright (C) 2011 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('type','var'),type='Spearman'; end; % Spearman rank should be default?
 

@@ -20,6 +20,7 @@ function addImageSequenceToAxes(ax,il)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 defaultil = struct('sequence',1:length(il.images),'nRows',2, ...
 	'blackdisks',false);

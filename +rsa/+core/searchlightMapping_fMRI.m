@@ -37,6 +37,7 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 	% 	- Now takes a userOptions struct for the input parameters.
 
 	import rsa.*
+import rsa.core.*
 
 	localOptions = setIfUnset(localOptions, 'averageSessions', true);
 

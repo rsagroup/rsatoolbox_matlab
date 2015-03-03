@@ -6,6 +6,7 @@ function indicesOut = randomPermutation(n)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 indicesToChoseFrom = (1:n);
 
@@ -25,6 +26,7 @@ end%function
 function vectorOut = removeElement(vectorIn, i)
 
 import rsa.*
+import rsa.core.*
 
 if i == 1;
 	vectorOut = vectorIn(2:end);

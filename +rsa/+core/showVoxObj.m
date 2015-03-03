@@ -23,6 +23,7 @@ function showVoxObj(mapORcoords, figI, subplotTriple, adjustMargin, axisLabels, 
 %       
 
 import rsa.*
+import rsa.core.*
 
 objCol=[0 1 0];
 backgroundCol=[1 1 1];

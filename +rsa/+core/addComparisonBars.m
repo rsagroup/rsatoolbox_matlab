@@ -12,6 +12,7 @@ function y = addComparisonBars(pairwisePs,cYMax,threshold)
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 nTestRDMs = size(pairwisePs,1);
 eachLineHeight = 0.03;

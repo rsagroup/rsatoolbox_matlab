@@ -54,6 +54,7 @@ function [varargout] = fMRIDataPreparation(betaCorrespondence, userOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 returnHere = pwd; % We'll return to the pwd when the function has finished
 

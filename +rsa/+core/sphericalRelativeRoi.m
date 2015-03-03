@@ -19,6 +19,7 @@ function relRoi = sphericalRelativeRoi(rad_mm, voxelSize_mm);
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 rightHalf0=0:voxelSize_mm(1):rad_mm; leftHalf=fliplr(rightHalf0(2:size(rightHalf0,2)));
 xrange=[leftHalf,rightHalf0];

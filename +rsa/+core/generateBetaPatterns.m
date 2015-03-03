@@ -46,6 +46,7 @@ function OUT = generateBetaPatterns(clusterSpec, nVoxels, centroid)
 % Copyright (C) 2010 Medical Research Council
 
 	import rsa.*
+import rsa.core.*
 
 	% Probably on the first call, there is no centroid specified (an
 	% implicit origin). Later, centroids will be picked based on the

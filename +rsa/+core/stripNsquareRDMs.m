@@ -7,6 +7,7 @@ function RDMs_squareNbare=stripNsquareRDMs(RDMs_clad)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if isstruct(RDMs_clad)
     RDMs_squareNbare=[];

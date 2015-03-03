@@ -6,6 +6,7 @@ function cols=RDMcolormap
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 nCols = 256;
 %% blue-cyan-gray-red-yellow with increasing V (BCGRYincV)

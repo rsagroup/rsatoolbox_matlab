@@ -11,6 +11,7 @@ function Xscaled=scale01(X,range)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('range','var')
     mn=min(X(:)); mx=max(X(:));

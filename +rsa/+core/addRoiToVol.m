@@ -33,6 +33,7 @@ function vol=addRoiToVol(vol, roi, color, solid)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('color','var')
     color=[0 1 1];

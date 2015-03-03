@@ -39,6 +39,7 @@ function [realRs bootstrapEs pairwisePs bootstrapRs] = bootstrapRDMs(bootstrappa
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 % Sort out defaults
 userOptions = setIfUnset(userOptions, 'nBootstrap', 1000);

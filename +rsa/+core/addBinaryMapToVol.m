@@ -26,6 +26,7 @@ function vol=addBinaryMapToVol(vol, map, col)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% MARK THE VOXELS
 toBeMarked_INDs=find(map==1);

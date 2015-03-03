@@ -5,6 +5,7 @@ function RDMs_utv=vectorizeRDMs(RDMs)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if isstruct(RDMs)
     % wrapped

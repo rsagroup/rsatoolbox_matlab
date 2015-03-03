@@ -9,6 +9,7 @@ function RDM=squareRDM(RDM)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 RDM=squareform(vectorizeRDM(RDM));
 

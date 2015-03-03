@@ -9,6 +9,7 @@ function RDMs=squareRDMs(RDMs_ltv)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if isstruct(RDMs_ltv)
     % wrapped

@@ -5,6 +5,7 @@ function taua=rankCorr_Kendall_taua(a,b)
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% preparations
 a=a(:);b=b(:);

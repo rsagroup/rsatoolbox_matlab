@@ -5,6 +5,7 @@ function RDMs=concatRDMs(varargin)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 for RDMI=1:nargin
     

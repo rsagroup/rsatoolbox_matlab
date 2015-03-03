@@ -12,6 +12,7 @@ function shepardPlot(dissimilarities,disparities,distances,figI,titleString)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% preparations
 if ~exist('figI','var'), figI=0; end

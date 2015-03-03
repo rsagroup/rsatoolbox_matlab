@@ -12,6 +12,7 @@ function rankMat=rankTransform_equalsStayEqual(mat,scale01)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('scale01','var'), scale01=1; end;
 

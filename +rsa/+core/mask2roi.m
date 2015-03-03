@@ -8,6 +8,7 @@ function roi=mask2roi(mask)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 [x,y,z]=ind2sub(size(mask),find(mask));
 roi=[x,y,z];

@@ -94,6 +94,7 @@ function figureMDSArrangement(RDM, userOptions, localOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% define defaults
 appendFlag = 0;

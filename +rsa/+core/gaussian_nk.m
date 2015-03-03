@@ -17,6 +17,7 @@ function g=gaussian_nk(FWHM, nSamples, x, mu, mass)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('nSamples','var')
     nSamples=FWHM*4+1;

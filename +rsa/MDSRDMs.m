@@ -46,6 +46,7 @@ function MDSRDMs(varargin)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 returnHere = pwd;
 

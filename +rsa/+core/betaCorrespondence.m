@@ -25,6 +25,7 @@ function betas = betaCorrespondence();
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 preBeta = '[[subjectName]]_';
 

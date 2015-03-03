@@ -39,6 +39,7 @@ function r=raeSpearmanCorr(x,y,toleratedStandardError)
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('toleratedStandardError','var'), toleratedStandardError=0.001; end
 

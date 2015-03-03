@@ -14,6 +14,7 @@ function RDMs_struct=wrapRDMs(RDMs,refRDMs_struct)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if isstruct(RDMs)
     % wrapped already, but replace the wrapping

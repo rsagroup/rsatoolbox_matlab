@@ -55,6 +55,7 @@ function pThreshold=FDRthreshold(pMap,q,binaryBrainMask,assumePositiveDependence
 %               discovery rate. NeuroImage 15, 870-878. 2002.
 
 import rsa.*
+import rsa.core.*
 
 %% PREPARATIONS
 if ~exist('assumePositiveDependence','var')

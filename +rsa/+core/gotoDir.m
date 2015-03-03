@@ -9,6 +9,7 @@ function gotoDir(varargin)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 switch nargin
 	case 2

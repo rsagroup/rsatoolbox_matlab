@@ -18,6 +18,7 @@ function [RDMs,nRDMs]=unwrapRDMs(RDMs_struct)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if isstruct(RDMs_struct)
     % in struct form

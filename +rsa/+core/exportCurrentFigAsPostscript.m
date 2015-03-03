@@ -11,6 +11,7 @@ function exportCurrentFigAsPostscript(filespec,appendFlag,userOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('filespec','var'), filespec='currentFigAsPostscript'; end;
 if ~exist('appendFlag','var'), appendFlag=1; end;

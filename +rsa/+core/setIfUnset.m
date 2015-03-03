@@ -4,6 +4,7 @@ function options=setIfUnset(options,field,value)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~isfield(options, field) || isempty(options.(field))
        options.(field)=value;

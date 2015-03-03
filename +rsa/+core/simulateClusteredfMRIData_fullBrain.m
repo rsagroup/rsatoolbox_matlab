@@ -11,6 +11,7 @@ function [varargout] = simulateClusteredfMRIData_fullBrain(simulationOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 nNoisyPatterns = nargout - 2;
 

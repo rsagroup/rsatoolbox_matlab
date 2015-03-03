@@ -8,6 +8,7 @@ function plotTextLabels(coords_xy,textLabels,fontSize,categoryColumns,categoryCo
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 nItems=size(coords_xy,1);
 

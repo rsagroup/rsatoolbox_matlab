@@ -16,6 +16,7 @@ function varargout = replaceWildcards(stringIn, varargin)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% Deal with inputs
 

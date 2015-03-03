@@ -10,6 +10,7 @@ function stringORstringInCell=underscoresToSpaces(stringORstringInCell)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if iscell(stringORstringInCell)
     for lineI=1:numel(stringORstringInCell)

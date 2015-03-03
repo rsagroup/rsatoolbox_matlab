@@ -40,6 +40,7 @@ function [ceiling_upperBound, ceiling_lowerBound, bestFitRDM]=ceilingAvgRDMcorr(
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% preparations
 if ~exist('RDMcorrelationType','var'), RDMcorrelationType='Kendall_taua'; end
@@ -261,6 +262,7 @@ end%function
 %% compute correlations of all types
 function r=correlation(a,b,RDMcorrelationType)
 	import rsa.*
+import rsa.core.*
 	
     switch RDMcorrelationType
         case 'negEuclidean'

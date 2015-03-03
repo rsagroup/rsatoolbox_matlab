@@ -18,6 +18,7 @@ function plotDotsWithTextLabels(coords_xy, localOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 localOptions = setIfUnset(localOptions, 'dotSize', 8);
 

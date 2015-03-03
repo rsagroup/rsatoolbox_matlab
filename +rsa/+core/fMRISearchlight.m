@@ -85,6 +85,7 @@ function [varargout] = fMRISearchlight(fullBrainVols, binaryMasks_nS, models, be
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 returnHere = pwd; % We'll come back here later
 
@@ -360,6 +361,7 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 	% 	- Now takes a userOptions struct for the input parameters.
 
 	import rsa.*
+import rsa.core.*
 
 	localOptions = setIfUnset(localOptions, 'averageSessions', true);
 

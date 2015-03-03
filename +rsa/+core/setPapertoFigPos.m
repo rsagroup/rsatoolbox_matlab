@@ -8,6 +8,7 @@ function F = setPapertoFigPos(F)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if nargin < 1
 	F = gcf;

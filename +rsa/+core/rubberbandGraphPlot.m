@@ -12,6 +12,7 @@ function rubberbandGraphPlot(coords_xy,distmat,connectionAreaProportionORcolorCo
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% control variables
 nDistortionBins=11;

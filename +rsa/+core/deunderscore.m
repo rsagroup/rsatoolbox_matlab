@@ -6,6 +6,7 @@ function stringORstringInCell=deunderscore(stringORstringInCell)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 % replace underscores
 if iscell(stringORstringInCell)

@@ -29,6 +29,7 @@ function overwriteFlag = overwritePrompt(userOptions, promptOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 %% Set defaults and check options struct
 if ~isfield(userOptions, 'analysisName'), error('overwritePrompt:NoAnalysisName', 'analysisName must be set. See help'); end%if

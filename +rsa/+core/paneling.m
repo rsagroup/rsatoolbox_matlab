@@ -10,6 +10,7 @@ function [nVerPan nHorPan]=paneling(nPanels,nHorPanOVERnVerPan)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('nHorPanOVERnVerPan','var'),nHorPanOVERnVerPan=.5; end;
 

@@ -5,6 +5,7 @@ function b=brightness(RGBrows)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 RGBweights=[.241 .691 .068]';
 

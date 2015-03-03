@@ -55,6 +55,7 @@ function [varargout] = constructRDMs(responsePatterns, betaCorrespondence, userO
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 returnHere = pwd; % We'll come back here later
 

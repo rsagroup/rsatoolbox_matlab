@@ -6,6 +6,7 @@ function RDMs=wrapAndNameRDMs(RDMs,names)
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 RDMs=wrapRDMs(RDMs);
 

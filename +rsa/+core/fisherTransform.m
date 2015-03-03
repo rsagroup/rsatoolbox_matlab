@@ -11,6 +11,7 @@ function setOut = fisherTransform(setIn, fakeIt)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('fakeIt', 'var')
 	fakeIt = false;

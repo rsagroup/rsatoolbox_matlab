@@ -6,6 +6,7 @@ function p=relRankIn_includeValue_lowerBound(set,value)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 set=[set(:);value];
 p=sum(set(:)<value)/numel(set);

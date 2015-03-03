@@ -7,6 +7,7 @@ function rankArray=rankTransform(array,scale01)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('scale01','var'), scale01=false; end;
 

@@ -5,6 +5,7 @@ function h=pageFigure(figI,paperSizeORheightToWidth,proportionOfScreenArea,horPo
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
+import rsa.core.*
 
 if ~exist('figI'), figI=gcf; end
 if ~exist('paperSizeORheightToWidth')||isempty(paperSizeORheightToWidth), paperSizeORheightToWidth='A4'; end
