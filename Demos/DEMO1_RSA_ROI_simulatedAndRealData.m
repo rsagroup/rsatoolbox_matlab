@@ -12,7 +12,6 @@ userOptions.rootPath = [pwd,filesep,'DEMO1'];
 userOptions.analysisName = 'DEMO1';
 
 
-
 %% control variables
 nSubjects=12;
 subjectPatternNoiseStd=1;
@@ -26,13 +25,13 @@ patternDistanceMeasure='correlation';
 
 %% load RDMs and category definitions from Kriegeskorte et al. (Neuron 2008)
 load([pwd,filesep,'92imageData',filesep,'Kriegeskorte_Neuron2008_supplementalData.mat'])
-rdm_mIT=squareRDMs(RDMs_mIT_hIT_fig1(1).RDM);
-rdm_hIT=squareRDMs(RDMs_mIT_hIT_fig1(2).RDM);
+rdm_mIT=rsa.core.squareRDMs(RDMs_mIT_hIT_fig1(1).RDM);
+rdm_hIT=rsa.core.squareRDMs(RDMs_mIT_hIT_fig1(2).RDM);
 
 load([pwd,filesep,'92imageData',filesep,'92_brainRDMs.mat'])
-RDMs_hIT_bySubject = averageRDMs_subjectSession(RDMs, 'session');
-showRDMs(RDMs_hIT_bySubject,1);
-handleCurrentFigure([userOptions.rootPath,filesep,'subjectRDMs_hIT_fMRI'],userOptions);
+RDMs_hIT_bySubject = rsa.averageRDMs_subjectSession(RDMs, 'session');
+rsa.core.showRDMs(RDMs_hIT_bySubject,1);
+rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'subjectRDMs_hIT_fMRI'],userOptions);
 
 
 %% load reconstructed patterns for simulating models
@@ -44,25 +43,25 @@ subjectRDMs=nan(nCond,nCond,nSubjects);
 
 for subjectI=1:nSubjects
     patterns_cSubject=simTruePatterns2+subjectPatternNoiseStd*randn(nCond,nDim);
-    subjectRDMs(:,:,subjectI)=squareRDMs(pdist(patterns_cSubject,patternDistanceMeasure));
+    subjectRDMs(:,:,subjectI)=rsa.core.squareRDMs(pdist(patterns_cSubject,patternDistanceMeasure));
 end
 
 avgSubjectRDM=mean(subjectRDMs,3);
 
-showRDMs(concatRDMs_unwrapped(subjectRDMs,avgSubjectRDM),2);
-handleCurrentFigure([userOptions.rootPath,filesep,'simulatedSubjAndAverage'],userOptions);
+rsa.core.showRDMs(concatRDMs_unwrapped(subjectRDMs,avgSubjectRDM),2);
+rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'simulatedSubjAndAverage'],userOptions);
 
 
 %% define categorical model RDMs
-[binRDM_animacy, nCatCrossingsRDM]=categoricalRDM(categoryVectors(:,1),3,true);
+[binRDM_animacy, nCatCrossingsRDM]=rsa.core.categoricalRDM(categoryVectors(:,1),3,true);
 ITemphasizedCategories=[1 2 5 6]; % animate, inanimate, face, body
-[binRDM_cats, nCatCrossingsRDM]=categoricalRDM(categoryVectors(:,ITemphasizedCategories),4,true);
+[binRDM_cats, nCatCrossingsRDM]=rsa.core.categoricalRDM(categoryVectors(:,ITemphasizedCategories),4,true);
 load([pwd,filesep,'92imageData',filesep,'faceAnimateInaniClustersRDM.mat'])
 
 
 %% load behavioural RDM from Mur et al. (Frontiers Perc Sci 2013)
 load([pwd,filesep,'92imageData',filesep,'92_behavRDMs.mat'])
-rdm_simJudg=mean(stripNsquareRDMs(rdms_behav_92),3);
+rdm_simJudg=mean(rsa.core.stripNsquareRDMs(rdms_behav_92),3);
 
 
 %% create modelRDMs of different degrees of noise
@@ -72,7 +71,7 @@ patternDevStds=linspace(bestModelPatternDeviationStd,worstModelPatternDeviationS
 
 for gradedModelI=1:nModelGrades
     patterns_cGradedModel=simTruePatterns2+patternDevStds(gradedModelI)*randn(nCond,nDim);
-    gradedModelRDMs(:,:,gradedModelI)=squareRDMs(pdist(patterns_cGradedModel,patternDistanceMeasure));
+    gradedModelRDMs(:,:,gradedModelI)=rsa.core.squareRDMs(pdist(patterns_cGradedModel,patternDistanceMeasure));
 end
 
 
@@ -91,11 +90,11 @@ radonRDM=Models(8).RDM;
 
 %% concatenate and name the modelRDMs
 modelRDMs=cat(3,binRDM_animacy,faceAnimateInaniClustersRDM,FourCatsRDM,rdm_simJudg,humanEarlyVisualRDM,rdm_mIT,silhouetteRDM,rdm92_V1model,rdm92_HMAXnatImPatch,radonRDM,gradedModelRDMs);
-modelRDMs=wrapAndNameRDMs(modelRDMs,{'ani./inani.','face/ani./inani.','face/body/nat./artif.','sim. judg.','human early visual','monkey IT','silhouette','V1 model','HMAX-2005 model','RADON','true model','true with noise','true with more noise'});
+modelRDMs=rsa.core.wrapAndNameRDMs(modelRDMs,{'ani./inani.','face/ani./inani.','face/body/nat./artif.','sim. judg.','human early visual','monkey IT','silhouette','V1 model','HMAX-2005 model','RADON','true model','true with noise','true with more noise'});
 modelRDMs=modelRDMs(1:end-2); % leave out the true with noise models
 
-showRDMs(modelRDMs,5);
-handleCurrentFigure([userOptions.rootPath,filesep,'allModels'],userOptions);
+rsa.core.showRDMs(modelRDMs,5);
+rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'allModels'],userOptions);
 % place the model RDMs in cells in order to pass them to
 % compareRefRDM2candRDMs as candidate RDMs
 for modelRDMI=1:numel(modelRDMs)
@@ -140,25 +139,25 @@ avgRDM.color = [0 0 0];
 [blankConditionLabels{1:size(modelRDMs_cell{1}.RDM,1)}] = deal(' ');
 
 % true-model MDS
-MDSConditions(modelRDMs_cell{11}, userOptions,struct('titleString','ground-truth MDS',...
+rsa.MDSConditions(modelRDMs_cell{11}, userOptions,struct('titleString','ground-truth MDS',...
     'fileName','trueRDM_MDS','figureNumber',6));
 % true-model dendrogram
 
-dendrogramConditions(modelRDMs_cell{11}, userOptions,...
+rsa.dendrogramConditions(modelRDMs_cell{11}, userOptions,...
 struct('titleString', 'Dendrogram of the ground truth RDM', 'useAlternativeConditionLabels', true, 'alternativeConditionLabels', {blankConditionLabels}, 'figureNumber', 7));
 % subject-averaged MDS
-MDSConditions(avgRDM, userOptions,struct('titleString','subject-averaged MDS',...
+rsa.MDSConditions(avgRDM, userOptions,struct('titleString','subject-averaged MDS',...
     'fileName','ssMDS','figureNumber',8));
 % subject-averaged Dendrogram
-dendrogramConditions(avgRDM, userOptions,...
+rsa.dendrogramConditions(avgRDM, userOptions,...
 struct('titleString', 'Dendrogram of the subject-averaged RDM', 'useAlternativeConditionLabels', true, 'alternativeConditionLabels', {blankConditionLabels}, 'figureNumber', 9));
 
 % one-subject MDS (e.g. simulated subject1), noisier
-MDSConditions(wrapAndNameRDMs(subjectRDMs(:,:,1),{'single-subject RDM'}), userOptions,struct('titleString','sample subject MDS',...
+rsa.MDSConditions(wrapAndNameRDMs(subjectRDMs(:,:,1),{'single-subject RDM'}), userOptions,struct('titleString','sample subject MDS',...
     'fileName','single-subject RDM','figureNumber',10));
 
 % one-subject Dendrogram
-dendrogramConditions(wrapAndNameRDMs(subjectRDMs(:,:,3),{'single-subject RDM'}), userOptions,...
+rsa.dendrogramConditions(wrapAndNameRDMs(subjectRDMs(:,:,3),{'single-subject RDM'}), userOptions,...
 struct('titleString', 'Dendrogram of a single-subject RDM', 'useAlternativeConditionLabels', true, 'alternativeConditionLabels', {blankConditionLabels}, 'figureNumber', 11));
 
 
@@ -167,10 +166,10 @@ struct('titleString', 'Dendrogram of a single-subject RDM', 'useAlternativeCondi
 % 2nd order correlation matrix
 userOptions.RDMcorrelationType='Kendall_taua';
 
-pairwiseCorrelateRDMs({avgRDM, modelRDMs}, userOptions, struct('figureNumber', 12,'fileName','RDMcorrelationMatrix'));
+rsa.pairwiseCorrelateRDMs({avgRDM, modelRDMs}, userOptions, struct('figureNumber', 12,'fileName','RDMcorrelationMatrix'));
 
 % 2nd order MDS
-MDSRDMs({avgRDM, modelRDMs}, userOptions, struct('titleString', 'MDS of different RDMs', 'figureNumber', 13,'fileName','2ndOrderMDSplot'));
+rsa.MDSRDMs({avgRDM, modelRDMs}, userOptions, struct('titleString', 'MDS of different RDMs', 'figureNumber', 13,'fileName','2ndOrderMDSplot'));
 
 
 %% statistical inference
@@ -188,7 +187,7 @@ userOptions.resultsPath = userOptions.rootPath;
 userOptions.figureIndex = [14 15];
 userOptions.figure1filename = 'compareRefRDM2candRDMs_barGraph_simulatedITasRef';
 userOptions.figure2filename = 'compareRefRDM2candRDMs_pValues_simulatedITasRef';
-stats_p_r=compareRefRDM2candRDMs(subjectRDMs, modelRDMs_cell, userOptions);
+stats_p_r=rsa.compareRefRDM2candRDMs(subjectRDMs, modelRDMs_cell, userOptions);
 
 
 %% Finally: real fMRI data (human IT RDM from Kriegeskorte et al. (Neuron 2008) as the reference RDM
@@ -208,7 +207,7 @@ userOptions.candRDMdifferencesMultipleTesting = 'FDR';
 userOptions.figure1filename = 'compareRefRDM2candRDMs_barGraph_hITasRef';
 userOptions.figure2filename = 'compareRefRDM2candRDMs_pValues_hITasRef';
 userOptions.figureIndex = [16 17];
-stats_p_r=compareRefRDM2candRDMs(RDMs_hIT_bySubject, modelRDMs_cell(1:end-1), userOptions);
+stats_p_r=rsa.compareRefRDM2candRDMs(RDMs_hIT_bySubject, modelRDMs_cell(1:end-1), userOptions);
 
 
 

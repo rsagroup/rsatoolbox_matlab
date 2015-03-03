@@ -12,7 +12,7 @@
 	%__________________________________________________________________________
 	% Copyright (C) 2010 Medical Research Council
 	
-function userOptions = projectOptions_demo();
+function userOptions = projectOptions_demo()
 
 %% Project details
 % This name identifies a collection of files which all belong to the same run of a project.
