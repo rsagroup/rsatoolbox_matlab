@@ -44,6 +44,9 @@ function MDSRDMs(varargin)
 %
 % Cai Wingfield 5-2010%__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
+
+import rsa.*
+
 returnHere = pwd;
 
 RDMCell = varargin{1};

@@ -354,6 +354,7 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %                                    values)
 %       stats_p_r.ceiling:           ceiling lower and upper bounds
 
+import rsa.*
 
 %% set default options
 userOptions = setIfUnset(userOptions, 'RDMcorrelationType', 'Spearman');

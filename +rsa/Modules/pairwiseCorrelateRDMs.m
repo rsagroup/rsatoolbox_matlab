@@ -49,6 +49,8 @@ function pairwiseCorrelateRDMs(varargin)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 returnHere = pwd;
 
 RDMCell = varargin{1};

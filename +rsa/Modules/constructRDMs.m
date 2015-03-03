@@ -54,6 +54,8 @@ function [varargout] = constructRDMs(responsePatterns, betaCorrespondence, userO
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 returnHere = pwd; % We'll come back here later
 
 %% Set defaults and check options struct

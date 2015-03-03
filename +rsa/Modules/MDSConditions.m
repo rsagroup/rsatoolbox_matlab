@@ -53,6 +53,8 @@ function MDSConditions(RDMs, userOptions, localOptions)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 returnHere = pwd;
 
 %% Set defaults and check options struct

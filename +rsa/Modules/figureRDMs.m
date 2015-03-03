@@ -47,6 +47,9 @@ function figureRDMs(RDMs, userOptions, localOptions)
 %  Cai Wingfield 11-2009, 6-2010
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
+
+import rsa.*
+
 returnHere = pwd;
 
 %% Set defaults and check options struct
