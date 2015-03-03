@@ -27,7 +27,9 @@ searchlightOptions.nSessions = 1;
 searchlightOptions.nConditions = 40;
 load([returnHere,filesep,'sampleMask_org.mat']);
 load([returnHere,filesep,'anatomy.mat']);% load the resliced structural image
-models = rsa.core.constructModelRDMs(modelRDMs_SL_sim, userOptions);
+
+models = rsa.constructModelRDMs(modelRDMs_SL_sim, userOptions);
+
 nCond = searchlightOptions.nConditions;
 Nsubjects = 20;
 
@@ -40,25 +42,27 @@ warpFlags.preserve = 0;
 mapsFilename = [userOptions.analysisName, '_fMRISearchlight_Maps.mat'];
 RDMsFilename = [userOptions.analysisName, '_fMRISearchlight_RDMs.mat'];
 DetailsFilename = [userOptions.analysisName, '_fMRISearchlight_Details.mat'];
+
 %% simulate the data and compute the correlation maps per subject
 
 for subI = 1:Nsubjects
     subject = ['subject',num2str(subI)];
     maskName = 'mask';
     fprintf(['simulating fullBrain volumes for subject %d \n'],subI)
-    [B_true,Mask,Y_true, fMRI_sub] = rsa.core.simulateClusteredfMRIData_fullBrain(simulationOptions);
+    
+    [B_true,Mask,Y_true, fMRI_sub] = rsa.sim.simulateClusteredfMRIData_fullBrain(simulationOptions);
     B_noisy = fMRI_sub.B;
     singleSubjectVols = B_noisy';
     userOptions.searchlightRadius = 9;mask = m;
     fprintf(['computing correlation maps for subject %d \n'],subI)
-    [rs, ps, ns, searchlightRDMs.(subject)] = rsa.core.searchlightMapping_fMRI(singleSubjectVols, models, mask, userOptions, searchlightOptions);
-    rsa.core.gotoDir(userOptions.rootPath, 'Maps');
+    [rs, ps, ns, searchlightRDMs.(subject)] = rsa.fmri.searchlightMapping_fMRI(singleSubjectVols, models, mask, userOptions, searchlightOptions);
+    rsa.util.gotoDir(userOptions.rootPath, 'Maps');
     save(['rs_',subject,'.mat'],'rs');
     clear rs searchlightRDMs;
     cd(returnHere);
 end
 %% display the design matrix, model RDMs and simulated RDMs and the SL
-rsa.core.selectPlot(1);
+rsa.fig.selectPlot(1);
 subplot(321);imagesc(fMRI_sub.X);axis square
 ylabel('\bfscans');xlabel('\bfregressors')
 title('\bfdesign matrix')
@@ -67,22 +71,22 @@ subplot(322);plot(fMRI_sub.X(:,12:14))
 xlabel('scans');title('\bfregressors for 3 example conditions')
 
 subplot(323);
-image(rsa.core.scale01(rsa.core.rankTransform_equalsStayEqual(squareform(pdist(fMRI_sub.groundTruth)),1)),'CDataMapping','scaled','AlphaData',~isnan(squareform(pdist(fMRI_sub.groundTruth))));
+image(rsa.util.scale01(rsa.util.rankTransform_equalsStayEqual(squareform(pdist(fMRI_sub.groundTruth)),1)),'CDataMapping','scaled','AlphaData',~isnan(squareform(pdist(fMRI_sub.groundTruth))));
 axis square off
 title('\bfsimulated ground truth RDM')
 
 subplot(324);
-image(rsa.core.scale01(rsa.core.rankTransform_equalsStayEqual(models(1).RDM,1)),'CDataMapping','scaled','AlphaData',~isnan(models(1).RDM));
+image(rsa.util.scale01(rsa.util.rankTransform_equalsStayEqual(models(1).RDM,1)),'CDataMapping','scaled','AlphaData',~isnan(models(1).RDM));
 axis square off
-colormap(rsa.core.RDMcolormap)
+colormap(rsa.fig.RDMcolormap)
 title('\bftested model RDM')
 
 
-relRoi = rsa.core.sphericalRelativeRoi(userOptions.searchlightRadius,userOptions.voxelSize);
+relRoi = rsa.fmri.sphericalRelativeRoi(userOptions.searchlightRadius,userOptions.voxelSize);
 nVox_searchlight = size(relRoi,1);
-rsa.core.showVoxObj(relRoi+repmat(simulationOptions.effectCen,[nVox_searchlight,1]),1,[3 2 5]);
+rsa.fig.showVoxObj(relRoi+repmat(simulationOptions.effectCen,[nVox_searchlight,1]),1,[3 2 5]);
 title(['\bf searchlight with ',num2str(nVox_searchlight),' voxels'])
-rsa.core.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'SLsimulationSettings'],userOptions);
+rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'SLsimulationSettings'],userOptions);
 
 %% load the previously computed rMaps and concatenate across subjects
 % prepare the rMaps:
@@ -104,7 +108,7 @@ for modelI = 1:numel(models)
             for z=1:size(thisModelSims,3)
                 if mask(x,y,z) == 1
                     [h p1(x,y,z)] = ttest(squeeze(thisModelSims(x,y,z,:)),0,0.05,'right');
-                    [p2(x,y,z)] = rsa.core.signrank_onesided(squeeze(thisModelSims(x,y,z,:)));
+                    [p2(x,y,z)] = rsa.util.signrank_onesided(squeeze(thisModelSims(x,y,z,:)));
                 else
                     p1(x,y,z) = NaN;
                     p2(x,y,z) = NaN;
@@ -114,8 +118,8 @@ for modelI = 1:numel(models)
         disp(x);
     end
     % apply FDR correction
-    pThrsh_t  = rsa.core.FDRthreshold(p1,0.05,mask);
-    pThrsh_sr = rsa.core.FDRthreshold(p2,0.05,mask);
+    pThrsh_t  = rsa.stat.FDRthreshold(p1,0.05,mask);
+    pThrsh_sr = rsa.stat.FDRthreshold(p2,0.05,mask);
     p_bnf = 0.05/sum(mask(:));
     % mark the suprathreshold voxels in yellow
     supraThreshMarked_t = zeros(size(p1));
@@ -124,21 +128,22 @@ for modelI = 1:numel(models)
     supraThreshMarked_sr(p2 <= pThrsh_sr) = 1;
     
     % display the location where the effect was inserted (in green):
-    brainVol = rsa.core.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
-    brainVol_effectLoc = rsa.core.addBinaryMapToVol(brainVol,Mask.*mask,[0 1 0]);
-    rsa.core.showVol(brainVol_effectLoc,'simulated effect [green]',2);
-    rsa.core.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO4_simulatedEffectRegion'],userOptions);
+    brainVol = rsa.gmri.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
+    brainVol_effectLoc = rsa.gmri.addBinaryMapToVol(brainVol,Mask.*mask,[0 1 0]);
+    rsa.fig.showVol(brainVol_effectLoc,'simulated effect [green]',2);
+    rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO4_simulatedEffectRegion'],userOptions);
     
     % display the FDR-thresholded maps on a sample anatomy (signed rank test) :
-    brainVol = rsa.core.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
-    brainVol_sr = rsa.core.addBinaryMapToVol(brainVol,supraThreshMarked_sr.*mask,[1 1 0]);
-    rsa.core.showVol(brainVol_sr,'signrank, E(FDR) < .05',3)
-    rsa.core.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO4_signRank'],userOptions);
+    brainVol = rsa.fmri.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
+    brainVol_sr = rsa.fmri.addBinaryMapToVol(brainVol,supraThreshMarked_sr.*mask,[1 1 0]);
+    rsa.fig.showVol(brainVol_sr,'signrank, E(FDR) < .05',3)
+    rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO4_signRank'],userOptions);
     
     % display the FDR-thresholded maps on a sample anatomy (t-test) :
-    brainVol = rsa.core.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
-    brainVol_t = rsa.core.addBinaryMapToVol(brainVol,supraThreshMarked_t.*mask,[1 1 0]);
-    rsa.core.showVol(brainVol_t,'t-test, E(FDR) < .05',4)
-    rsa.core.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO2_tTest'],userOptions);
+    brainVol = rsa.fmri.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
+    brainVol_t = rsa.fmri.addBinaryMapToVol(brainVol,supraThreshMarked_t.*mask,[1 1 0]);
+    rsa.fig.showVol(brainVol_t,'t-test, E(FDR) < .05',4)
+    rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO2_tTest'],userOptions);
 end
+
 cd(returnHere);

@@ -24,9 +24,6 @@ function betas = betaCorrespondence();
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
-import rsa.*
-import rsa.core.*
-
 preBeta = '[[subjectName]]_';
 
 % betas(session, condition).identifier = ???

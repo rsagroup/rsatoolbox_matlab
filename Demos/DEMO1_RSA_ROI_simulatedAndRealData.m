@@ -25,13 +25,13 @@ patternDistanceMeasure='correlation';
 
 %% load RDMs and category definitions from Kriegeskorte et al. (Neuron 2008)
 load([pwd,filesep,'92imageData',filesep,'Kriegeskorte_Neuron2008_supplementalData.mat'])
-rdm_mIT=rsa.core.squareRDMs(RDMs_mIT_hIT_fig1(1).RDM);
-rdm_hIT=rsa.core.squareRDMs(RDMs_mIT_hIT_fig1(2).RDM);
+rdm_mIT=rsa.rdm.squareRDMs(RDMs_mIT_hIT_fig1(1).RDM);
+rdm_hIT=rsa.rdm.squareRDMs(RDMs_mIT_hIT_fig1(2).RDM);
 
 load([pwd,filesep,'92imageData',filesep,'92_brainRDMs.mat'])
-RDMs_hIT_bySubject = rsa.core.averageRDMs_subjectSession(RDMs, 'session');
-rsa.core.showRDMs(RDMs_hIT_bySubject,1);
-rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'subjectRDMs_hIT_fMRI'],userOptions);
+RDMs_hIT_bySubject = rsa.rdm.averageRDMs_subjectSession(RDMs, 'session');
+rsa.fig.showRDMs(RDMs_hIT_bySubject,1);
+rsa.fig.handleCurrentFigure([userOptions.rootPath,filesep,'subjectRDMs_hIT_fMRI'],userOptions);
 
 
 %% load reconstructed patterns for simulating models
@@ -43,25 +43,25 @@ subjectRDMs=nan(nCond,nCond,nSubjects);
 
 for subjectI=1:nSubjects
     patterns_cSubject=simTruePatterns2+subjectPatternNoiseStd*randn(nCond,nDim);
-    subjectRDMs(:,:,subjectI)=rsa.core.squareRDMs(pdist(patterns_cSubject,patternDistanceMeasure));
+    subjectRDMs(:,:,subjectI)=rsa.rdm.squareRDMs(pdist(patterns_cSubject,patternDistanceMeasure));
 end
 
 avgSubjectRDM=mean(subjectRDMs,3);
 
-rsa.core.showRDMs(rsa.core.concatRDMs_unwrapped(subjectRDMs,avgSubjectRDM),2);
-rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'simulatedSubjAndAverage'],userOptions);
+rsa.fig.showRDMs(rsa.rdm.concatRDMs_unwrapped(subjectRDMs,avgSubjectRDM),2);
+rsa.fig.handleCurrentFigure([userOptions.rootPath,filesep,'simulatedSubjAndAverage'],userOptions);
 
 
 %% define categorical model RDMs
-[binRDM_animacy, nCatCrossingsRDM]=rsa.core.categoricalRDM(categoryVectors(:,1),3,true);
+[binRDM_animacy, nCatCrossingsRDM]=rsa.rdm.categoricalRDM(categoryVectors(:,1),3,true);
 ITemphasizedCategories=[1 2 5 6]; % animate, inanimate, face, body
-[binRDM_cats, nCatCrossingsRDM]=rsa.core.categoricalRDM(categoryVectors(:,ITemphasizedCategories),4,true);
+[binRDM_cats, nCatCrossingsRDM]=rsa.rdm.categoricalRDM(categoryVectors(:,ITemphasizedCategories),4,true);
 load([pwd,filesep,'92imageData',filesep,'faceAnimateInaniClustersRDM.mat'])
 
 
 %% load behavioural RDM from Mur et al. (Frontiers Perc Sci 2013)
 load([pwd,filesep,'92imageData',filesep,'92_behavRDMs.mat'])
-rdm_simJudg=mean(rsa.core.stripNsquareRDMs(rdms_behav_92),3);
+rdm_simJudg=mean(rsa.rdm.stripNsquareRDMs(rdms_behav_92),3);
 
 
 %% create modelRDMs of different degrees of noise
@@ -71,7 +71,7 @@ patternDevStds=linspace(bestModelPatternDeviationStd,worstModelPatternDeviationS
 
 for gradedModelI=1:nModelGrades
     patterns_cGradedModel=simTruePatterns2+patternDevStds(gradedModelI)*randn(nCond,nDim);
-    gradedModelRDMs(:,:,gradedModelI)=rsa.core.squareRDMs(pdist(patterns_cGradedModel,patternDistanceMeasure));
+    gradedModelRDMs(:,:,gradedModelI)=rsa.rdm.squareRDMs(pdist(patterns_cGradedModel,patternDistanceMeasure));
 end
 
 
@@ -90,11 +90,11 @@ radonRDM=Models(8).RDM;
 
 %% concatenate and name the modelRDMs
 modelRDMs=cat(3,binRDM_animacy,faceAnimateInaniClustersRDM,FourCatsRDM,rdm_simJudg,humanEarlyVisualRDM,rdm_mIT,silhouetteRDM,rdm92_V1model,rdm92_HMAXnatImPatch,radonRDM,gradedModelRDMs);
-modelRDMs=rsa.core.wrapAndNameRDMs(modelRDMs,{'ani./inani.','face/ani./inani.','face/body/nat./artif.','sim. judg.','human early visual','monkey IT','silhouette','V1 model','HMAX-2005 model','RADON','true model','true with noise','true with more noise'});
+modelRDMs=rsa.rdm.wrapAndNameRDMs(modelRDMs,{'ani./inani.','face/ani./inani.','face/body/nat./artif.','sim. judg.','human early visual','monkey IT','silhouette','V1 model','HMAX-2005 model','RADON','true model','true with noise','true with more noise'});
 modelRDMs=modelRDMs(1:end-2); % leave out the true with noise models
 
-rsa.core.showRDMs(modelRDMs,5);
-rsa.core.handleCurrentFigure([userOptions.rootPath,filesep,'allModels'],userOptions);
+rsa.fig.showRDMs(modelRDMs,5);
+rsa.fig.handleCurrentFigure([userOptions.rootPath,filesep,'allModels'],userOptions);
 % place the model RDMs in cells in order to pass them to
 % compareRefRDM2candRDMs as candidate RDMs
 for modelRDMI=1:numel(modelRDMs)

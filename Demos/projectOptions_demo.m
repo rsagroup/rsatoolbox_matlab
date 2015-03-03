@@ -19,7 +19,7 @@ function userOptions = projectOptions_demo()
 userOptions.analysisName = 'DEMO2'; % this is renamed in the code for demos 3-4.
 
 % This is the root directory of the project.
- userOptions.rootPath = [pwd,filesep,'DEMO2'];
+userOptions.rootPath = [pwd,filesep,'DEMO2'];
 
 % The path leading to where the scans are stored (not including subject-specific identifiers).
 % "[[subjectName]]" should be used as a placeholder to denote an entry in userOptions.subjectNames
