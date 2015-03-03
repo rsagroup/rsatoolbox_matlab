@@ -14,7 +14,13 @@ function [betaCorrespondence_true betaCorrespondence_noisy fMRI] = simulateDataF
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 returnHere = pwd; % We'll return to the pwd when the function has finished
 
@@ -78,7 +84,7 @@ if overwriteFlag
 	        V = fullfile(saveDir, betaCorrespondence_true(1,condition).identifier);
 	        
 			% Write this image
-% 			rsa.core.spmFiles4rsatoolbox.spm_write_vol(V, trueBetaImage);
+% 			rsa.spm.spm_write_vol(V, trueBetaImage);
             betaImage = trueBetaImage;
 	        save(V,'betaImage');clear V
 			% Do the same for the noisy image
@@ -88,7 +94,7 @@ if overwriteFlag
 			% Write the image
             betaImage = noisyBetaImage;
             save(V,'betaImage');clear V
-% 			rsa.core.spmFiles4rsatoolbox.spm_write_vol(V, noisyBetaImage);
+% 			rsa.spm.spm_write_vol(V, noisyBetaImage);
 	
 		end%for:condition
 	

@@ -77,7 +77,7 @@ RDMs_noisy = rsa.rdm.averageRDMs_subjectSession(RDMs_noisy, 'session');
 averageRDMs_noisy = rsa.rdm.averageRDMs_subjectSession(RDMs_noisy, 'subject');
 
 % Prepare the model RDMs.
-RDMs_model = rsa.core.constructModelRDMs(modelRDMs_demo2, userOptions_common);
+RDMs_model = rsa.constructModelRDMs(modelRDMs_demo2, userOptions_common);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %% First-order analysis %%
