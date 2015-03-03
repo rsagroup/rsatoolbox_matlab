@@ -5,7 +5,13 @@ function RDMs=concatRDMs_unwrapped(varargin)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 RDMs=[];
 for RDMvarI=1:nargin

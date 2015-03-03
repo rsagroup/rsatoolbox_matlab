@@ -15,7 +15,13 @@ function showRDMs(RDMs,figI,rankTransform01,clims,showColorbar, aspect, imagelab
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 %% define default behavior
 if ~exist('figI','var'), figI=500; end

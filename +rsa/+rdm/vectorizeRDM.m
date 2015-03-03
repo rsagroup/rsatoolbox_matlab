@@ -10,7 +10,13 @@ function RDM=vectorizeRDM(RDM)
 
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 if size(RDM,1)==size(RDM,2)
     RDM(logical(eye(size(RDM))))=0; % fix diagonal: zero by definition

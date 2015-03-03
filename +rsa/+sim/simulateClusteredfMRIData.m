@@ -14,7 +14,13 @@ function [varargout] = simulateClusteredfMRIData(simulationOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 nNoisyPatterns = nargout - 1;
 

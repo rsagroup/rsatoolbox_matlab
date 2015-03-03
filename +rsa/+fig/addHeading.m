@@ -3,7 +3,13 @@ function addHeading(heading,figI,x,y)
 % the location of the inserted heading text.
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 % replace underscores
 if iscell(heading)

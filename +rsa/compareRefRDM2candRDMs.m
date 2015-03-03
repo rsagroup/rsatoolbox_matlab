@@ -355,7 +355,13 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       stats_p_r.ceiling:           ceiling lower and upper bounds
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 %% set default options
 userOptions = setIfUnset(userOptions, 'RDMcorrelationType', 'Spearman');
@@ -1050,4 +1056,4 @@ if userOptions.saveFiguresPS
     exportCurrentFigAsPostscript([userOptions.analysisName,'.ps'],userOptions);
 end
 
-
+end%function

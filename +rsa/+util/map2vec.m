@@ -11,7 +11,13 @@ function vec=map2vec(map,mask)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 mask=logical(mask);
 vec=nan(sum(mask(:)),1);

@@ -34,7 +34,13 @@ function betas = getDataFromSPM(userOptions)
 %  Cai Wingfield 12-2009, 6-2010, 8-2010
 
 	import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 	%% Set defaults and check for problems.
 	if ~isfield(userOptions, 'betaPath'), error('getDataFromSPM:NoBetaPath', 'userOptions.betaPath is not set. See help.'); end%if
@@ -91,7 +97,13 @@ end%function
 function [betaName, sessionNumber, conditionName] = extractSingleBetaInfo(strIn)
 
 	import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 	openBrackets = findstr(strIn, '(');
 	closedBrackets = findstr(strIn, ')');

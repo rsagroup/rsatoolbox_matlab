@@ -6,7 +6,13 @@ function [] = image_thr(im,thr);
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 nCols = 256;clims = [0 1];
 cols = colorScale([0 0 0;1 1 1],nCols);

@@ -9,7 +9,13 @@ function exportCurrentFigAsPDF(filespec,userOptions)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 if ~isfield(userOptions,'dpi'), userOptions.dpi = 300; end;
 if ~isfield(userOptions,'tightInset'), userOptions.tightInset = false; end;

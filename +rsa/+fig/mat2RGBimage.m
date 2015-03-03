@@ -9,7 +9,13 @@ function RGBim=mat2RGBimage(mat,cols,clims)
 % clims(2) by cols(end,:).
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 nCols=size(cols,1);
 linRange=linspace(clims(1),clims(2),nCols);

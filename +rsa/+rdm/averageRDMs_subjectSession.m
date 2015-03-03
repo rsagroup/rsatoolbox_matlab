@@ -18,7 +18,13 @@ function RDMs = averageRDMs_subjectSession(varargin)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 	if nargin == 1 || nargin == 2 || nargin == 3
 
@@ -66,19 +72,37 @@ end%function
 
 function wrongStingsError
 	import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 	error('Please put ''subject'' or ''session'' in for the string arguments.');
 end%function
 
 function wrongNargsError
 	import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 	error('Only accepts 1, 2 or 3 arguments.');
 end%function
 
 function aveRDMs = aSub(RDMs)
 	import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 	nMa = size(RDMs, 1);
 	nSu = size(RDMs, 2);
 	nSe = size(RDMs, 3);
@@ -110,7 +134,13 @@ end%function
 
 function aveRDMs = aSes(RDMs)
 	import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 	nMa = size(RDMs, 1);
 	nSu = size(RDMs, 2);
 	nSe = size(RDMs, 3);

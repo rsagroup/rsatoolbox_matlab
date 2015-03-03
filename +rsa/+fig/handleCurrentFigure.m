@@ -38,7 +38,13 @@ function handleCurrentFigure(fileName, userOptions)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 %% Set defaults and check options struct
 if ~isfield(userOptions, 'analysisName'), userOptions.analysisName='unnamed analysis'; end%if

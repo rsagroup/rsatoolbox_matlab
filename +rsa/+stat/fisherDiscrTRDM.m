@@ -18,7 +18,13 @@ function [RDM_fdtFolded_ltv, cv2RDM_fdt_sq] = fisherDiscrTRDM(Xa, Ya, Xb, Yb, co
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 %% preparations
 nPred=size(Xa,2);
@@ -66,7 +72,13 @@ end%function
 function [ps,ts,invSa]=fishAtestB_optShrinkageCov_C(Xa,Ya,Xb,Yb,C,invSa)
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 %% fit model to data set A    
 eBa=inv(Xa'*Xa)*Xa'*Ya; % nCond by nVox

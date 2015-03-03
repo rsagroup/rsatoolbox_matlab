@@ -35,7 +35,13 @@ function [varargout] = fMRIMaskPreparation(userOptions)
 % Cai Wingfield 2-2010, 6-2010
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 returnHere = pwd; % We'll come back here later
 

@@ -7,7 +7,13 @@ function [hf,ha,figI]=selectPlot(figI)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 if ~exist('figI','var'); figI=0; end
 

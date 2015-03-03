@@ -89,7 +89,13 @@ function exportfig(varargin)
 %       the figure's PaperPostion width and height.
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 if (nargin < 2)
   error('Too few input arguments');
@@ -408,7 +414,13 @@ end
 
 function outData = LocalPushOldData(inData, objs, prop, values)
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 outData.objs = {inData.objs{:}, objs};
 outData.prop = {inData.prop{:}, prop};
 outData.values = {inData.values{:}, values};
@@ -416,7 +428,13 @@ end%function
 
 function cellArray = LocalGetAsCell(fig,prop);
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 cellArray = get(fig,prop);
 if (~isempty(cellArray)) & (~iscell(cellArray))
   cellArray = {cellArray};
@@ -425,7 +443,13 @@ end%function
 
 function newArray = LocalScale(inArray, scale, minValue)
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 n = length(inArray);
 newArray = cell(n,1);
 for k=1:n
@@ -435,7 +459,13 @@ end%function
 
 function newArray = LocalMapToGray(inArray);
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 n = length(inArray);
 newArray = cell(n,1);
 for k=1:n
@@ -477,7 +507,13 @@ end%function
 
 function newArray = LocalMapCData(inArray);
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 n = length(inArray);
 newArray = cell(n,1);
 for k=1:n
@@ -494,7 +530,13 @@ end%function
 
 function outData = LocalUpdateColors(inArray, prop, inData)
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 value = LocalGetAsCell(inArray,prop);
 outData.objs = {inData.objs{:}, inArray};
 outData.prop = {inData.prop{:}, {prop}};
@@ -511,7 +553,13 @@ end%function
 
 function bool = LocalIsPositiveScalar(value)
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 bool = isnumeric(value) & ...
        prod(size(value)) == 1 & ...
        value > 0;
@@ -519,7 +567,13 @@ end%function
 
 function value = LocalToNum(value)
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 if ischar(value)
   value = str2num(value);
 end

@@ -6,7 +6,13 @@ function indicesOut = randomPermutation(n)
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 indicesToChoseFrom = (1:n);
 
@@ -26,7 +32,13 @@ end%function
 function vectorOut = removeElement(vectorIn, i)
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 if i == 1;
 	vectorOut = vectorIn(2:end);

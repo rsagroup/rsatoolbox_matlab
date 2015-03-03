@@ -5,7 +5,13 @@ function cols=colorScale(anchorCols,nCols,monitor)
 % Copyright (C) 2012 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 %% preparations
 if ~exist('monitor','var'), monitor=false; end

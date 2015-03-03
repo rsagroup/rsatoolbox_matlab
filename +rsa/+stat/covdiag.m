@@ -7,7 +7,13 @@ function sigma=covdiag(x)
 % Shrinks towards diagonal matrix
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 % de-mean returns
 [t,n]=size(x);

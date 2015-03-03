@@ -8,7 +8,13 @@ function hirf=boyntonModel(res)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 delta=2500; %as in BV (averages of the subjects?)
 tau=1250;

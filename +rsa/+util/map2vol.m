@@ -7,7 +7,13 @@ function vol=map2vol(map)
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 if strcmp(class(map),'single') || strcmp(class(map),'double')
     % scale into RGB range [0,1] for display

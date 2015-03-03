@@ -38,7 +38,13 @@ function showVol(volORmap, title, figI, right, skipNslices, nHorPanels, nVerPane
 % Copyright (C) 2009 Medical Research Council
 
 import rsa.*
-import rsa.core.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 if ndims(volORmap)==3 % if its a map...
     vol=map2vol(volORmap);
