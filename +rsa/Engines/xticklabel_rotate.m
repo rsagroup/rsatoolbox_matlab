@@ -74,6 +74,9 @@ function hText = xticklabel_rotate(XTick,rot,varargin)
 %   February 1998; Last revision: 24-Mar-2003
 
 % check to see if xticklabel_rotate has already been here (no other reason for this to happen)
+
+import rsa.*
+
 if isempty(get(gca,'XTickLabel')),
     error('xticklabel_rotate : can not process, either xticklabel_rotate has already been run or XTickLabel field has been erased');
 end

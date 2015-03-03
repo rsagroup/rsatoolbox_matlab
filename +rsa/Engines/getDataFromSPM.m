@@ -32,6 +32,9 @@ function betas = getDataFromSPM(userOptions)
 %                        they're the same as the ones used for SPM!).
 %  
 %  Cai Wingfield 12-2009, 6-2010, 8-2010
+
+	import rsa.*
+
 	%% Set defaults and check for problems.
 	if ~isfield(userOptions, 'betaPath'), error('getDataFromSPM:NoBetaPath', 'userOptions.betaPath is not set. See help.'); end%if
 	if ~isfield(userOptions, 'subjectNames'), error('getDataFromSPM:NoSubjectNames', 'userOptions.subjectNames is not set. See help.'); end%if
@@ -85,6 +88,8 @@ end%function
 
 % spm_spm:beta (0001) - Sn(1) all_events*bf(1)
 function [betaName, sessionNumber, conditionName] = extractSingleBetaInfo(strIn)
+
+	import rsa.*
 
 	openBrackets = findstr(strIn, '(');
 	closedBrackets = findstr(strIn, ')');

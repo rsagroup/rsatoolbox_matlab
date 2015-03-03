@@ -31,6 +31,9 @@ function vol=addRoiToVol(vol, roi, color, solid)
 %               remain unchanged in the new vol.
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 if ~exist('color','var')
     color=[0 1 1];
     %color=randomColor;

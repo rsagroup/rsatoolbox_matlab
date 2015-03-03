@@ -37,6 +37,8 @@ function showVol(volORmap, title, figI, right, skipNslices, nHorPanels, nVerPane
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 if ndims(volORmap)==3 % if its a map...
     vol=map2vol(volORmap);
 else % must be a vol

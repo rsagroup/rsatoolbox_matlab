@@ -13,6 +13,7 @@ function [betaCorrespondence_true betaCorrespondence_noisy fMRI] = simulateDataF
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
+import rsa.*
 
 returnHere = pwd; % We'll return to the pwd when the function has finished
 

@@ -10,6 +10,8 @@ function [varargout] = simulateClusteredfMRIData_fullBrain(simulationOptions)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 nNoisyPatterns = nargout - 2;
 
 %% Generate B patterns

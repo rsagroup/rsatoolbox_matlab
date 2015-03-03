@@ -43,6 +43,8 @@ function figureDendrogram(RDM, userOptions, localOptions)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 if ~isfield(localOptions, 'linkageType')
 	localOptions.linkageType = 'single';
 end

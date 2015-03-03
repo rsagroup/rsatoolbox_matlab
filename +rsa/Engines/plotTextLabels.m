@@ -6,6 +6,9 @@ function plotTextLabels(coords_xy,textLabels,fontSize,categoryColumns,categoryCo
 % 'categoryColumns', 'categoryColors', and 'categoryLabels'.
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 nItems=size(coords_xy,1);
 
 if ~exist('textLabels','var')||isempty(textLabels)

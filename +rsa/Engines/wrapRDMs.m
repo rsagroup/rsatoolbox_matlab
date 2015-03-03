@@ -12,6 +12,9 @@ function RDMs_struct=wrapRDMs(RDMs,refRDMs_struct)
 % selected and returned in the 'name' and 'color' fields.
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 if isstruct(RDMs)
     % wrapped already, but replace the wrapping
     nRDMs=numel(RDMs);

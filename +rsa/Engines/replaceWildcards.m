@@ -15,6 +15,8 @@ function varargout = replaceWildcards(stringIn, varargin)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 %% Deal with inputs
 
 if mod(numel(varargin), 2) == 0

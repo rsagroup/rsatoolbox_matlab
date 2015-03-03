@@ -11,6 +11,8 @@ function rankMat=rankTransform_equalsStayEqual(mat,scale01)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 if ~exist('scale01','var'), scale01=1; end;
 
 nonNan_LOG=~isnan(mat);

@@ -5,6 +5,8 @@ function stringORstringInCell=deunderscore(stringORstringInCell)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 % replace underscores
 if iscell(stringORstringInCell)
     for lineI=1:numel(stringORstringInCell)

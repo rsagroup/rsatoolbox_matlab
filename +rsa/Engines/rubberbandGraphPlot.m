@@ -11,9 +11,10 @@ function rubberbandGraphPlot(coords_xy,distmat,connectionAreaProportionORcolorCo
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 %% control variables
 nDistortionBins=11;
-
 
 %% preparations
 if exist('connectionAreaProportionORcolorCoding','var')

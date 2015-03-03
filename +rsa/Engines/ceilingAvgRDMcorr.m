@@ -39,7 +39,7 @@ function [ceiling_upperBound, ceiling_lowerBound, bestFitRDM]=ceilingAvgRDMcorr(
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
-
+import rsa.*
 
 %% preparations
 if ~exist('RDMcorrelationType','var'), RDMcorrelationType='Kendall_taua'; end
@@ -260,6 +260,8 @@ end
 
 %% compute correlations of all types
 function r=correlation(a,b,RDMcorrelationType)
+	import rsa.*
+	
     switch RDMcorrelationType
         case 'negEuclidean'
             r=-sqrt(sum((b(:)-a(:)).^2));

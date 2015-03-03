@@ -8,4 +8,6 @@ function RDM=squareRDM(RDM)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 RDM=squareform(vectorizeRDM(RDM));

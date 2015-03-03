@@ -17,6 +17,8 @@ function [RDMs,nRDMs]=unwrapRDMs(RDMs_struct)
 %
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 if isstruct(RDMs_struct)
     % in struct form
     nRDMs=size(RDMs_struct,2);

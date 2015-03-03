@@ -4,5 +4,8 @@ function p=relRankIn_includeValue_lowerBound(set,value)
 % the relative rank is the proportion of set smaller than value.
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 set=[set(:);value];
 p=sum(set(:)<value)/numel(set);

@@ -4,6 +4,8 @@ function RDMs=concatRDMs_unwrapped(varargin)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 RDMs=[];
 for RDMvarI=1:nargin
     RDMs=cat(3,RDMs,unwrap(varargin{RDMvarI}));

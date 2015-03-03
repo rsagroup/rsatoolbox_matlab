@@ -4,6 +4,9 @@ function indicesOut = randomPermutation(n)
 % Cai Wingfield 2-2010
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
+
+import rsa.*
+
 indicesToChoseFrom = (1:n);
 
 for i = 1:n
@@ -19,6 +22,8 @@ end%for(i)
 %% === Subfunctions =============================
 
 function vectorOut = removeElement(vectorIn, i)
+
+import rsa.*
 
 if i == 1;
 	vectorOut = vectorIn(2:end);

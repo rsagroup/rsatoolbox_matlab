@@ -14,6 +14,8 @@ function showRDMs(RDMs,figI,rankTransform01,clims,showColorbar, aspect, imagelab
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 %% define default behavior
 if ~exist('figI','var'), figI=500; end
 if ~exist('clims','var'), clims=[]; end

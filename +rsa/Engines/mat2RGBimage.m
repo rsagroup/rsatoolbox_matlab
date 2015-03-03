@@ -8,6 +8,8 @@ function RGBim=mat2RGBimage(mat,cols,clims)
 % clim(1) are represented by cols(1,:) and matrix values larger than
 % clims(2) by cols(end,:).
 
+import rsa.*
+
 nCols=size(cols,1);
 linRange=linspace(clims(1),clims(2),nCols);
 RGBim=interp1(linRange,cols,mat);

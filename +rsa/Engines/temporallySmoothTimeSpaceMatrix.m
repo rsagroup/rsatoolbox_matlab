@@ -5,6 +5,8 @@ function Y=temporallySmoothTimeSpaceMatrix(Y,FWHM)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 %% define smoothing kernel
 kernel=gaussian_nk(FWHM)';
 

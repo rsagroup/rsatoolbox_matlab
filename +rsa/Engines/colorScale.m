@@ -4,6 +4,7 @@ function cols=colorScale(anchorCols,nCols,monitor)
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
+import rsa.*
 
 %% preparations
 if ~exist('monitor','var'), monitor=false; end

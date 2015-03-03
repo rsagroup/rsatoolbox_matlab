@@ -22,6 +22,8 @@ function showVoxObj(mapORcoords, figI, subplotTriple, adjustMargin, axisLabels, 
 %       values defining the axis labels.
 %       
 
+import rsa.*
+
 objCol=[0 1 0];
 backgroundCol=[1 1 1];
 

@@ -7,6 +7,8 @@ function [Y,smoothedYfilename]=spatiallySmooth4DfMRI_mm(Y_OR_Yfilename,volSize_O
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 monitor = false;
 
 gaussianKernelFWHM_vx=gaussianKernelFWHM_mm./voxSize_mm;

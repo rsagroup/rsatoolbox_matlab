@@ -17,7 +17,7 @@ function [RDM_fdtFolded_ltv, cv2RDM_fdt_sq] = fisherDiscrTRDM(Xa, Ya, Xb, Yb, co
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
-
+import rsa.*
 
 %% preparations
 nPred=size(Xa,2);
@@ -63,6 +63,8 @@ RDM_fdtFolded_ltv = squareform(cv2RDM_fdt_sq);
 %% subfunction: fishAtestB_optShrinkageCov_C
 function [ps,ts,invSa]=fishAtestB_optShrinkageCov_C(Xa,Ya,Xb,Yb,C,invSa)
 
+import rsa.*
+
 %% fit model to data set A    
 eBa=inv(Xa'*Xa)*Xa'*Ya; % nCond by nVox
 eEa=Ya-Xa*eBa;
@@ -73,7 +75,6 @@ if ~exist('invSa','var')||isempty(invSa)
 end
 was=C'*eBa*invSa; % fisher dimension row vectors w (nContrasts by nVox) for data set A
 
- 
 %% t test on data set B projected onto the set-A Fisher discriminant    
 invXTXb=inv(Xb'*Xb);
 

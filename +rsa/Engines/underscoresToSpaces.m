@@ -9,6 +9,8 @@ function stringORstringInCell=underscoresToSpaces(stringORstringInCell)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 if iscell(stringORstringInCell)
     for lineI=1:numel(stringORstringInCell)
         line=stringORstringInCell{lineI};

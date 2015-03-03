@@ -8,6 +8,7 @@ function V = spm_create_vol(V,varargin)
 % John Ashburner
 % $Id: spm_create_vol.m 1169 2008-02-26 14:53:43Z volkmar $
 
+import rsa.*
 
 for i=1:numel(V),
     if nargin>1,
@@ -24,6 +25,9 @@ end;
 
 
 function V = create_vol(V,varargin)
+
+import rsa.*
+
 if ~isstruct(V),        error('Not a structure.'); end;
 if ~isfield(V,'fname'), error('No "fname" field'); end;
 

@@ -21,6 +21,7 @@ function  [binRDM, nCatCrossingsRDM]=categoricalRDM(categoryVectors,figI,monitor
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
+import rsa.*
 
 %% preparations
 if ~exist('monitor','var'), monitor=true; end

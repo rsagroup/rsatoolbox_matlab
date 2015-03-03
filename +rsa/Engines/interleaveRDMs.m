@@ -10,6 +10,9 @@ function RDMs = interleaveRDMs(RDMs, varargin)
 %  Cai Wingfield 11-2009
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 if numel(varargin) == 0
 	transposed = false;
 else

@@ -38,6 +38,8 @@ function r=raeSpearmanCorr(x,y,toleratedStandardError)
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
+import rsa.*
+
 if ~exist('toleratedStandardError','var'), toleratedStandardError=0.001; end
 
 x=x(:); y=y(:);

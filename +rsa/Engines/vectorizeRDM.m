@@ -8,6 +8,9 @@ function RDM=vectorizeRDM(RDM)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+
+import rsa.*
+
 if size(RDM,1)==size(RDM,2)
     RDM(logical(eye(size(RDM))))=0; % fix diagonal: zero by definition
     RDM=squareform(RDM);

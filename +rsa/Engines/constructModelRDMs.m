@@ -29,6 +29,9 @@ function [varargout] = constructModelRDMs(rawModels, userOptions)
 %  Cai Wingfield 11-2009
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 returnHere = pwd;
 
 if ~isfield(userOptions, 'analysisName'), error('constructModelRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if

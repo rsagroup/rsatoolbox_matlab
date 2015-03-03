@@ -54,6 +54,7 @@ function pThreshold=FDRthreshold(pMap,q,binaryBrainMask,assumePositiveDependence
 %               statistical maps in functional neuroimaging using the false
 %               discovery rate. NeuroImage 15, 870-878. 2002.
 
+import rsa.*
 
 %% PREPARATIONS
 if ~exist('assumePositiveDependence','var')

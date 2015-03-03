@@ -10,6 +10,8 @@ function Xscaled=scale01(X,range)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 if ~exist('range','var')
     mn=min(X(:)); mx=max(X(:));
 else

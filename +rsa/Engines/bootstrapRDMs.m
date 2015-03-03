@@ -38,6 +38,8 @@ function [realRs bootstrapEs pairwisePs bootstrapRs] = bootstrapRDMs(bootstrappa
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 % Sort out defaults
 userOptions = setIfUnset(userOptions, 'nBootstrap', 1000);
 userOptions = setIfUnset(userOptions, 'resampleSubjects', false);

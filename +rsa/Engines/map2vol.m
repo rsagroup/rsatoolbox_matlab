@@ -5,6 +5,9 @@ function vol=map2vol(map)
 % function called showVol.m
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 if strcmp(class(map),'single') || strcmp(class(map),'double')
     % scale into RGB range [0,1] for display
     map=map-min(map(:)); % move min to zero

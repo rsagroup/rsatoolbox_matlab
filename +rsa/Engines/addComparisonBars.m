@@ -10,6 +10,9 @@ function y = addComparisonBars(pairwisePs,cYMax,threshold)
 % HN, May 2013
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
+
+import rsa.*
+
 nTestRDMs = size(pairwisePs,1);
 eachLineHeight = 0.03;
 nSignificantComparison = 0;

@@ -7,6 +7,8 @@ function hirf=boyntonModel(res)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 delta=2500; %as in BV (averages of the subjects?)
 tau=1250;
 n=3;

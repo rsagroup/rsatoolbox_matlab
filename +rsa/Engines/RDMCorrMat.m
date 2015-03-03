@@ -9,6 +9,9 @@ function corrMat=RDMCorrMat(RDMs,figPlotSpec,type)
 % 08-2011 CW: slight modifications for how nans are handled
 %__________________________________________________________________________
 % Copyright (C) 2011 Medical Research Council
+
+import rsa.*
+
 if ~exist('type','var'),type='Spearman'; end; % Spearman rank should be default?
 
 RDMs_bareVecs=unwrapRDMs(vectorizeRDMs(RDMs));%reduceRDMsToValidConditionSet(RDMs))); % This is of size [1 utv nRDMs]

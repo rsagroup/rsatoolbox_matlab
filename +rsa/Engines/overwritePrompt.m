@@ -28,6 +28,8 @@ function overwriteFlag = overwritePrompt(userOptions, promptOptions)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 %% Set defaults and check options struct
 if ~isfield(userOptions, 'analysisName'), error('overwritePrompt:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('overwritePrompt:NoRootPath', 'rootPath must be set. See help'); end%if

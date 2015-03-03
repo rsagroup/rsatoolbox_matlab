@@ -2,6 +2,8 @@ function addHeading(heading,figI,x,y)
 % adds a heading to a figure. The user also has the option of specifying
 % the location of the inserted heading text.
 
+import rsa.*
+
 % replace underscores
 if iscell(heading)
     for lineI=1:numel(heading)

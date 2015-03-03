@@ -53,6 +53,8 @@ function [varargout] = fMRIDataPreparation(betaCorrespondence, userOptions)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 returnHere = pwd; % We'll return to the pwd when the function has finished
 
 %% Set defaults and check options struct

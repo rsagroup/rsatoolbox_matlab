@@ -5,6 +5,7 @@ function [p,h] = signrank_onesided(x);
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
+import rsa.*
 
 [p_signrank,h] = signrank(x,[],'alpha',0.05,'method','exact');
 if median(x) > 0

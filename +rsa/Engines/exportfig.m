@@ -88,6 +88,7 @@ function exportfig(varargin)
 %       text in 10 point fonts. The size of the exported figure is
 %       the figure's PaperPostion width and height.
 
+import rsa.*
 
 if (nargin < 2)
   error('Too few input arguments');
@@ -405,17 +406,20 @@ end
 %
 
 function outData = LocalPushOldData(inData, objs, prop, values)
+import rsa.*
 outData.objs = {inData.objs{:}, objs};
 outData.prop = {inData.prop{:}, prop};
 outData.values = {inData.values{:}, values};
 
 function cellArray = LocalGetAsCell(fig,prop);
+import rsa.*
 cellArray = get(fig,prop);
 if (~isempty(cellArray)) & (~iscell(cellArray))
   cellArray = {cellArray};
 end
 
 function newArray = LocalScale(inArray, scale, minValue)
+import rsa.*
 n = length(inArray);
 newArray = cell(n,1);
 for k=1:n
@@ -423,6 +427,7 @@ for k=1:n
 end
 
 function newArray = LocalMapToGray(inArray);
+import rsa.*
 n = length(inArray);
 newArray = cell(n,1);
 for k=1:n
@@ -462,6 +467,7 @@ for k=1:n
 end
 
 function newArray = LocalMapCData(inArray);
+import rsa.*
 n = length(inArray);
 newArray = cell(n,1);
 for k=1:n
@@ -476,6 +482,7 @@ for k=1:n
 end
 
 function outData = LocalUpdateColors(inArray, prop, inData)
+import rsa.*
 value = LocalGetAsCell(inArray,prop);
 outData.objs = {inData.objs{:}, inArray};
 outData.prop = {inData.prop{:}, {prop}};
@@ -490,11 +497,13 @@ if (~isempty(value))
 end
 
 function bool = LocalIsPositiveScalar(value)
+import rsa.*
 bool = isnumeric(value) & ...
        prod(size(value)) == 1 & ...
        value > 0;
 
 function value = LocalToNum(value)
+import rsa.*
 if ischar(value)
   value = str2num(value);
 end

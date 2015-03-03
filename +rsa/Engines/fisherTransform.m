@@ -10,6 +10,8 @@ function setOut = fisherTransform(setIn, fakeIt)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 if ~exist('fakeIt', 'var')
 	fakeIt = false;
 end%if

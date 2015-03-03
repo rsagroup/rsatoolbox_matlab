@@ -8,6 +8,8 @@ function gotoDir(varargin)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 switch nargin
 	case 2
 		path = varargin{1};

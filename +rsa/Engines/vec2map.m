@@ -17,6 +17,9 @@ function map=vec2map(vec,mask)
 %               and values taken from vec inside.
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 mask=logical(mask);
 map=zeros(size(mask));
 map(mask)=vec;

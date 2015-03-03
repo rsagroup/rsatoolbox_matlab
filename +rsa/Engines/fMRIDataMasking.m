@@ -47,7 +47,7 @@ function [varargout] = fMRIDataMasking(fullBrainVols, binaryMasks_nS, betaCorres
 %
 %  Cai Wingfield 12-2009, 6-2010
 
-
+import rsa.*
 
 returnHere = pwd; % We'll come back here later
 

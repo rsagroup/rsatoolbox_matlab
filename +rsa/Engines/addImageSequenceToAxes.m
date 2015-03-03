@@ -18,6 +18,9 @@ function addImageSequenceToAxes(ax,il)
 % transparentCol is left out here
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
+
+import rsa.*
+
 defaultil = struct('sequence',1:length(il.images),'nRows',2, ...
 	'blackdisks',false);
 

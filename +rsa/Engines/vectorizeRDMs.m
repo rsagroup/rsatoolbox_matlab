@@ -3,6 +3,9 @@ function RDMs_utv=vectorizeRDMs(RDMs)
 % to lower-triangular form (set of row vectors)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 if isstruct(RDMs)
     % wrapped
     RDMs_struct=RDMs;

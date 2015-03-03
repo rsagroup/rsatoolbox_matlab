@@ -5,6 +5,7 @@ function RDMs=wrapAndNameRDMs(RDMs,names)
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
+import rsa.*
 
 RDMs=wrapRDMs(RDMs);
 

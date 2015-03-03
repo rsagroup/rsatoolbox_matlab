@@ -3,6 +3,8 @@ function options=setIfUnset(options,field,value)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 if ~isfield(options, field) || isempty(options.(field))
        options.(field)=value;
 end

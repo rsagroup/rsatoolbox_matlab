@@ -10,6 +10,8 @@ function exportCurrentFigAsPostscript(filespec,appendFlag,userOptions)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 if ~exist('filespec','var'), filespec='currentFigAsPostscript'; end;
 if ~exist('appendFlag','var'), appendFlag=1; end;
 if ~isfield(userOptions,'dpi'), userOptions.dpi = 300; end;

@@ -17,6 +17,9 @@ function [cognitiveX,BVstimProt,standardIndexSequence,hirf_ms]=generateCognitive
 % EDIT: CW 6-2010: No longer saves 'cognitiveX.txt'
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
+
+import rsa.*
+
 %% control variables
 if ~exist('scaleTrialResponseTo1','var');
     scaleTrialResponseTo1=1;

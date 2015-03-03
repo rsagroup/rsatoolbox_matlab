@@ -8,6 +8,9 @@ function [nVerPan nHorPan]=paneling(nPanels,nHorPanOVERnVerPan)
 
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
+
+import rsa.*
+
 if ~exist('nHorPanOVERnVerPan','var'),nHorPanOVERnVerPan=.5; end;
 
 nHorPan=ceil(sqrt(nHorPanOVERnVerPan*nPanels));

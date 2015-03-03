@@ -4,7 +4,7 @@ function taua=rankCorr_Kendall_taua(a,b)
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
-
+import rsa.*
 
 %% preparations
 a=a(:);b=b(:);

@@ -6,7 +6,7 @@ function stringOut = removeSpaces(stringIn);
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
-
+import rsa.*
 
 if ~isempty(stringIn)
 	stringOut = strrep(stringIn, ' ', '');

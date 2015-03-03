@@ -37,6 +37,8 @@ function handleCurrentFigure(fileName, userOptions)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 %% Set defaults and check options struct
 if ~isfield(userOptions, 'analysisName'), userOptions.analysisName='unnamed analysis'; end%if
 if ~isfield(userOptions, 'rootPath'), userOptions.rootPath=pwd; end%if

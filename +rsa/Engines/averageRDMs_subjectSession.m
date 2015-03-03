@@ -16,6 +16,9 @@ function RDMs = averageRDMs_subjectSession(varargin)
 % RDMs(1).name = 'RoiName | subjectName | sessionName/number';
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
+
+import rsa.*
+
 	if nargin == 1 || nargin == 2 || nargin == 3
 
 		RDMs = varargin{1};
@@ -61,14 +64,17 @@ end%function
 %% Subfunctions %%
 
 function wrongStingsError
+	import rsa.*
 	error('Please put ''subject'' or ''session'' in for the string arguments.');
 end%function
 
 function wrongNargsError
+	import rsa.*
 	error('Only accepts 1, 2 or 3 arguments.');
 end%function
 
 function aveRDMs = aSub(RDMs)
+	import rsa.*
 	nMa = size(RDMs, 1);
 	nSu = size(RDMs, 2);
 	nSe = size(RDMs, 3);
@@ -99,6 +105,7 @@ function aveRDMs = aSub(RDMs)
 end%function
 
 function aveRDMs = aSes(RDMs)
+	import rsa.*
 	nMa = size(RDMs, 1);
 	nSu = size(RDMs, 2);
 	nSe = size(RDMs, 3);

@@ -3,5 +3,7 @@ function string=compactPvalueString(p)
 %__________________________________________________________________________
 % Copyright (C) 2012 Medical Research Council
 
+import rsa.*
+
 exponent=floor(log10(p));
 string=[num2str(round(p*10^(-exponent+1))/10),'e',num2str(exponent)];

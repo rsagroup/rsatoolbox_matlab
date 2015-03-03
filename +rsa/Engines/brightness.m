@@ -4,6 +4,8 @@ function b=brightness(RGBrows)
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
+import rsa.*
+
 RGBweights=[.241 .691 .068]';
 
 b=sqrt(RGBrows*RGBweights);

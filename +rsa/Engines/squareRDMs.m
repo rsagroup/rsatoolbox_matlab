@@ -8,6 +8,8 @@ function RDMs=squareRDMs(RDMs_ltv)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 if isstruct(RDMs_ltv)
     % wrapped
     RDMs_ltv_struct=RDMs_ltv;

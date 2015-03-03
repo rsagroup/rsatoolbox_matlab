@@ -16,6 +16,8 @@ function g=gaussian_nk(FWHM, nSamples, x, mu, mass)
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
+import rsa.*
+
 if ~exist('nSamples','var')
     nSamples=FWHM*4+1;
     % this automatic choice makes sense when the FWHM because the gaussian
