@@ -24,3 +24,5 @@ if transposed
 else
 	RDMs = reshape(RDMs, 1, []); 
 end
+
+end%function

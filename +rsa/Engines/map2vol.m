@@ -18,3 +18,4 @@ else
     vol=permute(repmat(map,[1 1 1 3]),[1 2 4 3]);
 end
 
+end%function

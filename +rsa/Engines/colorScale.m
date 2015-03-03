@@ -21,4 +21,4 @@ if monitor
     imagesc(reshape(cols,[nCols 1 3]));
 end
 
-
+end%function

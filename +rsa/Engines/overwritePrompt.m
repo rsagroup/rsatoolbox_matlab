@@ -181,3 +181,5 @@ elseif strcmpi(reply, 'R') & promptFlag
 		'"R" is for "Rerun": Data will be overwritten.\n']);
 	end%if
 end%if
+
+end%function

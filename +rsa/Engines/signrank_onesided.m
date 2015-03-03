@@ -15,3 +15,5 @@ else
 end
 
 p = p_signrank;
+
+end%function

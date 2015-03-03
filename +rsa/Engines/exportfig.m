@@ -410,6 +410,7 @@ import rsa.*
 outData.objs = {inData.objs{:}, objs};
 outData.prop = {inData.prop{:}, prop};
 outData.values = {inData.values{:}, values};
+end%function
 
 function cellArray = LocalGetAsCell(fig,prop);
 import rsa.*
@@ -417,6 +418,7 @@ cellArray = get(fig,prop);
 if (~isempty(cellArray)) & (~iscell(cellArray))
   cellArray = {cellArray};
 end
+end%function
 
 function newArray = LocalScale(inArray, scale, minValue)
 import rsa.*
@@ -425,6 +427,7 @@ newArray = cell(n,1);
 for k=1:n
   newArray{k} = max(minValue,scale*inArray{k}(1));
 end
+end%function
 
 function newArray = LocalMapToGray(inArray);
 import rsa.*
@@ -465,6 +468,7 @@ for k=1:n
     newArray{k} = [color color color];
   end
 end
+end%function
 
 function newArray = LocalMapCData(inArray);
 import rsa.*
@@ -480,6 +484,7 @@ for k=1:n
   end
   newArray{k} = color;
 end
+end%function
 
 function outData = LocalUpdateColors(inArray, prop, inData)
 import rsa.*
@@ -495,15 +500,18 @@ if (~isempty(value))
   end
   set(inArray,{prop},value);
 end
+end%function
 
 function bool = LocalIsPositiveScalar(value)
 import rsa.*
 bool = isnumeric(value) & ...
        prod(size(value)) == 1 & ...
        value > 0;
+end%function
 
 function value = LocalToNum(value)
 import rsa.*
 if ischar(value)
   value = str2num(value);
 end
+end%function

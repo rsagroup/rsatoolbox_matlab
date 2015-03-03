@@ -169,3 +169,5 @@ end
 if monitor==2
     evaluateDesign(cognitiveX)
 end
+
+end%function

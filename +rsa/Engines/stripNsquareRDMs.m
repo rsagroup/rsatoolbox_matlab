@@ -17,3 +17,5 @@ if isstruct(RDMs_clad)
 else
     RDMs_squareNbare=squareRDMs(RDMs_clad);
 end
+
+end%function

@@ -14,3 +14,5 @@ for RDMI=1:nargin
     
     RDMs(RDMI)=varargin{RDMI};
 end
+
+end%function

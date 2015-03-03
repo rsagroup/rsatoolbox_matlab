@@ -50,3 +50,5 @@ if ~exist('titleString','var')
 else
     title({'\fontsize{14}Shepard plot\fontsize{9}',titleString,corrString});
 end
+
+end%function

@@ -1,17 +1,17 @@
-% projectOptions_demo is a nullary function which initialises a struct
-% containing the preferences and details for a particular project; in this case
-% the demo for the toolbox. It should be edited to taste before a project is
-% run, and a new one created for each substantially different project (though
-% the options struct will be saved each time the project is run under a new
-% name, so all will not be lost if you don't do this).
-%
-% For a guide to how to fill out the fields in this file, consult the
-% documentation pages.
-%
-% Cai Wingfield 11-2009, 6-2010, 7-2010
-%__________________________________________________________________________
-% Copyright (C) 2010 Medical Research Council
-
+	% projectOptions_demo is a nullary function which initialises a struct
+	% containing the preferences and details for a particular project; in this case
+	% the demo for the toolbox. It should be edited to taste before a project is
+	% run, and a new one created for each substantially different project (though
+	% the options struct will be saved each time the project is run under a new
+	% name, so all will not be lost if you don't do this).
+	%
+	% For a guide to how to fill out the fields in this file, consult the
+	% documentation pages.
+	%
+	% Cai Wingfield 11-2009, 6-2010, 7-2010
+	%__________________________________________________________________________
+	% Copyright (C) 2010 Medical Research Council
+	
 function userOptions = projectOptions_demo();
 
 %% Project details
@@ -173,3 +173,5 @@ userOptions.RDMname = 'referenceRDM';
 userOptions.plottingStyle = 2;
 
 % userOptions.forcePromptReply = 'R';
+
+end%function

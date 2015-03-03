@@ -45,3 +45,5 @@ for session = 1:size(betas,1)
 		betas(session,condition).identifier = [preBeta betas(session,condition).identifier postBeta];
 	end%for
 end%for
+
+end%function

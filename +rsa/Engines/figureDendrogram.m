@@ -77,3 +77,5 @@ gotoDir(userOptions.rootPath);% , 'Figures'
 fileName = [userOptions.analysisName '_' localOptions.fileName];
 handleCurrentFigure(fileName, userOptions);
 clear thisFileName
+
+end%function

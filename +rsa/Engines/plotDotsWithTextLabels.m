@@ -78,3 +78,5 @@ if isfield(localOptions, 'dotColours')
 	end%for:itemI
 end%if:dotColours
 axis off
+
+end%function

@@ -22,3 +22,4 @@ for k = 1:n-1
 end
 taua=K/(n*(n-1)/2); % normalise by the total number of pairs 
 
+end%function

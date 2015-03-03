@@ -7,3 +7,5 @@ import rsa.*
 
 exponent=floor(log10(p));
 string=[num2str(round(p*10^(-exponent+1))/10),'e',num2str(exponent)];
+
+end%function

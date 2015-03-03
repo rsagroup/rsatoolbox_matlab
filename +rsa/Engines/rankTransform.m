@@ -23,3 +23,4 @@ if scale01
     rankArray=rankArray/numel(set);
 end
 
+end%function

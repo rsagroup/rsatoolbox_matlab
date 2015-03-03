@@ -23,3 +23,5 @@ import rsa.*
 mask=logical(mask);
 map=zeros(size(mask));
 map(mask)=vec;
+
+end%function

@@ -66,3 +66,5 @@ elseif nargout > 0
 end%if:nargout
 
 cd(returnHere);
+
+end%function

@@ -211,3 +211,5 @@ oldx = get(ax,'xlim');
 oldy = get(ax,'ylim');
 set(ax,'xlim',oldx * padding);
 set(ax,'ylim',oldy * padding);
+
+end%function

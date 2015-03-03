@@ -8,3 +8,5 @@ import rsa.*
 if ~isfield(options, field) || isempty(options.(field))
        options.(field)=value;
 end
+
+end%function

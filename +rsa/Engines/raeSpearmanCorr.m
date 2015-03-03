@@ -65,3 +65,4 @@ end
 
 r=mean(rs(1:nEstimates));
 
+end%function

@@ -66,3 +66,5 @@ else % ~exist('categoryColumns','var')
             textLabels{itemI},'Color','k','FontSize',fontSize);
     end
 end
+
+end%function

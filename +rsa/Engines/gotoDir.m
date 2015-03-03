@@ -63,3 +63,5 @@ switch nargin
 otherwise
 	error('gotoDir:BadNargin', 'Only 1 or 2 arguments allowed.');
 end%switch:nargin
+
+end%function

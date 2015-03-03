@@ -100,3 +100,4 @@ for z=1:sz
     status = fclose(fwriteid);
 end
 
+end%function

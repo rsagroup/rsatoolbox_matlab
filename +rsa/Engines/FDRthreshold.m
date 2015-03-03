@@ -102,3 +102,5 @@ else
 end
 
 disp([num2str(nSig),' tests exceed the FDR threshold for q<',num2str(q),'.']);
+
+end%function

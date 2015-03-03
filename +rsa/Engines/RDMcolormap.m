@@ -29,3 +29,5 @@ cols1=cols;
 % cm=colormap; hsvcm=rgb2hsv(cm);
 % subplot(3,1,3); cla; plot(brightness(colormap),'r'); hold on; plot(hsvcm(:,3),'k'); axis tight; legend({'brightness','V'});
 % th=addHeading('blue-cyan-gray-red-yellow with increasing V');
+
+end%function

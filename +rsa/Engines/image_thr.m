@@ -16,3 +16,5 @@ for i=1:numel(u)
 end
 image(RGBim);
 colormap(cols);axis square
+
+end%function

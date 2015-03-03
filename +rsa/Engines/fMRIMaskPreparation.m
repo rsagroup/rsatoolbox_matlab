@@ -127,3 +127,5 @@ elseif nargout > 0
 end%if:nargout
 
 cd(returnHere); % And go back to where you started
+
+end%function

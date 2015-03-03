@@ -21,7 +21,7 @@ import rsa.*
 		RDMsOut = concatenateRDMs(args{:});
 	end
 
-end
+end%function
 
 %% Subfunctions:
 
@@ -34,4 +34,4 @@ function RDMs = catTwoRDMs(RDMs1, RDMs2)
 	cRDMs2 = struct2cell(RDMs2);
 	cRDMs = [cRDMs1 cRDMs2];
 	RDMs = cell2struct(cRDMs, fieldnames(RDMs1), 1);
-end
+end%function

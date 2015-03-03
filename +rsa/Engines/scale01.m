@@ -19,4 +19,4 @@ else
 end    
 Xscaled=(X-mn)./(mx-mn);
 
-
+end%function

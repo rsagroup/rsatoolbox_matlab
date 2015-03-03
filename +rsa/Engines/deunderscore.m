@@ -16,4 +16,6 @@ if iscell(stringORstringInCell)
     end
 else
     stringORstringInCell(stringORstringInCell==95)='-';
-end  
+end
+
+end%function

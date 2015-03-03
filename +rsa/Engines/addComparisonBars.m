@@ -45,3 +45,5 @@ for i = 1:nTestRDMs
         end%if
     end%for:j
 end%for:i
+
+end%function

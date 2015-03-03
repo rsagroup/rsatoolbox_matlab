@@ -25,3 +25,5 @@ if fakeIt
 		end%if
 	end%for:i
 end%if
+
+end%function

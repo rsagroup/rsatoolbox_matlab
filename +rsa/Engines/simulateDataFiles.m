@@ -117,3 +117,5 @@ else
 end%if
 
 cd(returnHere); % Go back (probably will never have left)
+
+end%function

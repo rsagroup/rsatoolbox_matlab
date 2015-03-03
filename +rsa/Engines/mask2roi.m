@@ -11,3 +11,5 @@ import rsa.*
 
 [x,y,z]=ind2sub(size(mask),find(mask));
 roi=[x,y,z];
+
+end%function

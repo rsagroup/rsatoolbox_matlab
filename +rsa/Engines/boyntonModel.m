@@ -18,3 +18,5 @@ t=0:res:20000;
 
 hirf=(t/tau).^(n-1).*exp(-t/tau)/(tau*factorial(n-1));
 hirf=[zeros(1,floor(delta/res)),hirf];
+
+end%function

@@ -13,3 +13,5 @@ kernel=gaussian_nk(FWHM)';
 
 %% smooth temporally
 Y=conv2(Y,kernel,'same');
+
+end%function

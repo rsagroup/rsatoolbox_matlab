@@ -57,6 +57,7 @@ cv2RDM_fdt_sq2(logical(RDMmask_ltsq))=ts_ba;
 cv2RDM_fdt_sq(find(isnan(cv2RDM_fdt_sq)))=0;
 RDM_fdtFolded_ltv = squareform(cv2RDM_fdt_sq);
 
+end%function
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,3 +94,5 @@ se_ctb_was2=sqrt(esb_was.*diag(C_new'*invXTXb*C_new));  % 1 by nContrasts I CHAN
 ts=ctb_was2./se_ctb_was2;                    % nContrasts by 1
 
 ps=tcdf(-ts,nDFb);                  % compute ps
+
+end%function

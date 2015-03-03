@@ -85,3 +85,5 @@ else
     RDMs=RDMs_struct;
     nRDMs=size(RDMs,3);
 end
+
+end%function

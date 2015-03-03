@@ -20,3 +20,5 @@ if iscell(stringORstringInCell)
 else
     stringORstringInCell(stringORstringInCell==95)=' ';
 end  
+
+end%function

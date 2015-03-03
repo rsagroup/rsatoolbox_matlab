@@ -11,3 +11,5 @@ import rsa.*
 if ~isempty(stringIn)
 	stringOut = strrep(stringIn, ' ', '');
 end
+
+end%function

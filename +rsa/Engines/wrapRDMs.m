@@ -41,3 +41,5 @@ else
         RDMs_struct(RDMI).RDM=RDMs(:,:,RDMI);
     end
 end
+
+end%function

@@ -239,6 +239,8 @@ if isfield(userOptions, 'colourmap')
 	clear thisFileName
 end
 
+end%function
+
 
 % %% plot MDS arrangement using category-color-coded dots
 % if isfield(options,'figI_catCols')&&~isempty(options.figI_catCols) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

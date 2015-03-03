@@ -41,3 +41,5 @@ for uniqueValueI=1:numel(uniqueValues)
     cValueEntries_LOG=mat==uniqueValues(uniqueValueI);
     rankMat(cValueEntries_LOG)=mean(rankMat(cValueEntries_LOG));
 end
+
+end%function

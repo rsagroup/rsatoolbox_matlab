@@ -69,3 +69,5 @@ end%if:jpg
 if ~userOptions.displayFigures
 	close;
 end%if:display
+
+end%function

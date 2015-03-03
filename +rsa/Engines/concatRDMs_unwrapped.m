@@ -10,3 +10,5 @@ RDMs=[];
 for RDMvarI=1:nargin
     RDMs=cat(3,RDMs,unwrap(varargin{RDMvarI}));
 end
+
+end%function

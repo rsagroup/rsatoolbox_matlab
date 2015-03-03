@@ -34,3 +34,5 @@ switch appendFlag
         print('-dpsc2',sprintf('-r%d',userOptions.dpi),filespec);
         print('-dpsc2',sprintf('-r%d',userOptions.dpi),'-append','^ALL_POSTSCRIPTS_appendFlag4');
 end
+
+end%function

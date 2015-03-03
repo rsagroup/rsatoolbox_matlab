@@ -17,3 +17,5 @@ smallerLOG=repmat(mat<=clims(1),[1 1 3]);
 RGBim(smallerLOG)=[cols(1,1)*ones(sum(smallerLOG(:))/3,1);cols(1,2)*ones(sum(smallerLOG(:))/3,1);cols(1,3)*ones(sum(smallerLOG(:))/3,1)];
 largerLOG=repmat(mat>=clims(2),[1 1 3]);
 RGBim(largerLOG) =[cols(end,1)*ones(sum(largerLOG(:))/3,1);cols(end,2)*ones(sum(largerLOG(:))/3,1);cols(end,3)*ones(sum(largerLOG(:))/3,1)];
+
+end%function

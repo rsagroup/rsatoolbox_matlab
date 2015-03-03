@@ -45,3 +45,5 @@ volXYZ3(:,:,:,2)=greenmap;
 volXYZ3(:,:,:,3)= bluemap;
 
 vol=permute(volXYZ3,[1 2 4 3]);
+
+end%function

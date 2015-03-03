@@ -25,3 +25,5 @@ lzI=ceil(lzI/factor);
 indices=sub2ind(mapDim,lxI, lyI, lzI);
 
 largerMap=map(indices);
+
+end%function

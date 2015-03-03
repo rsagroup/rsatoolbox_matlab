@@ -30,3 +30,5 @@ else
         RDMs=cat(3,RDMs,squareform(vectorizeRDM(RDMs_ltv(:,:,RDMI))));
     end
 end
+
+end%function

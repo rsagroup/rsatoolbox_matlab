@@ -152,3 +152,5 @@ elseif nargout > 0
 end%if:nargout
 
 cd(returnHere); % Go back (probably will never have left)
+
+end%function

@@ -26,3 +26,5 @@ set(F,'papersize',figpos(3:4));
 % middle (?)
 % If matlab's 'position' setting works, it should sort itself out
 set(F,'paperposition',[0 0 figpos(3:4)]);
+
+end%function

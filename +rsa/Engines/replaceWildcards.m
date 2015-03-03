@@ -58,3 +58,5 @@ elseif nargout == 2
 	varargout{1} = stringOut;
 	varargout{2} = replacementsWereMade;
 end
+
+end%function

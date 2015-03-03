@@ -6,3 +6,5 @@ function v = randomlyPermute(v)
 import rsa.*
 
 v = v(randomPermutation(numel(v)));
+
+end%function

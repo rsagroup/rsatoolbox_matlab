@@ -47,3 +47,5 @@ Models.random = squareform(pdist(rand(64,64)));
 
 % Models.noStructure = ones(64,64);
 % Models.noStructure(logical(eye(64)))=0;
+
+end%function

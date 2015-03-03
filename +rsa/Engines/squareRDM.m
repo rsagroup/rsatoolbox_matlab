@@ -11,3 +11,5 @@ function RDM=squareRDM(RDM)
 import rsa.*
 
 RDM=squareform(vectorizeRDM(RDM));
+
+end%function

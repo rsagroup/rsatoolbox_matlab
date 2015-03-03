@@ -27,3 +27,5 @@ switch appendFlag
         print('-dpdf',sprintf('-r%d',userOptions.dpi),[filespec,'_',num2str(gcf)]);
         print('-dpdf',sprintf('-r%d',userOptions.dpi),'-append',filespec);
 end
+
+end%function

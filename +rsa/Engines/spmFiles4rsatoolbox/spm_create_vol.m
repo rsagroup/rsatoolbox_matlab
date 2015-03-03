@@ -22,6 +22,7 @@ for i=1:numel(V),
     end;
 end;
 
+end%function
 
 
 function V = create_vol(V,varargin)
@@ -166,3 +167,4 @@ end;
 create(N);
 V.private = N;
 
+end%function

@@ -9,3 +9,5 @@ import rsa.*
 
 set=[set(:);value];
 p=sum(set(:)<value)/numel(set);
+
+end%function

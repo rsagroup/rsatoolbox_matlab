@@ -163,4 +163,4 @@ t = toc;%1
 
 fprintf([': [' num2str(ceil(t)) 's]\n']);
 
-end%function:bootstrapRDMComparisons
+end%function

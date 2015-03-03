@@ -15,3 +15,5 @@ import rsa.*
 mask=logical(mask);
 vec=nan(sum(mask(:)),1);
 vec=map(mask);
+
+end%function

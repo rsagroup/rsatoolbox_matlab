@@ -27,3 +27,5 @@ r2=1/n/t^2*sum(sum(y'*y))-1/n/t*sum(sum(sample.^2));
 % compute the estimator
 shrinkage=max(0,min(1,r2/d));
 sigma=shrinkage*prior+(1-shrinkage)*sample;
+
+end%function

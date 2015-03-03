@@ -18,6 +18,7 @@ for i = 1:n
 
 end%for(i)
 
+end%function
 
 %% === Subfunctions =============================
 
@@ -34,3 +35,5 @@ elseif i == numel(vectorIn)
 else
 	error('Can''t remove an element which isn''t in the input!');
 end%if
+
+end%function

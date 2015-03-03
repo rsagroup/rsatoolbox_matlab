@@ -255,7 +255,7 @@ end % while true
 ceiling_upperBound=cBestFit_avgRDMcorr;
 
 
-end
+end%function
 
 
 %% compute correlations of all types
@@ -271,4 +271,4 @@ function r=correlation(a,b,RDMcorrelationType)
             r=corr(a(:),b(:),'type',RDMcorrelationType);
     end
 
-end
+end%function

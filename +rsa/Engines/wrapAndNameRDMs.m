@@ -13,3 +13,4 @@ for nameI=1:numel(names)
     RDMs(nameI).name=names{nameI};
 end
 
+end%function

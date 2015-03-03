@@ -57,3 +57,5 @@ if exist('figPlotSpec','var')
 	end
 
 end
+
+end%function

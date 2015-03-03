@@ -163,3 +163,5 @@ if showColorbar
     %colormapJet4Print;
     colorbar;
 end
+
+end%function

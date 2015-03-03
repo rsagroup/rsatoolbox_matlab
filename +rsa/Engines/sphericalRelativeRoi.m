@@ -36,3 +36,5 @@ voxelRadii=((X_mm.^2)+(Y_mm.^2)+(Z_mm.^2)).^(0.5);
 [sphereXi,sphereYi,sphereZi]=ind2sub(size(voxelRadii),find(voxelRadii<rad_mm));      % matrix indices of voxels within the sphere
 
 relRoi=[sphereXi-ceil(size(xrange,2)/2), sphereYi-ceil(size(yrange,2)/2), sphereZi-ceil(size(zrange,2)/2)];    % RELATIVE matrix indices of voxels within the sphere
+
+end%function

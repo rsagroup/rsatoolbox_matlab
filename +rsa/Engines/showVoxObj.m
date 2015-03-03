@@ -107,3 +107,5 @@ lighting phong;
 title([num2str(length(find(map))),' voxels']);
 
 disp(['This object has ',num2str(length(find(map))),' voxels.']);
+
+end%function

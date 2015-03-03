@@ -74,3 +74,5 @@ for o = 1:nNoisyPatterns
 	clear E Y_noisy B_noisy;
 	
 end%for:o
+
+end%function

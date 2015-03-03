@@ -52,3 +52,5 @@ set(h,'Position',[left bottom figWidth figHeight])
 % [left, bottom, width, height]
 
 set(h,'PaperPositionMode','auto'); % 'auto' here prevents resizing when the figure is printed.
+
+end%function

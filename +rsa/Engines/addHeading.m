@@ -27,3 +27,5 @@ axis([0 1 0 1]);
 
 % add heading(s)
 text(x,y,heading,'HorizontalAlignment','Right','VerticalAlignment','Top','FontSize',12,'FontWeight','bold','Color','k');
+
+end%function

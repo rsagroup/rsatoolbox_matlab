@@ -26,3 +26,5 @@ else
         RDMs_utv=cat(3,RDMs_utv,vectorizeRDM(RDMs(:,:,RDMI)));
     end
 end
+
+end%function

@@ -23,3 +23,5 @@ else
     ha=subplot(1,1,1);
 end
 set(hf,'Color','w');  
+
+end%function

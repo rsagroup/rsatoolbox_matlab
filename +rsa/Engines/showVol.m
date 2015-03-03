@@ -148,3 +148,5 @@ if exist('labels','var')
         text(labelPos(labelI,1),labelPos(labelI,2),labels(labelI),'Color','k','FontWeight','normal','HorizontalAlignment','center');
     end
 end
+
+end%function

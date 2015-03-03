@@ -104,3 +104,5 @@ end
 % different meaning (nonsensical in this case)
 % i=1:size(roi,1);
 % vol(roi(i,1),roi(i,2),:,roi(i,3))=color;
+
+end%function

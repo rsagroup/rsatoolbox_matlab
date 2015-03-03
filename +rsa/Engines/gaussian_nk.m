@@ -49,3 +49,5 @@ g=exp(-x.^2/(2*(FWHM*s)^2));
 g=g/sum(g)*mass;
 
 % figure(200); clf; plot(x,g,'r','LineWidth',3)
+
+end%function

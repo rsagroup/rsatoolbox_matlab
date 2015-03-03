@@ -123,3 +123,5 @@ end
 %         targetPos+(null(lineVec)*(lineWidth/2))'];
 % 
 %     patch(corners(:,1),corners(:,2),lineCol,'EdgeColor','none'); % function patch draws one polygon per column
+
+end%function

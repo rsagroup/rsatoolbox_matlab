@@ -173,3 +173,5 @@ userOptions.RDMname = 'referenceRDM';
 userOptions.plottingStyle = 2;
 
 % userOptions.forcePromptReply = 'R';
+
+end%function
