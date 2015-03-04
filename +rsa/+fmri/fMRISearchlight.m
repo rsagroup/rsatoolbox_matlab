@@ -184,7 +184,7 @@ if overwriteFlag
 				
 				gotoDir(userOptions.rootPath, 'Maps');
 				
-				rsa.spm.spm_write_vol(rMapMetadataStruct_nS, rMaps_nS.(modelName).(subject).(maskName));
+				spm_write_vol(rMapMetadataStruct_nS, rMaps_nS.(modelName).(subject).(maskName));
 				
 				if isfield(userOptions, 'structuralsPath')
 
@@ -194,7 +194,7 @@ if overwriteFlag
 					maskMetadataStruct_nS.descrip =  'Native space mask';
 					maskMetadataStruct_nS.dim = size(mask);
 					
-					rsa.spm.spm_write_vol(maskMetadataStruct_nS, mask);
+					spm_write_vol(maskMetadataStruct_nS, mask);
 
 					% Load in common space warp definition
 % 					wildFiles = replaceWildcards(fullfile(userOptions.structuralsPath, ['*' subject '*_seg_sn.mat']), '[[subjectName]]', subject);
@@ -234,7 +234,7 @@ if overwriteFlag
 					
 					maskMetadataStruct_sS.dim = size(mask_sS);
 					
-					rsa.spm.spm_write_vol(maskMetadataStruct_sS, mask_sS);
+					spm_write_vol(maskMetadataStruct_sS, mask_sS);
 
 					% Smooth the normalised data
 
@@ -260,7 +260,7 @@ if overwriteFlag
 					maskedDataMetadataStruct_nS.descrip =  'Masked smoothed normalised data';
 					maskedDataMetadataStruct_nS.dim = size(maskedData);
 					
-					rsa.spm.spm_write_vol(maskedDataMetadataStruct_nS, maskedData);
+					spm_write_vol(maskedDataMetadataStruct_nS, maskedData);
 					
 				end%if:structuralsPath
 
@@ -360,7 +360,7 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 	%               3D mask indicating locations for which valid searchlight
 	%               statistics have been computed.
 	%
-	% Based on Niko Kriegeskorte's searchlightMapping_RDMs.m
+	% Based on code by Niko Kriegeskorte
 	%
 	% Additions by Cai Wingfield 2-2010:
 	% 	- Now skips points in the searchlight where there's only one voxel inside.
@@ -511,7 +511,7 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 			end%if
 		end%if
 
-		[x y z]=ind2sub(volSize_vox,mappingMask_request_INDs(cMappingVoxI));
+		[x, y, z]=ind2sub(volSize_vox,mappingMask_request_INDs(cMappingVoxI));
 
 		% compute (sub)indices of (vox)els (c)urrently (ill)uminated by the spherical searchlight
 		cIllVoxSUBs=repmat([x,y,z],[size(ctrRelSphereSUBs,1) 1])+ctrRelSphereSUBs;
@@ -539,11 +539,21 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 			searchlightRDM = zeros(localOptions.nConditions, localOptions.nConditions);
 			for session = 1:localOptions.nSessions
 				sessionId = ['s' num2str(session)];
-				searchlightRDM = searchlightRDM + squareform(pdist(t_patsPerSession.(sessionId)(:,cIllValidVox_YspaceINDs),'correlation'));
+                if strcmpl(userOptions.searchlightPatterns,'regularized')
+                    r_matrix = g_matrix(t_patsPerSession.(sessionId)(:,cIllValidVox_YspaceINDs), nConditions, 1);
+                    searchlightRDM = searchlightRDM + (1-r_matrix);
+                else
+                    searchlightRDM = searchlightRDM + squareform(pdist(t_patsPerSession.(sessionId)(:,cIllValidVox_YspaceINDs),'correlation'));
+                end
 			end%for:sessions
 			searchlightRDM = searchlightRDM / localOptions.nSessions;
-		else
-			searchlightRDM = squareform(pdist(t_pats(:,cIllValidVox_YspaceINDs), 'correlation'));
+        else
+            if strcmpl(userOptions.searchlightPatterns,'regularized')
+                    r_matrix = g_matrix(t_pats(:,cIllValidVox_YspaceINDs), nConditions, 1);
+                    searchlightRDM = searchlightRDM + (1-r_matrix);
+            else
+                searchlightRDM = squareform(pdist(t_pats(:,cIllValidVox_YspaceINDs), 'correlation'));
+            end
 		end%if
 		
 		searchlightRDM = vectorizeRDM(searchlightRDM);

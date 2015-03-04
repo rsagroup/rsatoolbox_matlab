@@ -24,7 +24,7 @@ function overwriteFlag = overwritePrompt(userOptions, promptOptions)
 %
 %        promptOptions --- Further options.
 %  
-% Cai Wingfield 11-2009, 6-2010
+% Cai Wingfield 11-2009, 6-2010 updated by Li Su 2-2012
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
@@ -42,24 +42,24 @@ if ~isfield(userOptions, 'analysisName'), error('overwritePrompt:NoAnalysisName'
 if ~isfield(userOptions, 'rootPath'), error('overwritePrompt:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'dialogueBox', false);
 
-reply = 'R'; % This is what will be picked if there is no prompt
-promptFlag = false; % A flag testing whether or not the prompt has been delivered to the user
-overwriteFlag = true; % A flag testing whether any data may be written
+exsitFlag = true; % A flag testing whether or not the analysis has been run and its resulting files exist on the disk
+overwriteFlag = false; % A flag testing whether any data may be written
 
 %% Check if prompt needs to be done
 
 if isfield(promptOptions, 'checkFiles')
 	% If no files are specified, it will go ahead and return "true" (probably resulting an overwrite)
 	for fileCount = 1:numel(promptOptions.checkFiles)
-		if exist(promptOptions.checkFiles(fileCount).address, 'file')
-			promptFlag = true; % If any of the passed-in files already exist, this will get toggled to true
+		if not(exist(promptOptions.checkFiles(fileCount).address, 'file'))
+			exsitFlag = and(exsitFlag,false); % If one of the passed-in files doesn't exist, this will be set to false, updated by Li Su 2-2012
+            break;
 		end%if
 	end%for
 end%if
 
 %% Do prompt (if needed)
 
-if promptFlag % If there are files which will eventually be saved but which already exist, prompt the user to ask what to do.
+if exsitFlag % If there are files which will eventually be saved but which already exist, prompt the user to ask what to do.
 
 	% Set some defaults
 	if ~isfield(promptOptions, 'defaultResponse'), promptOptions.defaultResponse = 'S'; end
@@ -77,7 +77,8 @@ if promptFlag % If there are files which will eventually be saved but which alre
 		if strcmpi(promptOptions.defaultResponse, 'A'), options.Default = 'Abort'; ...
 		elseif strcmpi(promptOptions.defaultResponse, 'S'), options.Default = 'Skip'; ...
 		elseif strcmpi(mptOptions.defaultResponse, 'R'), options.Default = 'Rerun'; ...
-		else options.Default = 'Skip'; end % Just another quick default-set if there's a mistake somewhere
+		else options.Default = 'Skip';
+		end % Just another quick default-set if there's a mistake somewhere
 
 		% This will produce a pop-up dialogue box with a descriptive message in and wait for the user's response, storing it in "reply"
 		dialogueMessage = [ ...
@@ -88,7 +89,8 @@ if promptFlag % If there are files which will eventually be saved but which alre
 		% Now converting the words back into letters
 		if strcmpi(reply, 'Abort'), reply = 'A'; ...
 		elseif strcmpi(reply, 'Skip'), reply = 'S'; ...
-		elseif strcmpi(reply, 'Rerun'), reply = 'R'; end
+		elseif strcmpi(reply, 'Rerun'), reply = 'R';
+		end
 
 	else
 
@@ -136,57 +138,67 @@ if promptFlag % If there are files which will eventually be saved but which alre
 		'\nYou didn''t enter anything! Default option selected: [' promptOptions.defaultResponse ']\n']);
 		reply = promptOptions.defaultResponse;
 		
-	elseif ~strcmpi(reply, 'A') & ~strcmpi(reply, 'S') & ~strcmpi(reply, 'R')
+	elseif ~strcmpi(reply, 'A') && ~strcmpi(reply, 'S') && ~strcmpi(reply, 'R')
 		% If they enter something which doesn't make sense, go with the default
 		fprintf([ ...
 		'\n"' reply '" is for... Nothing! You didn''t input a valid\n' ...
 		'option. Default option selected: [' promptOptions.defaultResponse ']\n']);
 		reply = promptOptions.defaultResponse;
 	end%if
-end%if
+    
 
-if strcmpi(reply, 'A')
-	% Abort: (no graphical version for this yet)
-	error('\n"A" is for "Abort": Data not overwritten!\n');
+    if strcmpi(reply, 'A')
+        % Abort: (no graphical version for this yet)
+        error('\n"A" is for "Abort": Data not overwritten!\n');
 
-elseif strcmpi(reply, 'S')
-	% Skip:
-	if userOptions.dialogueBox
-		%% Graphical version in here!
-		
-		options.Interpreter = 'tex';
-		options.Default = 'OK';
-		
-		questdlg('Skip: Data not overwritten.','Skip:', 'Yep','OK',options);
+        overwriteFlag = false;
 
-		clear options;
+    elseif strcmpi(reply, 'S')
+        % Skip:
+        if userOptions.dialogueBox
+            %% Graphical version in here!
 
-	else
-		% Textual version in here!
-		fprintf([ ...
-		'"S" is for "Skip": Data not overwritten.\n' ...
-		%'Moving on to the next stage of the process...\n' ... % Don't like this bit any more
-		]);
-	end%if
+            options.Interpreter = 'tex';
+            options.Default = 'OK';
 
-	overwriteFlag = false;
+            questdlg('Skip: Data not overwritten.','Skip:', 'Yep','OK',options);
 
-elseif strcmpi(reply, 'R') & promptFlag
-	% Rerun
-	if userOptions.dialogueBox
-		% Graphical version in here!
-		
-		options.Interpreter = 'tex';
-		options.Default = 'OK';
-		
-		questdlg('Rerun: Data will be overwritten.','Rerun:', 'Good','OK',options);
+            clear options;
 
-		clear options;
-	else
-		% Textual version in here!
-		fprintf([ ...
-		'"R" is for "Rerun": Data will be overwritten.\n']);
-	end%if
+        else
+            % Textual version in here!
+            fprintf([ ...
+            '"S" is for "Skip": Data not overwritten.\n' ...
+            %'Moving on to the next stage of the process...\n' ... % Don't like this bit any more
+            ]);
+        end%if
+
+        overwriteFlag = false;
+
+    elseif strcmpi(reply, 'R') %&& existFlag
+        % Rerun
+        if userOptions.dialogueBox
+            % Graphical version in here!
+
+            options.Interpreter = 'tex';
+            options.Default = 'OK';
+
+            questdlg('Rerun: Data will be overwritten.','Rerun:', 'Good','OK',options);
+
+            clear options;
+        else
+            % Textual version in here!
+            fprintf([ ...
+            '"R" is for "Rerun": Data will be overwritten.\n']);
+        end%if
+
+        overwriteFlag = true;
+    end%if
+
+else    
+    overwriteFlag = true;
+    
 end%if
 
 end%function
+

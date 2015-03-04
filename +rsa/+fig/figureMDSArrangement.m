@@ -13,7 +13,7 @@ function figureMDSArrangement(RDM, userOptions, localOptions)
 %		Written by Niko Kriegeskorte, edited by Cai Wingfield
 %
 % USAGE
-%       showMDSarrangement(RDM, userOptions, localOptions)
+%       figureMDSArrangement(RDM, userOptions, localOptions)
 %
 % ARGUMENTS
 % RDM

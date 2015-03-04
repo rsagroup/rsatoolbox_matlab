@@ -30,7 +30,7 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 	%               3D mask indicating locations for which valid searchlight
 	%               statistics have been computed.
 	%
-	% Based on Niko Kriegeskorte's searchlightMapping_RDMs.m
+	% Based on code by Niko Kriegeskorte
 	%
 	% Additions by Cai Wingfield 2-2010:
 	% 	- Now skips points in the searchlight where there's only one voxel inside.

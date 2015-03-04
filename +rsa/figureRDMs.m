@@ -1,7 +1,7 @@
 function figureRDMs(RDMs, userOptions, localOptions)
 %  figureRDMs(RDMs, userOptions[, localOptions])
 %
-%  figureInterleavedRDMs is a function which accepts a multidimensional struct of
+%  figureRDMs is a function which accepts a multidimensional struct of
 %  RDMs, puts them into a 1D struct, and then shows them.
 %
 %        RDMs --- A struct of RDMs.
@@ -61,8 +61,8 @@ returnHere = pwd;
 
 %% Set defaults and check options struct
 if nargin == 2, localOptions = struct(); end%if:nargin
-if ~isfield(userOptions, 'analysisName'), error('figureInterleavedRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
-if ~isfield(userOptions, 'rootPath'), error('figureInterleavedRDMs:NoRootPath', 'rootPath must be set. See help'); end%if
+if ~isfield(userOptions, 'analysisName'), error('figureRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
+if ~isfield(userOptions, 'rootPath'), error('figureRDMs:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'saveFigurePDF', false);
 userOptions = setIfUnset(userOptions, 'saveFigurePS', false);
 userOptions = setIfUnset(userOptions, 'saveFigureFig', false);

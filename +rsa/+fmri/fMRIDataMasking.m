@@ -144,6 +144,21 @@ if overwriteFlag
 					end%for
 				end%for
 			end%for
+            
+            if userOptions.regularized % - Update IZ 11-12
+                tempMesh = insideMaskVoxels;  
+                reducedMaskedMesh = zeros(size(insideMaskVoxels, 1), size(insideMaskVoxels, 2)* size(insideMaskVoxels, 3)); % (data, conditions, sessions)
+
+                % combining session-wise trials
+                k=1;
+                for j=1:size(tempMesh,2)
+                    for i=1:nSessions
+                        reducedMaskedMesh(:,k) = (tempMesh(:,j,i)); 
+                        k=k+1;
+                    end
+                end
+                insideMaskVoxels = reducedMaskedMesh;
+            end
 
 			% Put the masked data into a struct (to be saved)
 			responsePatterns.(thisMask).(thisSubject) = insideMaskVoxels;

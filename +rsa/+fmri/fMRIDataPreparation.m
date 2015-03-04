@@ -137,18 +137,16 @@ if overwriteFlag
 
 	timeStamp = datestr(now);
 
-% 	fprintf(['Saving image data to ' fullfile(userOptions.rootPath, 'ImageData', ImageDataFilename) '\n']);
-    disp(['Saving image data to ' fullfile(userOptions.rootPath, 'ImageData', ImageDataFilename)]);
+	fprintf(['Saving image data to ' fullfile(userOptions.rootPath, 'ImageData', ImageDataFilename) '\n']);
 	gotoDir(userOptions.rootPath, 'ImageData');
 	save(ImageDataFilename, 'fullBrainVols', '-v7.3');
 
-% 	fprintf(['Saving Details to ' fullfile(userOptions.rootPath, 'Details', DetailsFilename) '\n']);
-    disp(['Saving Details to ' fullfile(userOptions.rootPath, 'Details', DetailsFilename)]);
+	fprintf(['Saving Details to ' fullfile(userOptions.rootPath, 'Details', DetailsFilename) '\n']);
 	gotoDir(userOptions.rootPath, 'Details');
 	save(DetailsFilename, 'timeStamp', 'userOptions');
 	
 else
-	disp(['Loading previously saved volumes from ' fullfile(userOptions.rootPath, 'ImageData', ImageDataFilename) '...']);
+	fprintf(['Loading previously saved volumes from ' fullfile(userOptions.rootPath, 'ImageData', ImageDataFilename) '...\n']);
 	load(fullfile(userOptions.rootPath, 'ImageData', ImageDataFilename));
 end%if
 

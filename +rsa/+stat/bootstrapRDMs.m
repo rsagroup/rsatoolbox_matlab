@@ -60,7 +60,7 @@ nSubjects = size(bootstrappableReferenceRDMs, 3);
 nCandRDMs = size(candRDMs, 3);
 
 if ~(size(bootstrappableReferenceRDMs, 1) == size(candRDMs, 1))
-    error('bootstrapRDMComparison:DifferentSizedRDMs', 'Two RDMs being compared are of different sizes. This is incompatible\nwith bootstrap methods!');
+    error('bootstrapRDM:DifferentSizedRDMs', 'Two RDMs being compared are of different sizes. This is incompatible\nwith bootstrap methods!');
 end%if
 
 averageReferenceRDM = sum(bootstrappableReferenceRDMs, 3) ./ nSubjects;
