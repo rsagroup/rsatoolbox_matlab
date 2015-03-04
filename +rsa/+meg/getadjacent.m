@@ -4,7 +4,7 @@ function [adjacents, passed] = getadjacent(str1, int, hashtab)
 
 import rsa.*
 import rsa.fig.*
-import rsa.fmri.*
+import rsa.meg.*
 import rsa.rdm.*
 import rsa.sim.*
 import rsa.spm.*

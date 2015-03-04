@@ -8,7 +8,7 @@ function nearbySensors = getNearbySensors(sensorSites, adjacencyMatrix, radius)
 
 import rsa.*
 import rsa.fig.*
-import rsa.fmri.*
+import rsa.meg.*
 import rsa.rdm.*
 import rsa.sim.*
 import rsa.spm.*

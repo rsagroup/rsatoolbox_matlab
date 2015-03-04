@@ -30,7 +30,7 @@ function [clust_stats_pos, clust_stats_neg, base_tmap, clust_mass_perm] = permut
 
 import rsa.*
 import rsa.fig.*
-import rsa.fmri.*
+import rsa.meg.*
 import rsa.rdm.*
 import rsa.sim.*
 import rsa.spm.*

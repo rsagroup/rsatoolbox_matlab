@@ -6,7 +6,7 @@ function MEGFindCluster_source(Models, range, userOptions)
 
 import rsa.*
 import rsa.fig.*
-import rsa.fmri.*
+import rsa.meg.*
 import rsa.rdm.*
 import rsa.sim.*
 import rsa.spm.*

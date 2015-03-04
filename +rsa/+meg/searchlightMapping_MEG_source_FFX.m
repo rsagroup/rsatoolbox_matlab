@@ -2,7 +2,7 @@ function  searchlightRDMs = searchlightMapping_MEG_source_FFX (singleMesh, Model
 
 import rsa.*
 import rsa.fig.*
-import rsa.fmri.*
+import rsa.meg.*
 import rsa.rdm.*
 import rsa.sim.*
 import rsa.spm.*
