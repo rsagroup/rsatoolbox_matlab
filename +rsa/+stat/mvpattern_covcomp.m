@@ -46,6 +46,15 @@ function [G,h,u,l,n,jumpI,a]=mvpattern_covcomp(y,Z,varargin)
 %
 % Copyright 2011 Joern Diedrichsen, j.diedrichsen@ucl.ac.uk
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 [N,P]=size(y);
 [N2,Q]=size(Z);
 if N2 ~= N

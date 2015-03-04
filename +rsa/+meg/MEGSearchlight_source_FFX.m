@@ -8,6 +8,15 @@
 
 function [varargout] = MEGSearchlight_source_FFX(Models, userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 returnHere = pwd; % We'll come back here later
 
 tempBetas = betaCorrespondence;  

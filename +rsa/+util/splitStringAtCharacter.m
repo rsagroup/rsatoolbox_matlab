@@ -21,3 +21,5 @@ else
 	end%for
 	splitOut = [splitOut; {stringIn}];
 end%if
+
+end%function

@@ -28,6 +28,15 @@ function [clust_stats_pos, clust_stats_neg, base_tmap, clust_mass_perm] = permut
 
 % Updated IZ 12-12 changed o/p parameters and a few minor changes
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 
 % Extract data specified by options
 data_1_rel = data1(:,fpmin:fpmax,tpmin:tpmax);

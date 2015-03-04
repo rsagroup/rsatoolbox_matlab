@@ -4,6 +4,15 @@
 
 function MEGFindCluster_source(Models, range, userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 returnHere = pwd; % We'll come back here later
 
 % The analysisName will be used to label the files which are eventually saved.

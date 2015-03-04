@@ -8,9 +8,16 @@
 % Based on scripts by Li Su
 % Written by IZ 03/13 updated FJ 03/14
 
-
-
 function RFX_slidingTimeWindow(userOptions, Models)
+
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 close all;
 returnHere = pwd; % We'll come back here later

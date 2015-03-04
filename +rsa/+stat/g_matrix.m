@@ -9,6 +9,15 @@ function r_matrix = g_matrix(data, nConditions, nRepsPerCondition)
     % based on Diedrichson et al. / NeuroImage (2011) 1665 - 1678
     % Isma Zulfiqar (2012)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 % calculating z matrix
 modelBase = eye(nConditions);
 z_matrix = zeros(nConditions * nRepsPerCondition, nConditions);

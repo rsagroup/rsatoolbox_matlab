@@ -1,5 +1,15 @@
 function [cognitiveX,BVstimProt]=generateCognitiveModel_generalButSlow(sequence,stimDur_ms,trialDur_ms,nTRvols_final,TRvol_ms,nSkippedVols,monitor)
 
+
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 % this function generates a design matrix of hemodynamic response
 % predictors from a condition sequence.
 %

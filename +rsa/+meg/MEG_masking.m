@@ -8,6 +8,15 @@
 
 function maskedBrain = masking(brain, indexMasks, RoIs)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 allRegions = fieldnames(indexMasks); 
 nMaskRegions = size(allRegions,1);
 number_of_vertex = size(brain,1);

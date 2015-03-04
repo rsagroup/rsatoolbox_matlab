@@ -28,6 +28,15 @@ function [tVecs,eB,eE]=tMapping(Y,X,C)
 %               contrast) and the returned tVecs matrix will have a
 %               second dimension (voxel by contrast).
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 [nPreds,nContrasts]=size(C);
 [nTime,nVox]=size(Y);
 

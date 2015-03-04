@@ -20,3 +20,5 @@ end%if
 % iM = indicesMatrix
 iM = repmat(1:nR, 1, nC) + kron((p-1)*nR, ones(1, nR));
 M(:) = M(iM(:));
+
+end%function

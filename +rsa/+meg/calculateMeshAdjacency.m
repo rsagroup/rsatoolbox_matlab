@@ -5,6 +5,15 @@ function searchlightAdjacency = calculateMeshAdjacency(nVertices, searchlightRad
 % All credit to Su Li and Andy Thwaites for working out how to do this and writing the original implementation
 % CW 5-2010, last updated by Li Su - 1 Feb 2012
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 returnHere = pwd;
 
 maximumVertices = 40968;

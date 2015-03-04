@@ -28,6 +28,15 @@ function permutations = exhaustivePermutations(varargin)
 % permutation, and the lexicographic successor of the initial state for the
 % whole sequence.
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 switch nargin
 	case 1
 		n = varargin{1};

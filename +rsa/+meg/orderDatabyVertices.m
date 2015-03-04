@@ -5,12 +5,12 @@
 
 function [ordered_data] = orderDatabyVertices(data, vertices)
 
-if ~issorted(vertices)
-    for i=1:max(vertices)
-        ordered_data(i,:) = data(vertices==i,:);
+    if ~issorted(vertices)
+        for i=1:max(vertices)
+            ordered_data(i,:) = data(vertices==i,:);
+        end
+    else
+        ordered_data = data;
     end
-else
-    ordered_data = data;
-end
 
 end

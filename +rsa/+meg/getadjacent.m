@@ -2,6 +2,15 @@ function [adjacents, passed] = getadjacent(str1, int, hashtab)
 
 % by Li Su and Andy Thwaites
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 adjacentsbelow = [];
 adjacents = [];
 passed = [];

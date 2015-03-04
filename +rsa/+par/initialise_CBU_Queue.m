@@ -3,6 +3,15 @@
 
 function initialise_CBU_Queue(userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
     if userOptions.run_in_parallel || run_in_parallel_in_cluster
         try 
             matlabpool close;

@@ -14,6 +14,15 @@
 
 function userOptions = setMetadata_MEG(Models, userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 if ~isfield(userOptions, 'analysisName'), error('projectOptions:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('projectOptions:NoRootPath', 'rootPath must be set. See help'); end%if
 if ~isfield(userOptions, 'betaPath'), error('projectOptions:NoBetaPath', 'betaPath must be set. See help'); end%if

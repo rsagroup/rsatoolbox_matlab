@@ -4,6 +4,15 @@
 % Written by IZ 03/13
 function showResults_slidingTimeWindow(userOptions, Models)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 nMasks = numel(userOptions.maskNames);
 modelNumber = userOptions.modelNumber;
 modelName = Models(modelNumber).name;

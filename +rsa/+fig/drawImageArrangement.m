@@ -41,6 +41,15 @@ function drawImageArrangement(imageStruct,coords_xy,imageAreaProportion,transpar
 %       (should be generalized further to allow better control of drop shadows,
 %       arbitrary alpha channels, and nonsquare images)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 %% preparations
 if ~exist('imageAreaProportion','var'), imageAreaProportion=1; end
 if ~exist('transparentCol','var'), transparentCol=[128 128 128 2]; end

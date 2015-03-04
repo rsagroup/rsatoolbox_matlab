@@ -6,6 +6,15 @@
 
 function FFX_permutation (Models, userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 returnHere = pwd; % We'll come back here later
 nSubjects = numel(userOptions.subjectNames);
 modelNumber = userOptions.modelNumber;

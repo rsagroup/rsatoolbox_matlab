@@ -3,6 +3,16 @@
 
 function [max_cluster_mass,lh_max_cluster_mass,rh_max_cluster_mass] = find_4D_clusters(inputFileName,outputFileName,connectivity_matrix,indexMasks,overwriteFlag,vertex_level_threshold)
 
+
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 %% Threshold the statistical map, significant vertex lablled as 1 and non-sig vertex
 %% lablled as 0. This results in activated vertex at the first level.
 

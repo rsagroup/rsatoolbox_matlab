@@ -1,8 +1,13 @@
-%% %%
-%% Subfunctions
-%% %%
-
 function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_MEG_sensor(singleSubjectTopography, models, userOptions, localOptions)
+
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
 
 	%  [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_MEG_sensor(singleSubjectTopography, models, mask, userOptions, localOptions)
 	%

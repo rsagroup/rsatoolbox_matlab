@@ -4,6 +4,15 @@
 
 function Recipe_MEG_source_slidingTimeWindow(which_model)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 %%%%%%%%%%%%%%%%%%%%
 %% Initialisation %%
 %%%%%%%%%%%%%%%%%%%%

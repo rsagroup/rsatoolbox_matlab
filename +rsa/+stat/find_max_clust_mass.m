@@ -6,6 +6,15 @@ function [max_clust_mass, clust_mass]=find_max_clust_mass(data,thresh)
 %
 % Written by A.Ghuman (2009), adapted by Alex C (07/09)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 %% Finds elements in data above threshold
 bwmatrix = zeros(size(data));
 bwmatrix(find(data>thresh)) = 1;

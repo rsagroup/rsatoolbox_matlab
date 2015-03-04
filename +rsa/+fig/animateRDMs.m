@@ -10,6 +10,15 @@ function animateRDMs(RDMs, output_filename, delay_time, loop_count, rankTransfor
 %
 % Cai Wingfield 2015-02
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 
     %% define default behavior
     if ~exist('rankTransform01','var'), rankTransform01=true; clims=[0 1]; end

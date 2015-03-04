@@ -1,4 +1,14 @@
 function adjacencyMatrix = importSensorLayout(readFile)
+
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 %IMPORTFILE(FILETOREAD1)
 %  Imports data from the specified file
 %  FILETOREAD1:  file to read

@@ -5,6 +5,15 @@
 
 function ht = findAdjacentVerts(path)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 % addpath /opt/mne/matlab/toolbox/ % CW: path doesn't exist.
 
 [verts,faces] = mne_read_surface(path);

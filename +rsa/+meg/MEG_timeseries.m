@@ -1,5 +1,14 @@
 function MEG_timeseries(Models,indexMasks,userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 
 modelNumber = userOptions.modelNumber; 
 modelName = spacesToUnderscores(Models(modelNumber).name);

@@ -1,5 +1,14 @@
 function  searchlightRDMs = searchlightMapping_MEG_source_FFX (singleMesh, Models, userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 	%  [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_MEG_source(singleMesh, Models, mask, userOptions, localOptions)
 	%  
 	%  Li Su 3-2012

@@ -1,5 +1,14 @@
 function [varargout] = MEGLookup(varargin)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 % [g1 g2 m] = MEGLookup(c, n)
 %
 % Given a channel index, c, this will return the labels of the first and second grads and of the mag.  Here, n is the number of sensor types being used.

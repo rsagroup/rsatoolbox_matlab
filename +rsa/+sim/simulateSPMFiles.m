@@ -11,6 +11,15 @@
 
 function [betaCorrespondence_true, betaCorrespondence_noisy] = simulateSPMFiles(userOptions, simulationOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 returnHere = pwd; % We'll return to the pwd when the function has finished
 
 DetailsFilename = [userOptions.analysisName, '_simulateSPMFiles_Details.mat'];

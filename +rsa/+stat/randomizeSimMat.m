@@ -1,5 +1,14 @@
 function randomizedSimMat=randomizeSimMat(simMat)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 [v,h]=size(simMat);
 
 if v~=h

@@ -1,5 +1,15 @@
 function [smm_rs, smm_ps, searchlightRDMs] = searchlightMapping_MEG_source(singleMesh, Models, userOptions)
 
+
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 %  [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_MEG_source(singleMesh, Models, mask, userOptions, localOptions)
 %  based on Li Su's script
 % CW 5-2010, last updated by Li Su 3-2012

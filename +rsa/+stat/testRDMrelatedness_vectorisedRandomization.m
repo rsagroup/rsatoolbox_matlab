@@ -23,6 +23,15 @@
 
 function [varargout]=testRDMrelatedness_vectorisedRandomization(RDMa,RDMb,varargin)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 %% Deal with varargin
 
 if numel(varargin) == 0

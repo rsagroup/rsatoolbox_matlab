@@ -6,7 +6,10 @@
 
 function V = spawnSPMStruct()
 
-V.fname = '';
-V.mat = eye(4);
-V.dim = [0 0 0 0];
-V.pinfo = [1;0;0];
+    V.fname = '';
+    V.mat = eye(4);
+    V.dim = [0 0 0 0];
+    V.pinfo = [1;0;0];
+
+end%function
+

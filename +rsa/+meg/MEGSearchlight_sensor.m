@@ -120,6 +120,15 @@
 
 function [varargout] = MEGSearchlight_sensor(sensorImages, Models, userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 	returnHere = pwd; % We'll come back here later
 
 	%% Set defaults and check options struct

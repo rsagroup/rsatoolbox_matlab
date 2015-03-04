@@ -14,4 +14,6 @@ if iscell(stringORstringInCell)
     end
 else
     stringORstringInCell(stringORstringInCell==32)='_';
-end  
+end
+
+end%function

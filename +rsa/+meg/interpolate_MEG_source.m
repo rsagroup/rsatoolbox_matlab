@@ -1,5 +1,14 @@
 function interpolate_MEG_source (Models, userOptions)
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 targetResolution = userOptions.targetResolution;
 smoothingWidth = userOptions.smoothingWidth;
 modelNumber = userOptions.modelNumber; 

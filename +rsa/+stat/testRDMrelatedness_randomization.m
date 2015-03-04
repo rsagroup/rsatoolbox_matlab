@@ -13,6 +13,16 @@ function [p_randCondLabels,r,p_randDissims,p_conv]=testRDMrelatedness_randomizat
 
 
 %% control variables
+
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 nRandomizations=10000; % 10,000
 
 

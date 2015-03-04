@@ -7,6 +7,15 @@
 %
 % created by Li Su, last update 11-2012
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 function get_cluster_p_value(Models,userOptions)
 
 modelNumber = userOptions.modelNumber;

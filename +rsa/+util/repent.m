@@ -24,3 +24,6 @@ function M = repent(M,m,n)
 
 f = ones(m,n); % f = frame
 M = kron(M, f);
+
+end%function
+

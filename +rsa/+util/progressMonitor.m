@@ -30,6 +30,15 @@ function h=progressMonitor(counters, maxCounts, title, h)
 %       end
 %       closeProgressMonitor(h);
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 
 
 %% preparations

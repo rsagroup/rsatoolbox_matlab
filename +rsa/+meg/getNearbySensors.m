@@ -6,6 +6,15 @@ function nearbySensors = getNearbySensors(sensorSites, adjacencyMatrix, radius)
 %
 % Cai Wingfield 5-2010
 
+import rsa.*
+import rsa.fig.*
+import rsa.fmri.*
+import rsa.rdm.*
+import rsa.sim.*
+import rsa.spm.*
+import rsa.stat.*
+import rsa.util.*
+
 if radius ~= floor(radius)
 	error('Radius must be an integer.');
 end%if
