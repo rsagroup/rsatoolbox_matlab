@@ -19,31 +19,31 @@ userOptions = projectOptions();
 %% Starting parallel toolbox %%
 %%%%%%%%%%%%%%%%%%%%
 if userOptions.flush_Queue
-    flushQ();
+    rsa.par.flushQ();
 end
 
 if userOptions.run_in_parallel
-    p = initialise_CBU_Queue(userOptions);
+    p = rsa.par.initialise_CBU_Queue(userOptions);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Model RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 userOptions.modelNumber = which_model;
-Models = constructModelRDMs(userOptions);
+Models = rsa.constructModelRDMs(userOptions);
 
 %%%%%%%%%%%%%%%%%%
 %% Set metadata %%
 %%%%%%%%%%%%%%%%%%
-userOptions = setMetadata_MEG(Models, userOptions);
+userOptions = rsa.meg.setMetadata_MEG(Models, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%%
 %% Mask preparation %% 
 %%%%%%%%%%%%%%%%%%%%%%
 if userOptions.maskingFlag
-    userOptions.indexMasks = MEGMaskPreparation_source(userOptions);  
+    userOptions.indexMasks = rsa.meg.MEGMaskPreparation_source(userOptions);  
 else
-    userOptions.indexMasks = allBrainMask(userOptions);
+    userOptions.indexMasks = rsa.meg.allBrainMask(userOptions);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,9 +51,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 nSubject = userOptions.nSubjects;
 tic
-userOptions.adjacencyMatrix = calculateMeshAdjacency(userOptions.nVertices, userOptions.sourceSearchlightRadius, userOptions);
+userOptions.adjacencyMatrix = rsa.meg.calculateMeshAdjacency(userOptions.nVertices, userOptions.sourceSearchlightRadius, userOptions);
 parfor subject = 1:nSubject
-    MEGSearchlight_source(subject, Models, userOptions);
+    rsa.meg.MEGSearchlight_source(subject, Models, userOptions);
 end
 fprintf('Stage 1 - Searchlight Brain RDM Calculation: ');
 toc
@@ -73,14 +73,14 @@ if strcmp(userOptions.groupStats, 'FFX')
     tic
     % fixed effect test
     fprintf('Averaging RDMs across subjects and performing permutation tests to calculate r-values.');
-    FFX_permutation(Models, userOptions)
+    rsa.meg.FFX_permutation(Models, userOptions)
     fprintf('Stage 2 - Fixed Effects Analysis: ');
     toc
 else
     % random effect test
     fprintf('Performing permutation tests over all subjects (random effect) to calculate p-values.');
     tic
-    RFX_permutation(Models,userOptions)
+    rsa.meg.RFX_permutation(Models,userOptions)
     fprintf('Stage 2 - Random Effects Analysis: ');
     toc 
 end
@@ -94,7 +94,7 @@ number_of_permutations = userOptions.significanceTestPermutations;
 tic
 parfor j = 1:number_of_permutations/jobSize
     range = (j-1)*jobSize+1:j*jobSize;
-    MEGFindCluster_source(Models, range, userOptions);
+    rsa.meg.MEGFindCluster_source(Models, range, userOptions);
 end
 fprintf('Stage 3 - Spatiotemporal Clustering: ' );
 toc
@@ -103,7 +103,7 @@ toc
 %% Compute cluster level p-values %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 tic
-get_cluster_p_value(Models,userOptions);
+rsa.meg.get_cluster_p_value(Models,userOptions);
 fprintf('Stage 4 - Computing cluster level p values: ');
 toc
 
@@ -119,14 +119,14 @@ end
 %% Delete Selected Directories%%
 %%%%%%%%%%%%%%%%%%%%
 if (userOptions.deleteTMaps_Dir || userOptions.deleteImageData_Dir || userOptions.deletePerm)
-    deleteDir(userOptions, Models);
+    rsa.util.deleteDir(userOptions, Models);
 end
 
 %%%%%%%%%%%%%%%%%%%%
 %% Sending an email %%
 %%%%%%%%%%%%%%%%%%%%
 if userOptions.recieveEmail
-    setupInternet();
-    setupEmail(userOptions.mailto);
+    rsa.par.setupInternet();
+    rsa.par.setupEmail(userOptions.mailto);
 end
 

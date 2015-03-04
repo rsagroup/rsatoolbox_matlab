@@ -4,15 +4,6 @@
 
 function Recipe_MEG_source_slidingTimeWindow(which_model)
 
-import rsa.*
-import rsa.fig.*
-import rsa.fmri.*
-import rsa.rdm.*
-import rsa.sim.*
-import rsa.spm.*
-import rsa.stat.*
-import rsa.util.*
-
 %%%%%%%%%%%%%%%%%%%%
 %% Initialisation %%
 %%%%%%%%%%%%%%%%%%%%
@@ -24,21 +15,21 @@ userOptions = projectOptions();
 %% Starting parallel toolbox %%
 %%%%%%%%%%%%%%%%%%%%
 if userOptions.flush_Queue
-    flushQ();
+    rsa.par.flushQ();
 end
 if userOptions.run_in_parallel
-    initialise_CBU_Queue(userOptions);
+    rsa.par.initialise_CBU_Queue(userOptions);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Model RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 userOptions.modelNumber = which_model;
-Models = constructModelRDMs(userOptions);
+Models = rsa.constructModelRDMs(userOptions);
 
 %%%%%%%%%%%%%%%%%%%
 %% Set meta data %%
 %%%%%%%%%%%%%%%%%%%
-userOptions = setMetadata_MEG(Models, userOptions);
+userOptions = rsa.meg.setMetadata_MEG(Models, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Sliding time window RoI analysis %%
@@ -49,22 +40,22 @@ if userOptions.slidingTimeWindow
     %% Compute Data RDMs %%
     %%%%%%%%%%%%%%%%%%%%%%%
     tic
-    ROI_slidingTimeWindow(userOptions, Models);
+    rsa.meg.ROI_slidingTimeWindow(userOptions, Models);
     toc
     %%%%%%%%%%%%%%%%%
     %% Permutation %%
     %%%%%%%%%%%%%%%%%
     tic
     if strcmp(userOptions.groupStats,'FFX')
-        FFX_slidingTimeWindow(userOptions,Models);
+        rsa.meg.FFX_slidingTimeWindow(userOptions,Models);
     elseif strcmp(userOptions.groupStats,'RFX')
-        RFX_slidingTimeWindow(userOptions,Models);
+        rsa.meg.RFX_slidingTimeWindow(userOptions,Models);
     end
     toc
     %%%%%%%%%%%%%%%%%%%%%
     %% Display Results %%
     %%%%%%%%%%%%%%%%%%%%%
-    showResults_slidingTimeWindow(userOptions,Models);
+    rsa.meg.showResults_slidingTimeWindow(userOptions,Models);
 
 else
     disp('Set userOptions.slidingTimeWindow=true in projectOptions.m to run the sliding time window analysis.');
@@ -74,8 +65,8 @@ end
 %% Sending an email %%
 %%%%%%%%%%%%%%%%%%%%
 if userOptions.recieveEmail
-    setupInternet();
-    setupEmail(userOptions.mailto);
+    rsa.par.setupInternet();
+    rsa.par.setupEmail(userOptions.mailto);
 end
 
 
@@ -91,7 +82,7 @@ end
 %%%%%%%%%%%%%%%%%%%%
 
 if (userOptions.deleteTMaps_Dir || userOptions.deleteImageData_Dir || userOptions.deletePerm)
-    deleteDir(userOptions, Models);
+    rsa.util.deleteDir(userOptions, Models);
 end
 
 

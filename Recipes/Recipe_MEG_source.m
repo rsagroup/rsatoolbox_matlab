@@ -10,9 +10,9 @@
 toolboxRoot = '/imaging/ls02/toolbox/devel/toolbox'; addpath(genpath(toolboxRoot)); % Catch sight of the toolbox code
 userOptions = projectOptions();
 
-Models = constructModelRDMs(userOptions);
+Models = rsa.constructModelRDMs(userOptions);
 
-userOptions = setMetadata_MEG(Models, userOptions); 
+userOptions = rsa.meg.setMetadata_MEG(Models, userOptions); 
 %%%%%%%%%%%%%%%%%%%%%%
 %% Data preparation %%
 %%%%%%%%%%%%%%%%%%%%%%
@@ -20,40 +20,40 @@ nSubjects = userOptions.nSubjects;
 for subject =1:nSubjects
     thisSubject = userOptions.subjectNames{subject};
     fprintf(['Reading MEG source solutions for subject number ' num2str(subject) ' of ' num2str(nSubjects) ': ' thisSubject ':']);    
-    sourceMeshes.(thisSubject) = MEGDataPreparation_source(subject,userOptions.betaCorrespondence, userOptions);
+    sourceMeshes.(thisSubject) = rsa.meg.MEGDataPreparation_source(subject,userOptions.betaCorrespondence, userOptions);
 end
-indexMasks = MEGMaskPreparation_source(userOptions);
-maskedMeshes = MEGDataMasking_source(sourceMeshes, indexMasks, userOptions.betaCorrespondence, userOptions);
+indexMasks   = rsa.meg.MEGMaskPreparation_source(userOptions);
+maskedMeshes = rsa.meg.MEGDataMasking_source(sourceMeshes, indexMasks, userOptions.betaCorrespondence, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%
 %% RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%
 
-RDMs = constructRDMs(maskedMeshes, userOptions.betaCorrespondence, userOptions);
-RDMs = averageRDMs_subjectSession(RDMs, 'session');
-aRDMs = averageRDMs_subjectSession(RDMs, 'subject');
+RDMs  = rsa.constructRDMs(maskedMeshes, userOptions.betaCorrespondence, userOptions);
+RDMs  = rsa.rdm/averageRDMs_subjectSession(RDMs, 'session');
+aRDMs = rsa.rdm.averageRDMs_subjectSession(RDMs, 'subject');
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% First-order visualisation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-figureRDMs(aRDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1)); % Display the calculated RDMs
-figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2)); % Display the models
+rsa.figureRDMs(aRDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1)); % Display the calculated RDMs
+rsa.figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2)); % Display the models
 
-MDSConditions(aRDMs, userOptions);
-dendrogramConditions(aRDMs, userOptions);
+rsa.MDSConditions(aRDMs, userOptions);
+rsa.dendrogramConditions(aRDMs, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Second-order analysis %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-pairwiseCorrelateRDMs({aRDMs, Models}, userOptions);
-MDSRDMs({aRDMs, Models}, userOptions);
-distanceBarRDMs({RDMs}, {Models}, userOptions);
+rsa.pairwiseCorrelateRDMs({aRDMs, Models}, userOptions);
+rsa.MDSRDMs({aRDMs, Models}, userOptions);
+rsa.compareRefRDM2candRDMs(RDMs(1), Models, userOptions);
 
 % fixed effects analysis
-testSignificance({aRDMs}, {Models}, userOptions);
+rsa.stat.testSignificance({aRDMs}, {Models}, userOptions);
 
 % random effects analysis
-testSignificance_RandomEffects(RDMs, Models, userOptions)
+rsa.stat.testSignificance_RandomEffects(RDMs, Models, userOptions)

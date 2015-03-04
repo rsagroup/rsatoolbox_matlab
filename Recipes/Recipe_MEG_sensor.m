@@ -16,48 +16,48 @@ userOptions = projectOptions();
 %% Model RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 userOptions.modelNumber = which_model;
-Models = constructModelRDMs(userOptions);
+Models = rsa.constructModelRDMs(userOptions);
 
 %%%%%%%%%%%%%%%%%%%%
 %% Set Meta-data %%
 %%%%%%%%%%%%%%%%%%%%
-userOptions = setMetadata_MEG(Models, userOptions);
+userOptions = rsa.meg.setMetadata_MEG(Models, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%%
 %% Data preparation %%
 %%%%%%%%%%%%%%%%%%%%%%
 
-sensorImages = MEGDataPreparation_sensor(userOptions);
-maskedSensors = MEGDataMasking_sensor(sensorImages, userOptions);
+sensorImages  = rsa.meg.MEGDataPreparation_sensor(userOptions);
+maskedSensors = rsa.meg.MEGDataMasking_sensor(sensorImages, userOptions);
 
 
 %%%%%%%%%%%%%%%%%%%%%
 %% RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%
 
-RDMs = constructRDMs(maskedSensors, betaCorrespondence(), userOptions);
-RDMs = averageRDMs_subjectSession(RDMs, 'session');
-aRDMs = averageRDMs_subjectSession(RDMs, 'subject');
+RDMs  = rsa.constructRDMs(maskedSensors, betaCorrespondence(), userOptions);
+RDMs  = rsa.rdm.averageRDMs_subjectSession(RDMs, 'session');
+aRDMs = rsa.rdm.averageRDMs_subjectSession(RDMs, 'subject');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% First-order visualisation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-figureRDMs(aRDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1)); % Display the calculated RDMs
-figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2)); % Display the models
+rsa.figureRDMs(aRDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1)); % Display the calculated RDMs
+rsa.figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2)); % Display the models
 
-MDSConditions(aRDMs, userOptions);
-dendrogramConditions(aRDMs, userOptions);
+rsa.MDSConditions(aRDMs, userOptions);
+rsa.dendrogramConditions(aRDMs, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Second-order analysis %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-pairwiseCorrelateRDMs({aRDMs, Models}, userOptions);
-MDSRDMs({aRDMs, Models}, userOptions);
-distanceBarRDMs({RDMs}, {Models}, userOptions);
+rsa.pairwiseCorrelateRDMs({aRDMs, Models}, userOptions);
+rsa.MDSRDMs({aRDMs, Models}, userOptions);
+rsa.compareRefRDM2candRDMs(RDMs(1), Models, userOptions);
 
-testSignificance({aRDMs}, {Models}, userOptions); % fixed effects analysis
-testSignificance_RandomEffects(RDMs, Models, userOptions); % random effects analysis
+rsa.stat.testSignificance({aRDMs}, {Models}, userOptions); % fixed effects analysis
+rsa.stat.testSignificance_RandomEffects(RDMs, Models, userOptions); % random effects analysis
 
 end
