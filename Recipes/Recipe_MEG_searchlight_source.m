@@ -11,17 +11,6 @@
 %%%%%%%%%%%%%%%%%%%%
 toolboxRoot = 'C:\Users\cai\code\rsagroup-rsatoolbox\'; 
 addpath(genpath(toolboxRoot));
-
-%%%%%%%%%%%%%%%%%%%%
-%% Starting parallel toolbox %%
-%%%%%%%%%%%%%%%%%%%%
-if userOptions.flush_Queue
-    rsa.par.flushQ();
-end
-
-if userOptions.run_in_parallel
-    p = rsa.par.initialise_CBU_Queue(userOptions);
-end
 userOptions = defineUserOptions();
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,6 +42,17 @@ end
 % TODO: of subjects?
 nSubject = userOptions.nSubjects;
 userOptions.adjacencyMatrix = rsa.meg.calculateMeshAdjacency(userOptions.nVertices, userOptions.sourceSearchlightRadius, userOptions);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Starting parallel toolbox %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if userOptions.flush_Queue
+    rsa.par.flushQ();
+end
+
+if userOptions.run_in_parallel
+    rsa.par.initialise_CBU_Queue(userOptions);
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Searchlight - Brain RDM calculation %%
