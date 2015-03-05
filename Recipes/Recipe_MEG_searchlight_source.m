@@ -6,12 +6,10 @@
 % update by Li Su 3-2012, 11-2012
 % updated Fawad 12-2013, 02-2014, 10-2014
 
-function Recipe_MEG_searchlight_source (which_model)
-
 %%%%%%%%%%%%%%%%%%%%
 %% Initialisation %%
 %%%%%%%%%%%%%%%%%%%%
-toolboxRoot = '/home/fj01/toolbox'; 
+toolboxRoot = 'C:\Users\cai\code\rsagroup-rsatoolbox\'; 
 addpath(genpath(toolboxRoot));
 userOptions = projectOptions();
 
