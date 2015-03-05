@@ -75,8 +75,6 @@ if ~isfield(userOptions,'tightInset')
     userOptions.tightInset = false;
 end
 
-appendFlag = 0; % Put this into a prompt depending on existant files?
-
 if ~isfield(localOptions, 'figureNumber')
 	localOptions.figureNumber = 1;
 end

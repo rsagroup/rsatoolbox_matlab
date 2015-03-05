@@ -103,8 +103,6 @@ import rsa.stat.*
 import rsa.util.*
 
 %% define defaults
-appendFlag = 0;
-% warning('off', 'IgnoringExtraEntries');
 
 if ~exist('localOptions','var')||isempty(localOptions), localOptions=struct; end
 localOptions=setIfUnset(localOptions,'figI_textLabels',1);   
@@ -119,7 +117,7 @@ description{1}=[RDMname ', ' userOptions.criterion];
 figIs=[];
 
 %% perform multidimensional scaling (MDS)
-%D = unwrapSimmats(squareSimmats(RDM));
+
 D = unwrapRDMs(squareRDMs(RDM));
 
 nDims=2;
