@@ -21,7 +21,7 @@ import rsa.util.*
 
 if ~exist('type','var'),type='Spearman'; end; % Spearman rank should be default?
 
-RDMs_bareVecs=unwrapRDMs(vectorizeRDMs(RDMs));%reduceRDMsToValidConditionSet(RDMs))); % This is of size [1 utv nRDMs]
+RDMs_bareVecs=unwrapRDMs(vectorizeRDMs(RDMs)); % This is of size [1 utv nRDMs]
 
 [one,nRDMParams,nRDMs]=size(RDMs_bareVecs);
 

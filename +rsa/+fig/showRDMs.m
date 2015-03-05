@@ -34,10 +34,10 @@ if ~exist('aspect', 'var') || isempty(aspect), aspect = 2/3; end
 
 colourScheme = RDMcolormap;
 if isstruct(RDMs)
-	[rawRDMs nRDMs] = unwrapRDMs(RDMs);
+    [rawRDMs, nRDMs] = unwrapRDMs(RDMs);
 else
-	rawRDMs = RDMs;
-	nRDMs = size(rawRDMs, 3);
+    rawRDMs = RDMs;
+    nRDMs = size(rawRDMs, 3);
 end%if:isstruct(RDMs)
 
 % rawRDMs is now [nC nC nR] or [1 t(nC) nR]
@@ -106,7 +106,7 @@ end%if:clims
 h=figure(figI(1)); set(h,'Color','w');
 
 if numel(figI)<4
-    [nVerPan nHorPan]=paneling(nRDMs+1,aspect);
+    [nVerPan, nHorPan]=paneling(nRDMs+1,aspect);
     subplotOffset=0;
     clf;
 else

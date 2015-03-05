@@ -54,7 +54,7 @@ end%for:i
 while replacementsWereMade
 	replacements = false(1, nWildCards);
 	for i = 1:nWildCards
-	[stringOut replacements(i)] = replaceWildcards(stringOut, wildCard{i}, mildCard{i});
+	[stringOut, replacements(i)] = replaceWildcards(stringOut, wildCard{i}, mildCard{i});
 	end%for:i
 	replacementsWereMade = any(replacements);
 end%while:replacementsWereMade

@@ -7,6 +7,9 @@ function Xscaled=scale01(X,range)
 %
 %       if range is given, min(range) and max(range) define the scaling and
 %       shifting, rather than min(X(:)) and max(X(:)).
+%
+%       if all entries in the matrix are the same, the result is an
+%       all-zeros matrix of the same size.
 %__________________________________________________________________________
 % Copyright (C) 2009 Medical Research Council
 
@@ -20,10 +23,22 @@ import rsa.stat.*
 import rsa.util.*
 
 if ~exist('range','var')
-    mn=min(X(:)); mx=max(X(:));
+    % Get the top and bottom of the scale from X
+    mini = min(X(:));
+    maxi = max(X(:));
 else
-    mn=min(range(:)); mx=max(range(:));
-end    
-Xscaled=(X-mn)./(mx-mn);
+    % Get the top and bottom of the scale from 'range'
+    mini = min(range(:));
+    maxi = max(range(:));
+end%if
+
+% If the matrix is constant (which is possible), or the specified range is
+% constant (which shouldn't be allowed), then we can't scale by the width
+% of the range, so we put every entry at 0
+if maxi == mini
+    Xscaled = zeros(size(X));
+else
+    Xscaled = (X - mini) ./ (maxi - mini);
+end%if
 
 end%function
