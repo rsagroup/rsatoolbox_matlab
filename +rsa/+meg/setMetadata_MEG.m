@@ -87,10 +87,14 @@ else % source level analysis
     userOptions.monitor = false;
     userOptions.fisher = true;
     
+    % TODO: This is bad
     userOptions.nVertices = userOptions.targetResolution; % Same for all subjects and both hemispheres, hopefully...
     
+    % TODO: this is bad
     userOptions.nSessions = size(tempBetas, 1);
     modelNumber = userOptions.modelNumber;
+    
+    % Todo: this is bad
     userOptions.nConditions = size(squareRDM(Models(modelNumber).RDM), 1);
     
     % ============= setting time parameters for output file ================= %

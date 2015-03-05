@@ -1,6 +1,5 @@
 function [smm_rs, smm_ps, searchlightRDMs] = searchlightMapping_MEG_source(singleMesh, Models, userOptions)
 
-
 import rsa.*
 import rsa.fig.*
 import rsa.meg.*

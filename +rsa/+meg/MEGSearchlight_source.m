@@ -97,7 +97,7 @@ if overwriteFlag
         rMetadataStruct.data = thisSubjectRs.(chi)(:,:,modelNumber);
         pMetadataStruct.data = thisSubjectPs.(chi)(:,:,modelNumber);
         
-        % saving files
+        %% Saving r-maps and p-maps
         outputRFilename = fullfile(userOptions.rootPath, 'Maps', modelName,  [userOptions.analysisName '_rMesh_' modelName '_' subject ]);
         outputPFilename = fullfile(userOptions.rootPath, 'Maps', modelName,  [userOptions.analysisName '_pMesh_' modelName '_' subject ]);
         if userOptions.maskingFlag
@@ -107,15 +107,14 @@ if overwriteFlag
         mne_write_stc_file1([outputRFilename '-' lower(chi) 'h.stc'], rMetadataStruct);
         mne_write_stc_file1([outputPFilename '-' lower(chi) 'h.stc'], pMetadataStruct);
         
-        if strcmp(userOptions.groupStats,'FFX')
-            fprintf('Saving data RDMs for combined mask: ');
-            filepath = 'searchlightRDMs_';
-            if userOptions.maskingFlag
-                filepath = [filepath 'masked_'];
-            end
-            gotoDir(userOptions.rootPath, 'RDMs');
-            save('-v7.3', [filepath, userOptions.subjectNames{subjectNumber},'-',lower(chi),'h'], 'searchlightRDMs');
+        %% Saving the searchlight RDMs
+        fprintf('Saving data RDMs for combined mask: ');
+        filepath = 'searchlightRDMs_';
+        if userOptions.maskingFlag
+            filepath = [filepath 'masked_'];
         end
+        gotoDir(userOptions.rootPath, 'RDMs');
+        save('-v7.3', [filepath, userOptions.subjectNames{subjectNumber},'-',lower(chi),'h'], 'searchlightRDMs');
         
         userOptions = rmfield(userOptions, 'maskIndices');
         userOptions = rmfield(userOptions, 'chi');

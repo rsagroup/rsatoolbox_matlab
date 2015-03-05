@@ -1,4 +1,7 @@
 function userOptions = defineUserOptions()
+% TODO: We should maintain a policy of setting these values here, and never
+% TODO: modifying them again.  If other data needs to be passed around, it
+% TODO: shouldn't be in this struct.
 %
 %  defineUserOptions is a nullary function which initialises a struct
 %  containing the preferences and details for a particular project.
@@ -34,6 +37,7 @@ userOptions.betaPath = 'pathToYourSingleConditionResponses';% e.g. /imaging/mb01
 userOptions.debug = false;
 
 % Regularization based on paper by Diedrichson et al. 2011.
+% TODO: this needs a lot of explanation
 userOptions.regularized = false;
 
 %%%%%%%%%%%%%%%%%%%
@@ -105,7 +109,8 @@ userOptions.maskSpec.EEGSensorSites = (1:70); % eeg
 userOptions.maskSpec.timeWindow = [-200 100];
 
 % pattern of analysis 'spatial', 'temporal' or 'spatiotemporal'
-userOptions.maskSpec.patternType =  'Spatial';
+% TODO: need explanaiton of what each do
+userOptions.maskSpec.patternType =  'spatiotemporal';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% FEATUERS OF INTEREST SELECTION OPTIONS %%
@@ -153,7 +158,9 @@ userOptions.slidingTimeWindow = true; % will use temporalSearchlightWidth & reso
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 % set this true for sensor and source level searchlight
-userOptions.searchlight = false; 
+% TODO: why is this an option and not just whether or not the function is
+% TODO: in the recipe?
+userOptions.searchlight = true; 
 % == Source Level Note: if mask set to true, will use 
 % temporalsearchlightLimits rather than maskTimeWindows for searchlight== %
 % == No masking available for sensor level searchlight. Works only on GRADIOMETERS == %
@@ -188,7 +195,8 @@ userOptions.temporalSearchlightWidth = 20; %20;
 % Correlate over space ('spatial'),  time ('temporal') or
 % spatiotemporal ('spatiotemporal') (or regularized ('regularized') for
 % source level)
-userOptions.searchlightPatterns = 'spatial';
+% TODO: Explanation of what each one does
+userOptions.searchlightPatterns = 'spatiotemporal';
 
 % The timestep for sliding window (ms)
 userOptions.temporalSearchlightResolution = 10; %10; % (data point equivalent = total_in_ms/total_dataPoints)
@@ -223,8 +231,10 @@ userOptions.subjectNames = { ...
 userOptions.RoIColor = [0 0 1];
 userOptions.ModelColor = [0 1 0];
 
-% Should information about the experimental design be automatically acquired from SPM metadata?
-% If this option is set to true, the entries in userOptions.conditionLabels MUST correspond to the names of the conditions as specified in SPM.
+% Should information about the experimental design be automatically
+% acquired from SPM metadata?
+% If this option is set to true, the entries in userOptions.conditionLabels
+% MUST correspond to the names of the conditions as specified in SPM.
 userOptions.getSPMData = false;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -234,6 +244,8 @@ userOptions.getSPMData = false;
 %% First-order analysis
 
 % temporal downsampling
+% TODO: clean this up; there's only one value being set.
+% TODO: unless more could be set?
 userOptions.temporalDownsampleRate = 1;
 userOptions.temporalSearchlightWidth = userOptions.temporalSearchlightWidth / userOptions.temporalDownsampleRate;
 userOptions.temporalSearchlightResolution = userOptions.temporalSearchlightResolution / userOptions.temporalDownsampleRate;
@@ -241,6 +253,7 @@ userOptions.temporalSearchlightLimits = userOptions.temporalSearchlightLimits / 
 
 % Text lables which may be attached to the conditions for MDS plots.
 [userOptions.conditionLabels{1:92}] = deal(' ');
+% TODO: this is confusing
 % userOptions.alternativeConditionLabels = { ...
 % 	' ', ...
 % 	' ', ...
@@ -258,15 +271,21 @@ userOptions.distance = 'Correlation';
 
 %% Second-order analysis
 
-% % Which model RDM to test? (This number corresponds to the order in variable Models, which is specified in ModelRDMs.m)
-userOptions.modelNumber = 1; % this is default value overwritten by which_model variable when Recipe is used
+% Which model RDM to test? (This number corresponds to the order in
+% variable Models, which is specified in ModelRDMs.m)
+% TODO: This should be in the recipe, not here.
+
+% this is default value overwritten by which_model variable when Recipe is used
+userOptions.modelNumber = 1; 
 userOptions.partial_correlation = false;
-userOptions.partial_modelNumber = {5,7}; % all models listed here will be partialed out from the original model
+% all models listed here will be partialed out from the original model
+userOptions.partial_modelNumber = {5,7};
 
 % Which similarity-measure is used for the second-order comparison.
 userOptions.distanceMeasure = 'Spearman';
 
-% How many permutations should be used to test the significance of the fits?  (10,000 highly recommended.)
+% How many permutations should be used to test the significance of the
+% fits?  (10,000 highly recommended.)
 userOptions.significanceTestPermutations = 10000;
 
 % Bootstrap options
@@ -277,9 +296,11 @@ userOptions.resampleConditions = false;
 userOptions.fisher = true;
 
 % Group statistics options: random effect ('RFX') or fixed effect ('FFX')
+% TODO: requires a lot more explanation
 userOptions.groupStats = 'RFX';
 % if set true, group stats will be computed using t maps, if false then r
 % maps will be used.
+% TODO: this isn't universal
 userOptions.tmap = true;
 
 % Clustering analysis: primary cluster-forming threshold in terms of the
@@ -294,8 +315,9 @@ userOptions.primaryThreshold = 0.05;
 
 % spatial smoothing and upsampling parameters
 userOptions.targetResolution = 10242;
-userOptions.minDist = 5; % 5mm is the smallest distance between two adjacent vertex in 10242 resolution.
+% 5mm is the smallest distance between two adjacent vertex in 10242 resolution.
 % 10mm is the smallest distance between two adjacent vertex in 2562 resolution.
+userOptions.minDist = 5; %mm
 userOptions.smoothingWidth = 10; %mm
 
 % Should RDMs' entries be rank transformed into [0,1] before they're displayed?
@@ -312,9 +334,9 @@ userOptions.colourScheme = jet(128);
 
 % Set any of the following to true to delete files saved as work-in-progress
 % throughout the analysis. This will save space.
-userOptions.deleteTMaps_Dir= false;
-userOptions.deleteImageData_Dir= false;
-userOptions.deletePerm= true;
+userOptions.deleteTMaps_Dir = false;
+userOptions.deleteImageData_Dir = false;
+userOptions.deletePerm = true;
 
 % How should figures be outputted?
 userOptions.displayFigures = true;
@@ -329,10 +351,10 @@ userOptions.dpi = 300;
 % in a manuscript or presentation.
 userOptions.tightInset = false;
 
-userOptions.forcePromptReply = 'r';
+% TODO: this probably shouldn't be in here, as it is usually not wanted?
+%userOptions.forcePromptReply = 'r';
 
 % Present user with graphical feedback?
 userOptions.dialogueBox = false;
-
 
 end%function
