@@ -1,4 +1,4 @@
-function betas = betaCorrespondence();
+function betas = betaCorrespondence()
 %
 %  betaCorrespondence.m is a simple function which should combine
 %  three things: preBeta:	a string which is at the start of each file
@@ -32,9 +32,6 @@ betas(1,2).identifier = 'session1_condition2';
 betas(1,3).identifier = 'session1_condition3';
 betas(1,4).identifier = 'session1_condition4';
 betas(1,5).identifier = 'session1_condition5';
-% betas(1,6).identifier = 'session1_condition6';
-% betas(1,7).identifier = 'session1_condition7';
-% betas(1,8).identifier = 'session1_condition8';
 
 postBeta = '_experiment1.img';
 

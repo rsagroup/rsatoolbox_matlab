@@ -29,7 +29,7 @@ if ~isfield(userOptions, 'betaPath'), error('projectOptions:NoBetaPath', 'betaPa
 if ~isfield(userOptions, 'subjectNames'), error('projectOptions:NoSubjectNames', 'betaPath must be set. See help'); end%if
 
 % loading one subject's STC/FIFFfile in order to find out its meta data.
-tempBetas = betaCorrespondence;
+tempBetas = betaCorrespondence();
 userOptions.betaCorrespondence = tempBetas;
 
 if userOptions.sensorLevelAnalysis

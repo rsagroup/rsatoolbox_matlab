@@ -18,7 +18,13 @@ import rsa.stat.*
 import rsa.util.*
 
 returnHere = pwd; % We'll come back here later
-tempBetas = userOptions.betaCorrespondence;
+% TODO: This should be passed into the function, and not calculated
+% TODO: in-line.  betaCorrespondence.m is something modified by the user,
+% TODO: and as such should be called by the Recipe code (also
+% TODO: user-modifable), and not by library functions.  This will make it
+% TODO: easier in future to separate the library code from a specific
+% TODO: recipe format.
+tempBetas = userOptions.betaCorrespondence();
 subject = userOptions.subjectNames{subjectNumber};
 nSubjects = userOptions.nSubjects;
 

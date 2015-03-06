@@ -45,15 +45,17 @@ rsa.dendrogramConditions(RDMs, userOptions);
 
 rsa.pairwiseCorrelateRDMs({RDMs, Models}, userOptions);
 rsa.MDSRDMs({RDMs, Models}, userOptions);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% statistical inference %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 roiIndex = 1;% index of the ROI for which the group average RDM will serve 
 % as the reference RDM. 
 for i=1:numel(Models)
-    models{i}=Models(i);
+    models{i} = Models(i);
 end
-userOptions.RDMcorrelationType='Kendall_taua';
+
+userOptions.RDMcorrelationType = 'Kendall_taua';
 userOptions.RDMrelatednessTest = 'subjectRFXsignedRank';
 userOptions.RDMrelatednessThreshold = 0.05;
 userOptions.figureIndex = [10 11];
@@ -61,4 +63,4 @@ userOptions.RDMrelatednessMultipleTesting = 'FDR';
 userOptions.candRDMdifferencesTest = 'subjectRFXsignedRank';
 userOptions.candRDMdifferencesThreshold = 0.05;
 userOptions.candRDMdifferencesMultipleTesting = 'none';
-stats_p_r=rsa.compareRefRDM2candRDMs(RDMs(roiIndex), models, userOptions);
+stats_p_r = rsa.compareRefRDM2candRDMs(RDMs(roiIndex), models, userOptions);

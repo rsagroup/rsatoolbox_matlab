@@ -59,6 +59,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO: Consider a timestamped printing function.
 parfor subject = 1:nSubject
+    % TODO: This should return a cell array of filenames of where data is
+    % TODO: saved, or something.
     rsa.meg.MEGSearchlight_source(subject, models, userOptions);
 end
 fprintf('Stage 1 - Searchlight Brain RDM Calculation: ');
