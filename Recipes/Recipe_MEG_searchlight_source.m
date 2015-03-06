@@ -57,7 +57,6 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Searchlight - Brain RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TODO: Consider a timestamped printing function.
 parfor subject = 1:nSubject
     % TODO: This should return a cell array of filenames of where data is
     % TODO: saved, or something.
