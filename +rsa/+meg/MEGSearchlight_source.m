@@ -82,6 +82,7 @@ if overwriteFlag
             if strfind(thisMaskName, [lower(chi), 'h'])
                 maskIndices = union(maskIndices, indexMasks.(thisMaskName).maskIndices);
                 maskIndices = sort(maskIndices(maskIndices <= userOptions.nVertices));
+                % TODO: This should not be stored in the useOptions!
                 userOptions.maskIndices.(chi) = maskIndices;
                 userOptions.chi = chi;
             end
