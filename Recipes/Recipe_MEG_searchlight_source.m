@@ -86,7 +86,7 @@ else
     % random effect test
     fprintf('Performing permutation tests over all subjects (random effect) to calculate p-values.');
     tic
-    rsa.meg.RFX_permutation(models,userOptions)
+    rsa.meg.RFX_permutation(models,userOptions);
     fprintf('Stage 2 - Random Effects Analysis: ');
     toc 
 end

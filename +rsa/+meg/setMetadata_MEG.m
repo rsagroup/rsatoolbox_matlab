@@ -110,7 +110,7 @@ else % source level analysis
     
     [vertices, totalDataPoints] = size(MEGDataStcL.data);
     totalTimeInMs = totalDataPoints * MEGDataStcL.tstep*1000; % calculated from time step and total data points
-    timeAdjusted = totalTimeInMs - norm(MEGDataStcL.tmin * 1000); % last point of data from tmin and total time
+    timeAdjusted = totalTimeInMs - norm(MEGDataStcL.tmin * 1000, 2); % last point of data from tmin and total time
     
     %============================= input checks ============================= %
     % ====== comparing search light resolution to the time step of data ===== %
