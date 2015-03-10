@@ -35,7 +35,8 @@ promptOptions.defaultResponse = 'S';
 promptOptions.checkFiles(1).address = fullfile(userOptions.rootPath, 'Maps', modelName, [MapsFilename, '-lh.stc']);
 promptOptions.checkFiles(2).address = fullfile(userOptions.rootPath, 'Maps', modelName, [MapsFilename, '-rh.stc']);
 
-overwriteFlag = overwritePrompt(userOptions, promptOptions);
+% TODO: This prevents parfor toolbox from working
+overwriteFlag = true;%overwritePrompt(userOptions, promptOptions);
 
 if overwriteFlag
         
