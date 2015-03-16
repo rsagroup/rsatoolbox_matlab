@@ -15,17 +15,17 @@ userOptions = defineUserOptions();
 %% Data preparation %%
 %%%%%%%%%%%%%%%%%%%%%%
 
-fullBrainVols = fMRIDataPreparation('SPM', userOptions);
-binaryMasks_nS = fMRIMaskPreparation(userOptions);
+fullBrainVols = rsa.fmri.fMRIDataPreparation('SPM', userOptions);
+binaryMasks_nS = rsa.fmri.fMRIMaskPreparation(userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%
 %% RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%
 
-models = constructModelRDMs(modelRDMs(), userOptions);
+models = rsa.constructModelRDMs(modelRDMs(), userOptions);
 
 %%%%%%%%%%%%%%%%%
 %% Searchlight %%
 %%%%%%%%%%%%%%%%%
 
-fMRISearchlight(fullBrainVols, binaryMasks_nS, models, 'SPM', userOptions);
+rsa.fmri.fMRISearchlight(fullBrainVols, binaryMasks_nS, models, 'SPM', userOptions);

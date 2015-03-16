@@ -12,14 +12,14 @@
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
-function userOptions = projectOptions_DEMO1();
+function userOptions = projectOptions_DEMO1()
 
 %% Project details
 % This name identifies a collection of files which all belong to the same run of a project.
 userOptions.analysisName = 'DEMO1';
 
 % This is the root directory of the project.
- userOptions.rootPath = [pwd,filesep,'DEMO1'];
+userOptions.rootPath = [pwd,filesep,'DEMO1'];
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %% EXPERIMENTAL SETUP %%
@@ -90,3 +90,5 @@ userOptions.saveFiguresFig = false;
 userOptions.saveFiguresPS = false;
 
 userOptions.forcePromptReply = 'r';
+
+end%function
