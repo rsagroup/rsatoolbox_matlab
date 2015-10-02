@@ -2,7 +2,7 @@ function imageRDMs(RDMs,varargin)
 % imageRDMs(RDMs,varargin);
 %
 % Visualizes one or many RDMs, and uses the *.RDM fields for each structure
-% which could be sqaure or vectorized
+% can deal with a number of different input formats:
 %
 % 
 % Joern Diedrichsen 2015
@@ -23,26 +23,31 @@ Opt.imagelabels    = [];
 Opt.colourScheme   = []; 
 Opt = rsa.getUserOptions(varargin,Opt);
 
-% Deal with different input arguments
-
 allMin = inf;
 allMax = -inf;
 
-nRDMs   = length(RDMs); 
-RDMs    = rsa.rdm.vectorizeRDMs(RDMs);
-allRDMs = vertcat(RDMs.RDM);
+% Deal with different input formats 
+if (isstruct(RDMs)) 
+    nRDMs   = length(RDMs); 
+    if (nRDMs>1)            % this is the struct array with one struct per RDM 
+        RDMs = rsa.util.struct2dataframe(RDMs); 
+    elseif (nRDMs==1) 
+        nRDMs = size(RDMs.RDM,1); 
+    end; 
+end; 
+
 switch (Opt.transformFcn)
     case ''
         % Nothing to do
     case 'rank'
-        scale01(rankTransform_equalsStayEqual(allRDMs,2))
+        scale01(rankTransform_equalsStayEqual(RDMs.RDM,2))
     otherwise
-        allRDMs=feval(Opt.transformFcn,allRDMs);
+        RDMs.RDM=feval(Opt.transformFcn,RDMs.RDM);
 end;
 
 
 if isempty(Opt.clims)
-    Opt.clims = [min(allRDMs(:)) max(allRDMs(:))];
+    Opt.clims = [min(RDMs.RDM(:)) max(RDMs.RDM(:))];
 end;
 
 % display dissimilarity matrices
@@ -54,7 +59,7 @@ clf;
 
 for i=1:nRDMs
     subplot(nVerPan,nHorPan,i);
-    thisRDM = rsa.rdm.squareRDM(allRDMs(i,:));
+    thisRDM = rsa.rdm.squareRDM(RDMs.RDM(i,:));
     
     % Determine alpha data to make nans invisible
     alpha = ~isnan(thisRDM);
@@ -67,8 +72,8 @@ for i=1:nRDMs
     
     set(gca,'XTick',[],'YTick',[]);
     
-    if isstruct(RDMs) && isfield(RDMs,'name')
-        title(['\bf' deunderscore(RDMs(i).name)]);
+    if isfield(RDMs,'name')
+        title(['\bf' deunderscore(RDMs.name{i})]);
     else 
         title(['\bf' sprintf('%d',i')]);
     end;
