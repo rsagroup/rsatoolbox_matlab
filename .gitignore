@@ -21,3 +21,9 @@
 
 # OS X directory metadata
 .DS_Store
+
++rsa/distanceLDChalf.m
+
++rsa/distanceLDCweight.m
+
++rsa/MDSCrossval.m

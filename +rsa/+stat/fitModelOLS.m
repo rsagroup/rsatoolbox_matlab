@@ -1,4 +1,4 @@
-function [omega,logEvidence,logtheta]=fitModelOLS(Model,dist,varargin);
+function [omega,R2]=fitModelOLS(Model,dist,varargin);
 % function [omega,theta]=rsa_fitModelOLS(Model,Data,varargin);
 % Does a linear fit to some data
 % INPUT:
@@ -22,14 +22,14 @@ if (numCond*(numCond-1)/2~=numDist)
 end; 
 
 % Concatinate the design matrix from the model 
-X=vertcat(Model.RDM)';
+X=permute(Model.RDM,[2 1 3]);
 numReg = size(X,2); 
 
 % Get the data 
 Y=dist'; 
 
 % If intercept: remove from data and design matrix 
-% the R2 fit measure will then also reflect 
+% the R2 fit measure will then also reflect this 
 if Opt.intercept 
     X = bsxfun(@minus,X,mean(X,1)); 
     Y = bsxfun(@minus,Y,mean(Y,1)); 
