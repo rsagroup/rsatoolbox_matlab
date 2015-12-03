@@ -21,8 +21,17 @@ if (numCond*(numCond-1)/2~=numDist)
     error('bad size of distances'); 
 end; 
 
-% Concatinate the design matrix from the model 
-X=permute(Model.RDM,[2 1 3]);
+% Deal with different ways of specifying the model 
+if (isstruct(Model))
+    if (length(Model)>1)        % Structure array 
+        X=vertcat(Model(:).RDM)'; 
+    else 
+        X=permute(Model.RDM,[2 1 3]);
+    end;
+else 
+    X=Model; 
+end; 
+        
 numReg = size(X,2); 
 
 % Get the data 

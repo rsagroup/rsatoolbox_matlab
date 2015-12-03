@@ -10,8 +10,9 @@ function Model=modelMANOVA(Fa,Fb,varargin);
 %   Model components for the simple main effects, cross-effects, and Interaction
 %   The fitting is thought to be applied to LDC distances 
 % VARARGIN / USEROPTIONS:
-%   Either structure with fields, or a list of strings specifying using
-%   options
+%   Either structure or list of arguments with 
+%   'factorNameA', name: Name of the factor A
+%   'factorNameB', name: Name of the factor B 
 % Joern Diedrichsen 
 % joern.diedrichsen@googlemail.com 
 % July 2015

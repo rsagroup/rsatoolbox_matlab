@@ -1,4 +1,4 @@
-function [u_hat,resMS,Sw_hat,beta_hat]=noiseNormalizeBeta(Y,SPM,varargin)
+function [u_hat,resMS,Sw_raw,beta_hat,shrink]=noiseNormalizeBeta(Y,SPM,varargin)
 % function [u_hat,Sw_hat,resMS,beta_hat]=rsa_noiseNormalizeBeta(Y,SPM,varargin)
 % Estimates beta coefficiencts beta_hat and residuals from raw time series Y
 % Estimates the true activity patterns u_hat by applying noise normalization to beta_hat
@@ -14,9 +14,9 @@ function [u_hat,resMS,Sw_hat,beta_hat]=noiseNormalizeBeta(Y,SPM,varargin)
 % OUTPUT:
 %    u_hat    estimated true activity patterns (beta_hat after multivariate noise normalization),
 %    resMS    residual mean-square - diagonal of the Var-cov matrix, 1 by P
-%    Sw_hat   estimated voxel error variance-covariance matrix of each run, P by P
-%    beta_hat estimated regression coefficients, K*R by P
-%
+%    Sw_raw   overall voxel error variance-covariance matrix (PxP), before regularisation 
+%    beta_hat estimated raw regression coefficients, K*R by P
+%    shrink   applied shrinkage factor 
 % Alexander Walther, Joern Diedrichsen
 % joern.diedrichsen@googlemail.com
 % 2/2015
@@ -49,8 +49,6 @@ beta_hat=xX.pKX*KWY;                                       %%% ordinary least sq
 res=spm_sp('r',xX.xKXs,KWY);                               %%% residuals: res  = Y - X*beta
 clear KWY XZ                                               %%% clear to save memory
 
-resMS=sum(res.^2)./(T-Q);
-
 switch (Opt.normmode)
     case 'runwise'
         u_hat   = zeros(size(beta_hat));
@@ -75,3 +73,9 @@ switch (Opt.normmode)
         sq = V*bsxfun(@rdivide,V',sqrt(l)); % Slightly faster than sq = V*diag(1./sqrt(l))*V';
         u_hat=beta_hat*sq;
 end;
+if (nargout>1)
+    resMS=sum(res.^2)./SPM.xX.erdf;
+end; 
+if (nargout>2)
+    Sw_raw=res'*res./SPM.xX.erdf;
+end; 

@@ -34,6 +34,11 @@ if (isstruct(RDMs))
     elseif (nRDMs==1) 
         nRDMs = size(RDMs.RDM,1); 
     end; 
+else 
+    nRDMs = size(RDMs,1); 
+    a=RDMs; 
+    RDMs=[]; 
+    RDMs.RDM=a;
 end; 
 
 switch (Opt.transformFcn)

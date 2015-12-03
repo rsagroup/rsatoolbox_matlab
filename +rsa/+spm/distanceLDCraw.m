@@ -7,6 +7,12 @@ function d=distanceLDCraw(Y,SPM,conditionVec,varargin)
 % It uses optimal combination of the beta-coeeficients in the part that
 % averages across partitions. By default, the different partitions are
 % assumed to be the different imaging runs.
+% Note that in calculating the distances, the structure of the first-level 
+% design matrix is optimally taken into account. The command: 
+%  RDM  = rsa.spm.distanceLDCraw(Y,SPM,condition); 
+% is therefore equivalent to:  
+%  beta = rsa.spm.noiseNormalizeBeta(Y,SPM); 
+%  RDM  = rsa.distanceLDC(beta,partition,condition,SPM.xX.xKXs.X); 
 % INPUT:
 %    Y             raw timeseries, T by P
 %    SPM:          SPM structure
@@ -96,7 +102,7 @@ end;
 
 % Estimate condition means within each
 for i=1:numPart
-    p     = [1:numPart];
+    % Get the betas from the test run 
     indxN = partN==i;
     indxT = partT==i;
     Za = Z(indxN,:);
@@ -104,14 +110,17 @@ for i=1:numPart
     Xa = X(indxT,indxN);
     Ma  = Xa*Za;
     A     = (Ma'*Ma)\(Ma'*KWY(indxT,:));
+    
+    % Get the betas based on the other runs 
     indxN = partN~=i;
     indxT = partT~=i;
-    p(i)  = [];
     Zb    = Z(indxN,:);
     Zb    = Zb(:,any(Zb,1));
     Xb    = X(indxT,indxN);
     Mb    = Xb*Zb;
     B     = (Mb'*Mb)\Mb'*KWY(indxT,:);
+    
+    % Caluclate distances 
     d(i,:)= sum((C*A(1:numCond,:)).*(C*B(1:numCond,:)),2)'/numVox;      % Note that this is normalised to the number of voxels
 end;
 d = sum(d)./numPart;
