@@ -1,4 +1,4 @@
-function d=distanceLDCraw(Y,SPM,conditionVec,varargin)
+function [d, Sig] = distanceLDCraw(Y,SPM,conditionVec,varargin)
 % function d=rsa.spm.distanceLDCraw(Y,SPM,conditionVec,varargin);
 % First, gets the regression coefficent from the SPM, and prewhitens them.
 % Prewhiten can be controlled using different methods (run-wise or overall).
@@ -101,6 +101,7 @@ switch (Opt.normmethod)
 end;
 
 % Estimate condition means within each
+A = zeros(length(nonInterest(partN==partN(1))),numVox,numPart);
 for i=1:numPart
     % Get the betas from the test run 
     indxN = partN==i;
@@ -109,7 +110,7 @@ for i=1:numPart
     Za = Za(:,any(Za,1));
     Xa = X(indxT,indxN);
     Ma  = Xa*Za;
-    A     = (Ma'*Ma)\(Ma'*KWY(indxT,:));
+    A(:,:,i)     = (Ma'*Ma)\(Ma'*KWY(indxT,:));
     
     % Get the betas based on the other runs 
     indxN = partN~=i;
@@ -120,8 +121,22 @@ for i=1:numPart
     Mb    = Xb*Zb;
     B     = (Mb'*Mb)\Mb'*KWY(indxT,:);
     
+    % Pick condition of interest
+    interest = ~nonInterest(partN==i);
+    
     % Caluclate distances 
-    d(i,:)= sum((C*A(1:numCond,:)).*(C*B(1:numCond,:)),2)'/numVox;      % Note that this is normalised to the number of voxels
+    %d(i,:)= sum((C*A(1:numCond,:,i)).*(C*B(1:numCond,:)),2)'/numVox;      % Note that this is normalised to the number of voxels
+    d(i,:)= sum((C*A(interest,:,i)).*(C*B(interest,:)),2)'/numVox;      % Note that this is normalised to the number of voxels
 end;
 d = sum(d)./numPart;
 
+% If requested, also calculate the estimated variance-covariance 
+% matrix from the residual across folds. 
+A = A(interest,:,:);
+if (nargout>1) 
+    R=bsxfun(@minus,A,sum(A,3)/numPart);
+    for i=1:numPart
+        Sig(:,:,i)=R(:,:,i)*R(:,:,i)'/numVox;
+    end;
+    Sig=sum(Sig,3)/(numPart-1);
+end; 

@@ -1,7 +1,7 @@
-function [L,inclMask] = defineSearchlight_surface(Surf,Mask,varargin)
-% function L = rsa_defineSearchlight(S,M)
+function [L,exclMask] = defineSearchlight_surface(Surf,Mask,varargin)
+% function L = rsa_defineSearchlight_surface(Surf,Mask,varargin)
 % Defines a surface-based searchlight for the input surfaces and 
-% functional mask for a subject. It is STRONGLY suggested to use the 
+% functional mask for a subject. It is suggested to use the 
 % rsa_defineSearchlight function instead of calling this function directly,
 % since that implements error checking for the inputs.
 %
@@ -20,7 +20,7 @@ function [L,inclMask] = defineSearchlight_surface(Surf,Mask,varargin)
 %                   elements (logical or numerical) with brain mask
 %
 % OPTIONS/VARARGIN: 
-%   sphere:         definition of searchlight sphere, either one of:
+%   sphere:         definition of searchlight circle, either one of:
 %                   [R]   scalar R means fixed radius R (in mm)
 %                   [R C] use maximum radius R to find approximately C voxels
 %   linedef:        1x3 vector which defines
@@ -30,23 +30,6 @@ function [L,inclMask] = defineSearchlight_surface(Surf,Mask,varargin)
 %   distance:       metric used to calculate distances of voxels from
 %                   center voxel
 %   Opt.progressstep    number of iterations after which progress is reported
-%
-% OUTPUT:
-%       LI:         nVox x 1 cell array with linear voxel indices
-%       voxmin:     nVox x 3 Minimal voxel coordinate in x,y,z direction
-%       voxmax:     nVox x 3 maximal voxel coordinate in x,y,z direction
-%       voxel:      nVox x 3 Matrix of I,J,K voxel coordinates or 
-%                   nVox x 1 vector of linear voxel indices for the centers of search-lights 
-%
-% EXAMPLE:
-%   % Define a volumetric searchlight over the cerebellum, over a
-%   functional mask with a searchlight sphere of 30mm
-%   M           = rsa_readMask('glm/p03/mask.img');
-%   Opt.sphere  = 30;
-%   Opt.ROI     = rsa_readMask('anatomical/p03_anatomical_cerebellum.nii');
-%   L           = rsa_defineSearchlight_volume(M,Opt);
-
-
 %
 % OUTPUT:
 %       LI:         nVox x 1 cell array with linear voxel indices
@@ -80,6 +63,7 @@ Opt.sphere          = [30 160];
 Opt.linedef         = [5 0 1];
 Opt.distancemetric  = 'geodesic';
 Opt.progressstep    = 100;
+Opt.writeMask       = 0;        % For debugging 
 Opt         = rsa.getUserOptions(varargin,Opt); 
 
 %       - check if the surface Nodes are legal 
@@ -172,20 +156,17 @@ for i = 1:numSurf
 end;  
 clear alllinvoxidxs white pial unqlinvoxidxs; 
 
-%% 5. Writing inclusion/exclusion masks for the cortical surface image
+%% 5. Caluculate the exclusive masks (voxels not used for the surface)
 inclMask        = Mask;
 inclMask.fname  = 'surfMask.nii';
 inclMask.data   = zeros(inclMask.dim);
 inclMask.data(centerindxs)  = 1;
-spm_write_vol(inclMask,inclMask.data);
-Vin(1) = Mask; 
-Vin(2) = inclMask; 
-Vo     = Vin(1); 
-Vo.fname =  'exclMask.nii'; 
+if (Opt.writeMask) 
+    spm_write_vol(inclMask,inclMask.data);
+end; 
 
-exclMask        = spm_imcalc(Vin,Vo,'((i1>0)-(i2>0)>0)');
-exclMask.data   = spm_read_vols(exclMask);    
-
+exclMask        = Mask; 
+exclMask.data   = (Mask.data>0)-(inclMask.data>0)>0;    
 
 % parameters in case targetvoxcount is set.
 % strategy: use initial radius, then select all voxels with this radius.

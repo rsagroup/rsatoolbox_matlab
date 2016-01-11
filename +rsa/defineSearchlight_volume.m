@@ -1,9 +1,10 @@
 function [L,exclMask] = defineSearchlight_volume(ROIMask,Mask,varargin)
 % function L = rsa.defineSearchlight(Mask,Opt)
-% Defines a volumetric searchlight given a set of image masks for the
-% subject. The first mask is always the functional or anatomical mask,
-% while any subsequent masks are considered regions of interest. Voxels are
-% assigned to each mask depending on the order in which the masks.
+% Defines a volumetric searchlight using all voxels that are > 0 in both 
+% ROIMask and the Mask as centres for the searchlights and as potential voxels 
+% to be included in the searchlight. 
+% The Mask also defines the voxel space in which the searchlight will be
+% defined. 
 %
 % INPUTS
 %   ROIMask:    A mask struction for the region of interest with the fields
@@ -13,7 +14,9 @@ function [L,exclMask] = defineSearchlight_volume(ROIMask,Mask,varargin)
 %       - data      vector or array with PROD(VOLDEF.voxsize)
 %                   elements (logical or numerical) with brain mask
 %
-%   Mask:       A functional mask struction for with the fields
+%   Mask:       A functional mask structure that defineds the voxel
+%               available  for the searchlight and the voxel space. This
+%               will be usually the mask from the first-level GLM. 
 %       - dim       1x3 vector with volume dimensions (in voxels)
 %       - mat       4x4 affine transformation matrix that aligns mask with
 %                   anatomical image
@@ -26,26 +29,30 @@ function [L,exclMask] = defineSearchlight_volume(ROIMask,Mask,varargin)
 %                   [R C] use maximum radius R to find approximately C voxels
 %
 % OUTPUT:
-%       LI:         nVox x 1 cell array with linear voxel indices
-%       voxmin:     nVox x 3 Minimal voxel coordinate in x,y,z direction
-%       voxmax:     nVox x 3 maximal voxel coordinate in x,y,z direction
-%       voxel:      nVox x 3 Matrix of I,J,K voxel coordinates or 
+%       Searchlight structure with the fields: 
+%          LI:      nVox x 1 cell array with linear voxel indices
+%          voxmin:  nVox x 3 Minimal voxel coordinate in x,y,z direction
+%          voxmax:  nVox x 3 maximal voxel coordinate in x,y,z direction
+%          voxel:   nVox x 3 Matrix of I,J,K voxel coordinates or 
 %                   nVox x 1 vector of linear voxel indices for the centers of search-lights 
 %
 % EXAMPLE:
-%   % Define a volumetric searchlight over the cerebellum, over a
-%   functional mask with a searchlight sphere of 30mm
-%   M           = rsa.readMask('glm/p03/mask.img');
-%   Opt.sphere  = 30;
-%   Opt.ROI     = rsa.readMask('anatomical/p03_anatomical_cerebellum.nii');
-%   L           = rsa.defineSearchlight_volume(M,Opt);
+%   Define a volumetric searchlight over the volume of the cerebellum, as
+%   defined by a mask in anatomical space, using all the voxels available
+%   in the functional mask. Each searchlight will have 100 voxels 
+%   M           = spm_vol('glm/p03/mask.img'); % 
+%   M.data      = spm_read_vols(M);
+%   ROI         = spm_vol('anatomical/p03_anatomical_cerebellum.nii');
+%   ROI.data    = spm_read_vols(ROI);
+%   L           = rsa.defineSearchlight_volume(M,'sphere',[50 100]);
 %
 % 2/2015 - Joern Diedrichsen & Naveed Ejaz 
 
 import rsa.spm.*
 
 %% 1. Checking inputs
-Opt.sphere  = [30 160]; % 30mm radius volumetric sphere, 160 voxels
+Opt.sphere    = [30 160]; % 30mm radius volumetric sphere, 160 voxels
+Opt.writeMask = 0;        % Optional writing of the mask.  
 Opt         = rsa.getUserOptions(varargin,Opt); 
 
 if isempty(ROIMask) && isempty(Mask)
@@ -83,21 +90,6 @@ Vo.fname =  'inclMask.nii';
 % inclMask        = spm_imcalc({Mask.fname; ROIMask.fname},'inclMask.nii','i1.*i2');
 inclMask        = spm_imcalc(Vin,Vo,'i1.*i2');
 inclMask.data   = spm_read_vols(inclMask);
-    
-% %	- calculate voxels of interest and center voxels
-% mask        = logical(inclMask.data(:)>0);
-% centeridxs  = find(mask);   
-% centers     = surfing_inds2subs(inclMask.dim,centeridxs)'; 
-% voxels      = surfing_inds2subs(inclMask.dim,find(mask))'; 
-% 
-% %   - coordinates in anatomical space
-% c_centers   = inclMask.mat*[centers;ones(1,size(centers,2))];
-% c_voxels    = inclMask.mat*[voxels;ones(1,size(voxels,2))];
-% c_centers   = c_centers(1:3,:);
-% c_voxels    = c_voxels(1:3,:);
-% centers     = uint32(centers);
-% voxels      = uint32(voxels);
-% ncent       = size(centers,2); 
 
 %	- calculate voxels of interest and center voxels
 mask        = logical(inclMask.data(:)>0);
@@ -150,12 +142,13 @@ L.voxel     = centeridxs;
 %% 6. Cleanung & writing out exclusion mask
 Vin(1) = Mask; 
 Vin(2) = inclMask; 
-Vo     = Vin(1); 
-Vo.fname =  'exclMask.nii'; 
-% exclMask        = spm_imcalc({Mask.fname; inclMask.fname},'exclMask.nii','((i1>0)-(i2>0)>0)');
-exclMask        = spm_imcalc(Vin,Vo,'((i1>0)-(i2>0)>0)');
-exclMask.data   = spm_read_vols(exclMask);
+if (Opt.writeMask) 
+    Vo     = Vin(1); 
+    Vo.fname =  'exclMask.nii'; 
+    exclMask        = spm_imcalc(Vin,Vo,'((i1>0)-(i2>0)>0)');
+    exclMask.data   = spm_read_vols(exclMask);
+end; 
 try
     delete('inclMask.nii');
 catch
-end;
+end; 

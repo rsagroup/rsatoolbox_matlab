@@ -44,14 +44,17 @@ CI=rsa.util.indicatorMatrix('interaction',[Fa Fb]);
 % From this, Calcualte thm into LDC-RDMs
 Pairs=rsa.util.indicatorMatrix('allpairs',[1:K]);
 Model(1).name      = Opt.factorNameA;
+Model(1).IPM       = rsa_vectorizeIPM(CA*CA');
 Model(1).RDM       = diag(Pairs*CA*CA'*Pairs')';
 Model(1).color     = [1 0 0 ];
         
 Model(2).name      = Opt.factorNameB;
+Model(2).IPM       = rsa_vectorizeIPM(CB*CB');
 Model(2).RDM       = diag(Pairs*CB*CB'*Pairs')';
 Model(2).color     = [0 0 1];
         
 Model(3).name      = [Opt.factorNameA ' x ' Opt.factorNameB ];
+Model(3).IPM       = rsa_vectorizeIPM(CI*CI');
 Model(3).RDM       = diag(Pairs*CI*CI'*Pairs')';
 Model(3).color     = [1 0 1];
 

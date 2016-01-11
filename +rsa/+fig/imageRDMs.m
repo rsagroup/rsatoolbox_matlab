@@ -21,6 +21,7 @@ Opt.showColorbar   = true;
 Opt.aspect         = 2/3;
 Opt.imagelabels    = [];
 Opt.colourScheme   = []; 
+Opt.singleRDM      = 0;         % If singleRDM flag is set, it only plots the current axis 
 Opt = rsa.getUserOptions(varargin,Opt);
 
 allMin = inf;
@@ -55,15 +56,18 @@ if isempty(Opt.clims)
     Opt.clims = [min(RDMs.RDM(:)) max(RDMs.RDM(:))];
 end;
 
-% display dissimilarity matrices
-h=figure(Opt.figureNumber);
-set(h,'Color','w');
-
-[nVerPan nHorPan]=paneling(nRDMs+1,Opt.aspect);
-clf;
+if (nRDMs>1 || Opt.singleRDM==0)
+    % Make new Figure     
+    h=figure(Opt.figureNumber);
+    set(h,'Color','w');
+    [nVerPan nHorPan]=paneling(nRDMs+1,Opt.aspect);
+    clf;
+end; 
 
 for i=1:nRDMs
-    subplot(nVerPan,nHorPan,i);
+    if (nRDMs>1 || Opt.singleRDM==0)
+        subplot(nVerPan,nHorPan,i);
+    end; 
     thisRDM = rsa.rdm.squareRDM(RDMs.RDM(i,:));
     
     % Determine alpha data to make nans invisible
@@ -92,7 +96,7 @@ end
 
 
 % add color bar
-if Opt.showColorbar
+if Opt.showColorbar && Opt.singleRDM==0
     subplot(nVerPan,nHorPan,nRDMs+1); cla;
     imagesc(thisRDM,Opt.clims);  
     cla;
