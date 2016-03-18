@@ -9,7 +9,9 @@ function [d,Sig]=distanceLDC(B,partition,conditionVec,X)
 % crossvalidated Mahalanobis distance (LDC). 
 % If the optional input argument X is given, then the data will be combined
 % across partitions in an optimal way, taking into account the different
-% variabilities of the estimators. 
+% variabilities of the estimators. In this case, it is also allowed that
+% not every regressor is used in every partition (although this is not recommended).
+
 % The two lines:  
 %  beta = rsa.spm.noiseNormalizeBeta(Y,SPM); 
 %  RDM = rsa.distanceLDC(beta,partition,condition,SPM.xX.xKXs.X); 
@@ -37,8 +39,8 @@ function [d,Sig]=distanceLDC(B,partition,conditionVec,X)
 %               (1xC), this measure is normalised to the numer of voxels 
 %   Sig        : a KxK covariance matrix of the beta estimates across
 %               different imaging runs. 
-% Alexander Walther, Joern Diedrichsen 
-% 2/2015 
+% Alexander Walther, Daan Wesselink, Joern Diedrichsen 
+% 2/2016 
 
 import rsa.util.*; 
 
@@ -91,14 +93,16 @@ for i=1:numPart
     Bb    = B(indxB,:);
     
     % Use design matrix if present to get GLS estimate 
-    if (nargin>3 & ~isempty(X))
-        Xa    = X(:,indxA);
-        Xb    = X(:,indxB);
-        Za    = Xa*Za; 
-        Zb    = Xb*Zb; 
-        Ba    = Xa*Ba; 
-        Bb    = Xb*Bb; 
-    end; 
+   if (nargin>3 & ~isempty(X))
+        Xa      = X(:,indxA);
+        Xb      = X(:,indxB);
+        indxX   = any(Xa,1);    % Restrict to regressors that are used in this partition
+        Za      = Xa*Za; 
+        Za      = Za(:,indxX); 
+        Zb      = Xb*Zb; 
+        Ba      = Xa(:,indxX)*Ba(indxX,:);
+        Bb      = Xb*Bb; 
+   end; 
     a     = pinv(Za)*Ba;
     b     = pinv(Zb)*Bb;
     A(:,:,i) = a(1:numCond,:); 

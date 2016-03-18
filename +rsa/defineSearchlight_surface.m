@@ -47,11 +47,12 @@ function [L,exclMask] = defineSearchlight_surface(Surf,Mask,varargin)
 % EXAMPLE 2:
 %   % Define a surface-based searchlight for both hemispheres, over a
 %   80 voxel searchlight with a radius of 20mm
-%   white   = {'lh.white.surf.gii','rh.white.surf.gii'};
+%   S(1).white   = 'lh.white.surf.gii'; 
+%   ,'rh.white.surf.gii'};
 %   pial    = {'lh.pial.surf.gii','rh.pial.surf.gii'};
 %   S       = rsa_readSurf(white,pial);
 %   M       = rsa_readMask('mask.img');
-%   L       = rsa_defineSearchlight(S,'mask',M,'sphere',[20 80]);
+%   L       = rsa.defineSearchlight(S,'mask',M,'sphere',[20 80]);
 %
 % 2/2015 - Joern Diedrichsen & Naveed Ejaz 
 
