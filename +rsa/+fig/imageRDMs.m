@@ -22,6 +22,7 @@ Opt.aspect         = 2/3;
 Opt.imagelabels    = [];
 Opt.colourScheme   = []; 
 Opt.singleRDM      = 0;         % If singleRDM flag is set, it only plots the current axis 
+Opt.lines          = []; 
 Opt = rsa.getUserOptions(varargin,Opt);
 
 allMin = inf;
@@ -81,8 +82,18 @@ for i=1:nRDMs
     
     set(gca,'XTick',[],'YTick',[]);
     
+    % Draw lines 
+    if (~isempty(Opt.lines)) 
+        drawline(Opt.lines); 
+        drawline(Opt.lines,'dir','horz'); 
+    end; 
+    
     if isfield(RDMs,'name')
-        title(['\bf' deunderscore(RDMs.name{i})]);
+        if (iscell(RDMs.name))
+            title(['\bf' deunderscore(RDMs.name{i})]);
+        else 
+            title(['\bf' deunderscore(RDMs.name)]);
+        end; 
     else 
         title(['\bf' sprintf('%d',i')]);
     end;

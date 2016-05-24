@@ -75,7 +75,7 @@ nConditions = max(Opt.conditionVec);
 
 % Now define the input files 
 if (isempty(Opt.imageDataDir)) 
-    inFiles = SPM.xY.V; 
+    inFiles = SPM.xY.VY; 
 else 
     numFiles = length(SPM.xY.VY);
     for i=1:numFiles
@@ -92,13 +92,13 @@ for i=1:nDistances
 end; 
 
 % Now generate the design condition matrix for the betas 
-C   = rsa.indicatorMatrix('allpairs',[1:nConditions]);
-Z   = rsa.indicatorMatrix('identity_p',Opt.conditionVec);
+C   = rsa.util.indicatorMatrix('allpairs',[1:nConditions]);
+Z   = rsa.util.indicatorMatrix('identity_p',Opt.conditionVec);
 
 % Finally call the main searchlight engine 
 rsa.runSearchlight(searchLight,inFiles,outFiles,@calculateLDC,'optionalParams',{SPM,Opt.partition,Opt.conditionVec});
 
 % This is the plug-in function that is being called from rsa_runSearchlight 
 function output = calculateLDC(Y,SPM,partition,conditionVec); 
-U_hat   = rsa.noiseNormalizeBeta(Y,SPM);          % Get noise normalised betas 
+U_hat   = rsa.spm.noiseNormalizeBeta(Y,SPM);          % Get noise normalised betas 
 output  = rsa.distanceLDC(U_hat,partition,conditionVec);              % record distances as output 

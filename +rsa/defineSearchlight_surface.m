@@ -185,7 +185,7 @@ updateradiusmax=1000; % just be be sure the radius does not grow infinitely
 
 % construct mapping from linear to sub indices
 centersubs=surfing_inds2subs(Mask.dim,centerindxs);
-[centercoords(:,1),centercoords(:,2),centercoords(:,3)]=rsa.affine_transform(centersubs(:,1),centersubs(:,2),centersubs(:,3),Mask.mat);
+[centercoords(:,1),centercoords(:,2),centercoords(:,3)]=rsa.util.affine_transform(centersubs(:,1),centersubs(:,2),centersubs(:,3),Mask.mat);
 
 % construct mapping from linear to sub indices for all the voxel in the volume 
 lin2sub=surfing_inds2subs(Mask.dim,1:prod(Mask.dim));

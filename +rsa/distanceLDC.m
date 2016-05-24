@@ -25,7 +25,8 @@ function [d,Sig]=distanceLDC(B,partition,conditionVec,X)
 %                no-interest (i.e. intercepts, etc), such that their value
 %                can be taken into account 
 %  partition   : N x 1 integer value that indicates the partition for crossvalidation (typically run number)
-%                if Partition is shorter than N, it is assumed that the
+%                These need to be between 1...M, zeros are being ignored 
+%                if the Partition vector is shorter than N, it is assumed that the
 %                last regressors are intercept for the different runs-as is
 %                usual in SPM.
 %  conditionVec: N x 1 vector of conditions, zeros will be ignored as
@@ -46,6 +47,8 @@ import rsa.util.*;
 
 [N,numVox]   = size(B); 
 part    = unique(partition)';
+part(part==0) = []; % Ignore the zero partitions 
+
 numPart = numel(part);
 numCond   = max(conditionVec); 
 
@@ -58,11 +61,9 @@ if (nargin>3 && ~isempty(X))
 end; 
 
 % Check length of partition vector  
-if length(partition) + numPart == N 
-    partition  = [partition;[1:numPart]']; % Asssume that these are run intercepts 
-end; 
-if length(partition)~=N 
-    error('The partition vector needs to have N elements (or missing the run intercepts)'); 
+missing = N-length(partition); 
+if missing > 0 
+    partition  = [partition;[1:missing]']; % Asssume that these are run intercepts 
 end; 
 
 % Check length of condition vector 
