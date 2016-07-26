@@ -2,6 +2,7 @@ function runSearchlightLDC(searchLight,varargin)
 % runSearchlightLDC(searchLight,varargin)
 % Wrapper for the main searchlight function rsa_runSearchlight 
 % This version calculates the LDC from an SPM first-level analysis 
+% New Version takes into account the first-level design matrix
 % 
 % INPUT: 
 %     searchLight:  a) Name of the precalculated searchlight file 
@@ -101,4 +102,4 @@ rsa.runSearchlight(searchLight,inFiles,outFiles,@calculateLDC,'optionalParams',{
 % This is the plug-in function that is being called from rsa_runSearchlight 
 function output = calculateLDC(Y,SPM,partition,conditionVec); 
 U_hat   = rsa.spm.noiseNormalizeBeta(Y,SPM);          % Get noise normalised betas 
-output  = rsa.distanceLDC(U_hat,partition,conditionVec);              % record distances as output 
+output  = rsa.distanceLDC(U_hat,partition,conditionVec,SPM.xX.xKXs.X);              % record distances as output 
