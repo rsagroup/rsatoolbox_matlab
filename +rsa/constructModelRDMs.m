@@ -9,8 +9,12 @@ function [varargout] = constructModelRDMs(rawModels, userOptions)
 %                A struct in which rawModels.(modelName) is the model RDM.
 %
 %        userOptions --- The options struct.
-%                userOptions.analysisName
-%                        A string which is prepended to the saved files.
+%                userOptions.projectName
+%                        A string which is prepended to the saved files. 
+%						 This string is specific to the current project
+%				 userOptions.analysisName
+%                        A string which is prepended to the saved files. 
+% 						 This string is specific to the current analysis.
 %                userOptions.rootPath
 %                        A string describing the root path where files will be
 %                        saved (inside created directories).
@@ -21,7 +25,7 @@ function [varargout] = constructModelRDMs(rawModels, userOptions)
 %
 % The following files are saved by this function.
 %        userOptions.rootPath/RDMs/
-%                userOptions.analysisName_Models.mat
+%                userOptions.projectName_Models.mat
 %                        Contains a structure of model RDMs, one for each of the
 %                        ones from rawModels, but in the form preferred by the
 %                        toolbox.
@@ -40,12 +44,12 @@ import rsa.stat.*
 import rsa.util.*
 
 returnHere = pwd;
-
+if ~isfield(userOptions, 'projectName'), error('constructModelRDMs:NoProjectName', 'ProjectName must be set. See help'); end%if
 if ~isfield(userOptions, 'analysisName'), error('constructModelRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('constructModelRDMs:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'ModelColor', [0 0 0]);
 
-ModelsFilename = [userOptions.analysisName, '_Models.mat'];
+ModelsFilename = sprintf('%s_%s_Models.mat',userOptions.projectName,userOptions.analysisName);
 
 fprintf('Constructing models based on modelRDMs.m...\n');
 

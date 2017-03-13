@@ -14,7 +14,7 @@ function [varargout] = fMRIDataPreparation(betaCorrespondence, userOptions)
 %               labels are the same as those used in SPM.
 %
 %        userOptions --- The options struct.
-%                userOptions.analysisName
+%                userOptions.projectName
 %                        A string which is prepended to the saved files.
 %                userOptions.rootPath
 %                        A string describing the root path where files will be
@@ -40,12 +40,12 @@ function [varargout] = fMRIDataPreparation(betaCorrespondence, userOptions)
 %
 % The following files are saved by this function:
 %        userOptions.rootPath/ImageData/
-%                userOptions.analysisName_ImageData.mat
+%                userOptions.projectName_ImageData.mat
 %                        Contains the raw beta images in a struct such that
 %                        fullBrainVols.(subject) is a [nVoxels nConditions
 %                        nSessions] matrix.
 %        userOptions.rootPath/Details/
-%                userOptions.analysisName_fMRIDataPreparation_Details.mat
+%                userOptions.projectName_fMRIDataPreparation_Details.mat
 %                        Contains the userOptions for this execution of the
 %                        function and a timestamp.
 %  
@@ -65,15 +65,15 @@ import rsa.util.*
 returnHere = pwd; % We'll return to the pwd when the function has finished
 
 %% Set defaults and check options struct
-if ~isfield(userOptions, 'analysisName'), error('fMRIDataPreparation:NoAnalysisName', 'analysisName must be set. See help'); end%if
+if ~isfield(userOptions, 'projectName'), error('fMRIDataPreparation:NoProjectName', 'ProjectName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('fMRIDataPreparation:NoRootPath', 'rootPath must be set. See help'); end%if
 if ~isfield(userOptions, 'betaPath'), error('fMRIDataPreparation:NoBetaPath', 'betaPath must be set. See help'); end%if
 if ~isfield(userOptions, 'subjectNames'), error('fMRIDataPreparation:NoSubjectNames', 'subjectNames must be set. See help'); end%if
 if (~isfield(userOptions, 'conditionLabels') && ischar(betaCorrespondence) && strcpmi(betaCorrespondence, 'SPM')), error('fMRIDataPreparation:NoConditionLabels', 'conditionLables must be set if the data is being extracted from SPM.'); end%if
 
-% The filenames contain the analysisName as specified in the user options file
-ImageDataFilename = [userOptions.analysisName, '_ImageData.mat'];
-DetailsFilename = [userOptions.analysisName, '_fMRIDataPreparation_Details.mat'];
+% The filenames contain the projectName as specified in the user options file
+ImageDataFilename = [userOptions.projectName, '_ImageData.mat'];
+DetailsFilename = [userOptions.projectName, '_fMRIDataPreparation_Details.mat'];
 
 promptOptions.functionCaller = 'fMRIDataPreparation';
 promptOptions.defaultResponse = 'S';

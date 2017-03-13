@@ -6,7 +6,7 @@ function [varargout] = fMRIMaskPreparation(userOptions)
 % [binaryMasks_nS =] fMRIMaskPreparation(userOptions)
 %
 %        userOptions --- The options struct.
-%                userOptions.analysisName
+%				 userOptions.projectName
 %                        A string which is prepended to the saved files.
 %                userOptions.rootPath
 %                        A string describing the root path where files will be
@@ -23,12 +23,12 @@ function [varargout] = fMRIMaskPreparation(userOptions)
 %
 % The following files are saved by this function:
 %        userOptions.rootPath/ImageData/
-%                userOptions.analysisName_Masks.mat
+%                userOptions.projectName_Masks.mat
 %                        Contains the raw beta images in a struct such that
 %                        binaryMasks_nS.(subject).(mask) is a [x y z]-sized
 %                        binary matrix.
 %        userOptions.rootPath/Details/
-%                userOptions.analysisName_fMRIMaskPreparation_Details.mat
+%                userOptions.projectName_fMRIMaskPreparation_Details.mat
 %                        Contains the userOptions for this execution of the
 %                        function and a timestamp.
 %
@@ -46,15 +46,15 @@ import rsa.util.*
 returnHere = pwd; % We'll come back here later
 
 %% Set defaults and check options struct
-if ~isfield(userOptions, 'analysisName'), error('fMRIMaskPreparation:NoAnalysisName', 'analysisName must be set. See help'); end%if
+if ~isfield(userOptions, 'projectName'), error('fMRIDataPreparation:NoProjectName', 'ProjectName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('fMRIMaskPreparation:NoRootPath', 'rootPath must be set. See help'); end%if
 if ~isfield(userOptions, 'subjectNames'), error('fMRIMaskPreparation:NoSubjectNames', 'betaPath must be set. See help'); end%if
 if ~isfield(userOptions, 'maskNames'), error('fMRIMaskPreparation:NoMaskNames', 'maskNames must be set. See help'); end%if
 if ~isfield(userOptions, 'maskPath'), error('fMRIMaskPreparation:NoMaskPath', 'maskPath must be set. See help'); end%if
 
-% The analysisName will be used to label the files which are eventually saved.
-MasksFilename = [userOptions.analysisName, '_Masks.mat'];
-DetailsFilename = [userOptions.analysisName, '_fMRIMaskPreparation_Details.mat'];
+% The projectName will be used to label the files which are eventually saved.
+MasksFilename = [userOptions.projectName, '_Masks.mat'];
+DetailsFilename = [userOptions.projectName, '_fMRIMaskPreparation_Details.mat'];
 
 promptOptions.functionCaller = 'fMRIMaskPreparation';
 promptOptions.defaultResponse = 'S';

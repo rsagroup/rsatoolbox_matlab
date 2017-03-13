@@ -33,8 +33,8 @@ Models = rsa.constructModelRDMs(modelRDMs(), userOptions);
 %% First-order visualisation %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-rsa.fig.figureRDMs(RDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1));
-rsa.fig.figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2));
+rsa.figureRDMs(RDMs, userOptions, struct('fileName', 'RoIRDMs', 'figureNumber', 1));
+rsa.figureRDMs(Models, userOptions, struct('fileName', 'ModelRDMs', 'figureNumber', 2));
 
 rsa.MDSConditions(RDMs, userOptions);
 rsa.dendrogramConditions(RDMs, userOptions);

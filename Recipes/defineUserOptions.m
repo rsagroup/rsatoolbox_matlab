@@ -17,7 +17,10 @@ function userOptions = defineUserOptions()
 %% Project details
 
 % This name identifies a collection of files which all belong to the same run of a project.
-userOptions.analysisName = 'yourProjectName';
+userOptions.projectName  = 'yourProjectName';
+
+% This name identifies a collection of files which all belong to the same analysis within a project.
+userOptions.analysisName = 'yourAnalysisName';
 
 % This is the root directory of the project.
 userOptions.rootPath = 'C:\Documents and Settings\hn02\Desktop\rsatoolbox4release\';

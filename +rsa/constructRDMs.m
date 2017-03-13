@@ -1,7 +1,5 @@
 function [varargout] = constructRDMs(responsePatterns, betaCorrespondence, userOptions)
 %
-% [RDMs =] constructRDMs(responsePatterns, betaCorrespondence, userOptions)
-%
 % constructRDMs is a function which takes a matrix of imaging data and
 % computes RDMs from it, one RDM for each ROI, subject, and scanning
 % session. The RDMs are returned in a structure
@@ -9,46 +7,67 @@ function [varargout] = constructRDMs(responsePatterns, betaCorrespondence, userO
 % also saved. The RDM structure format ensures that the RDMs will be
 % properly labeled in subsequent analyses.
 %
-% responsePatterns: The input response patterns. It contains the masked
-% brain activity maps in a structure such that
-% responsePatterns.(mask).(subject) is a [nMaskedVoxels nConditions
-% nSessions] matrix, where mask is a binary brain map that defines the ROI.
+% [RDMs =] constructRDMs(responsePatterns, betaCorrespondence, userOptions)
+%
+%
+% 		responsePatterns: The input response patterns. It contains the masked
+% 						  brain activity maps in a structure such that
+% 						  responsePatterns.(mask).(subject) is a [nMaskedVoxels nConditions
+% 						  nSessions] matrix, where mask is a binary brain map that defines the ROI.
 % 
-% betaCorrespondence: The array of beta filenames.
-% betas(condition, session).identifier is a string which refers to the
-% filename (not including the path) of the SPM beta image. Alternatively,
-% this can be the string "SPM", in which case the SPM metadata will be used
-% to infer this information, provided that userOptions.conditionLabels is
-% set, and the condition labels are the same as those used in SPM. It must
-% be noted that this module assumes that data is in such a format that the
-% input structure has one field per subject, session and mask. Defining
-% betaCorrespondence or choosing ‘SPM’ does not automatically compute the
-% responsePatterns structure. At this point only the number of sessions
-% and/or conditions are extracted from SPM or betaCorrespondence.
+% 		betaCorrespondence: The array of beta filenames.
+% 			 			 	betas(condition, session).identifier is a string which refers to the
+% 							filename (not including the path) of the SPM beta image. Alternatively,
+% 							this can be the string "SPM", in which case the SPM metadata will be used
+% 							to infer this information, provided that userOptions.conditionLabels is
+% 							set, and the condition labels are the same as those used in SPM. It must
+% 							be noted that this module assumes that data is in such a format that the
+% 							input structure has one field per subject, session and mask. Defining
+% 							betaCorrespondence or choosing ‘SPM’ does not automatically compute the
+% 							responsePatterns structure. At this point only the number of sessions
+% 							and/or conditions are extracted from SPM or betaCorrespondence.
 % 
-% userOptions: The standard options structure containing the following
-% fields:
-% userOptions.analysisName: A string which is prepended to the  saved files.
-% userOptions.rootPath: A string describing the root path  where files will
-% be saved (inside created directories).
-% userOptions.maskNames: A cell array containing strings identifying the
-% mask names. It defaults to the field names of the first subject of
-% responsePatterns. userOptions.subjectNames: A cell array containing
-% strings identifying the subject names. Defaults to the field names in
-% (the first mask of) responsePatterns.
-% userOptions.distance: A string indicating the distance measure with which
-% to calculate the RDMs. Defaults to “Correlation”, but can be set to any 
-% Matlab distance measure.
-% userOptions.RoIColor: A triple indicating the [R G B] value of the colour
-% which should be used to indicated RoI RDMs on various diagrams. Defaults
-% to black ([0 0 0]).
-% The following files are saved by this function:
-% userOptions.rootPath/RDMs/userOptions.analysisName_RDMs.mat Contains a
-% structure of ROI RDMs which is of size [nMasks, nSubjects, nSessions] and
-% with fields:, RDM, name, color. userOptions.rootPath/Details/
-% userOptions.analysisName_constructRDMs_Details.mat is a file that
-% contains the userOptions for this execution of the function and a
-% timestamp.
+% 		userOptions: The standard options structure containing the following
+% 					 fields:
+% 			 userOptions.projectName:
+%                        A string which is prepended to the saved files. 
+%						 This string is specific to the current project
+%			 userOptions.analysisName
+%                        A string which is prepended to the saved files. 
+% 						 This string is specific to the current analysis.
+%
+% 			 userOptions.rootPath:  
+%						 A string describing the root path  where files will
+% 					 	 be saved (inside created directories).
+%
+% 			 userOptions.maskNames: 
+%                        A cell array containing strings identifying the
+% 					 	 mask names. It defaults to the field names of the first subject of
+% 					 	 responsePatterns. 
+%
+%			 userOptions.subjectNames: 
+%  						 A cell array containing strings identifying the subject names.
+%						 Defaults to the field names in (the first mask of) responsePatterns.
+%
+% 			 userOptions.distance: 
+% 						 A string indicating the distance measure with which
+% 					 	 to calculate the RDMs. Defaults to “Correlation”, but can be set to any 
+% 					 	 Matlab distance measure.
+%
+% 			 userOptions.RoIColor: 
+% 						 A triple indicating the [R G B] value of the colour
+% 					 	 which should be used to indicated RoI RDMs on various diagrams. Defaults
+% 					 	 to black ([0 0 0]).
+%
+%  The following files are saved by this function:
+%
+% 		userOptions.rootPath/RDMs/userOptions.projectName_userOptions.analysisName_RDMs.mat: 
+% 					Contains a structure of ROI RDMs which is of size [nMasks, nSubjects, nSessions] 
+% 					and with fields:, RDM, name, color. 
+%
+% 		userOptions.rootPath/Details/userOptions.projectName_userOptions.analysisName_constructRDMs_Details.mat:
+% 				    Contains the userOptions for this execution of the function and a
+% 					timestamp.
 
 % Cai Wingfield 11-2009, 12-2009, 3-2010, 6-2010
 %__________________________________________________________________________
@@ -66,6 +85,7 @@ import rsa.util.*
 returnHere = pwd; % We'll come back here later
 
 %% Set defaults and check options struct
+if ~isfield(userOptions, 'projectName'), error('constructRDMs:NoProjectName', 'ProjectName must be set. See help'); end%if
 if ~isfield(userOptions, 'analysisName'), error('constructRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('constructRDMs:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'maskNames', fieldnames(responsePatterns));
@@ -74,8 +94,8 @@ userOptions = setIfUnset(userOptions, 'distance', 'Correlation');
 userOptions = setIfUnset(userOptions, 'RoIColor', [0 0 0]);
 
 % The analysisName will be used to label the files which are eventually saved.
-RDMsFilename = [userOptions.analysisName, '_RDMs.mat'];
-DetailsFilename = [userOptions.analysisName, '_constructRDMs_Details.mat'];
+RDMsFilename = sprintf('%s_%s_RDMs.mat',userOptions.projectName,userOptions.analysisName);
+DetailsFilename = sprintf('%s_%s_constructRDMs_Details.mat',userOptions.projectName,userOptions.analysisName); 
 
 promptOptions.functionCaller = 'constructRDMs';
 promptOptions.defaultResponse = 'S';

@@ -11,45 +11,64 @@ function MDSConditions(RDMs, userOptions, localOptions)
 % RDMs: A structure of RDMs. All RDMs in here will be concatenated and have
 % their condition MDS plots displayed.
 % userOptions: The options structure.
-%   userOptions.analysisName: A string which is prepended to the saved files.
-%   userOptions.rootPath: A string describing the root path where files will
-% be saved (inside created directories). userOptions.saveFigurePDF: A
-% Boolean value. If true, the figure is saved as a PDF. Defaults to false.
-%   userOptions.saveFigurePS: A Boolean value. If true, the figure is saved
-% as a PS. Defaults to false. userOptions.saveFigureFig: A Boolean value.
-% If true, the figure is saved as a MATLAB .fig file. Defaults to false.
-%   userOptions.displayFigures: A Boolean value. If true, the figure remains
-% open after it is created. Defaults to true. 
-%   userOptions.conditionLabels: A cell array containing the names of the
-% conditions in this experiment.
-%   userOptions.criterion: The criterion which will be minimised to 
-% optimise the MDS arrangement. Defaults to metric stress.
-%   userOptions.rubberbands: Boolean value. If true, rubberbands indicating
-% MDS distortion are drawn on the MDS plot. Defaults to true. 
-%   userOptions.conditionColours: a [nConditions 3]-sized matrix indicating
-% an [R G B] triple colour for each condition. Defaults to all black.
-%   userOptions.convexHulls: a vector of length equal to the number of 
-% conditions. Each entry in the vector corresponds to the same-index
-% condition, and the number for this entry represents a category for this
-% condition. Convex hulls are drawn around all conditions of the same
-% category on the MDS plots, coloured by the first colour in
-% userOptions.conditionColours for the points in this category. For
-% example: [1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4] would represent four
-% categories, each with four conditions. If unset, convex hulls will not be
-% drawn. 
-%   localOptions: Further options specific to this function.
-%    localOptions.titleString: If set, this will replace the default title
-%    for
-% the dendrogram. localOptions.alternativeConditionLabels: A cell array
-% containing alternative names for each condition for display on figures.
-%    localOptions.figureNumber: If specified AND if only one figure will be
-% produced, this will set the figure number of the produced figure.
-% Otherwise the figure number will be randomly generated (and probably
-% large).
-
+%   userOptions.projectName
+%               A string which is prepended to the saved files. 
+%	      	    This string is specific to the current project
+%	userOptions.analysisName
+%               A string which is prepended to the saved files. 
+% 				This string is specific to the current analysis.
+%   userOptions.rootPath: 
+% 				A string describing the root path where files will
+% 				be saved (inside created directories). 
+%   userOptions.saveFigurePDF: 
+%               A Boolean value. If true, the figure is saved as a PDF. Defaults to false.
+%   userOptions.saveFigurePS: 
+%               A Boolean value. If true, the figure is saved
+% 				as a PS. Defaults to false. 
+%   userOptions.saveFigureFig: 
+%  			    A Boolean value. If true, the figure is saved as a MATLAB .fig file.
+%               Defaults to false.
+%   userOptions.displayFigures: 
+%               A Boolean value. If true, the figure remains open after it is created.
+%               Defaults to true. 
+%   userOptions.conditionLabels: 
+%				A cell array containing the names of the conditions in this experiment.
+%   userOptions.criterion: 
+% 				The criterion which will be minimised to optimise the MDS arrangement.
+%				Defaults to metric stress.
+%   userOptions.rubberbands: 
+%				Boolean value. If true, rubberbands indicating MDS distortion are
+%				drawn on the MDS plot. 
+% 				Defaults to true. 
+%   userOptions.conditionColours: 
+%				a [nConditions 3]-sized matrix indicating
+%				an [R G B] triple colour for each condition. 
+%				Defaults to all black.
+%   userOptions.convexHulls: 
+%				a vector of length equal to the number of conditions. Each entry in
+% 				the vector corresponds to the same-index condition, and the number
+%				for this entry represents a category for this condition. Convex hulls
+%				are drawn around all conditions of the same category on the MDS plots,
+% 				coloured by the first colour in userOptions.conditionColours for the 
+%   	 		points in this category. For example: [1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4]
+%               would represent four categories, each with four conditions. If unset, 
+%               convex hulls will not be drawn. 
+% 
+% localOptions: Further options specific to this function.
+%    localOptions.titleString: 
+%                If set, this will replace the default title for the dendrogram. 
+%	 localOptions.alternativeConditionLabels:
+%				 A cell array containing alternative names for each condition for display
+%				 on figures.
+%    localOptions.figureNumber: 
+%				 If specified AND if only one figure will be produced, this will set 
+%				 the figure number of the produced figure. Otherwise the figure number 
+%				 will be randomly generated (and probably large).
+%
 %
 %
 % Cai Wingfield 3-2010, 5-2010, 6-2010
+% Ian Charest   3-2017
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
@@ -67,6 +86,7 @@ returnHere = pwd;
 %% Set defaults and check options struct
 if nargin == 2, localOptions = struct(); end%if:nargin
 if isfield(localOptions, 'figureNumber') && numel(RDMs) ~= 1, error('MDSConditions:MultipleFigures', 'Can''t use a single specified figure number if there will be more than one figure created in this function run.'); end%if
+if ~isfield(userOptions, 'projectName'), error('MDSConditions:NoProjectName', 'ProjectName must be set. See help'); end%if
 if ~isfield(userOptions, 'analysisName'), error('MDSConditions:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('MDSConditions:NoRootPath', 'rootPath must be set. See help'); end%if
 if ~isfield(userOptions, 'conditionLabels'), error('MDSConditions:NoConditionLabels', 'conditionLabels must be set. See help.'); end%if

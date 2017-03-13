@@ -12,8 +12,12 @@ function dendrogramConditions(RDMs, userOptions, localOptions)
 %                        color
 %
 %        userOptions --- The options struct.
-%                userOptions.analysisName
-%                        A string which is prepended to the saved files.
+%                userOptions.projectName
+%               		 A string which is prepended to the saved files. 
+%		    	   	     This string is specific to the current project
+%		  		 userOptions.analysisName
+%		         	     A string which is prepended to the saved files. 
+%		   				 This string is specific to the current analysis.
 %                userOptions.rootPath
 %                        A string describing the root path where files will be
 %                        saved (inside created directories).
@@ -72,6 +76,7 @@ returnHere = pwd;
 
 %% Set defaults and check options struct
 if nargin == 2, localOptions = struct(); end%if:nargin
+if ~isfield(userOptions, 'projectName'), error('figureDendrogram:NoProjectName', 'ProjectName must be set. See help'); end%if
 if ~isfield(userOptions, 'analysisName'), error('figureDendrogram:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('figureDendrogram:NoRootPath', 'rootPath must be set. See help'); end%if
 localOptions = setIfUnset(localOptions, 'useAlternativeConditionLabels', false);

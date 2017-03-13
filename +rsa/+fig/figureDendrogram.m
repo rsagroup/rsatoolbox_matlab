@@ -10,8 +10,12 @@ function figureDendrogram(RDM, userOptions, localOptions)
 %                matrix.
 %
 %        userOptions --- The options struct.
-%                userOptions.analysisName
-%                        A string which is prepended to the saved files.
+%                userOptions.projectName
+%               		 A string which is prepended to the saved files. 
+%		    	   	     This string is specific to the current project
+%		  		 userOptions.analysisName
+%		         	     A string which is prepended to the saved files. 
+%		   				 This string is specific to the current analysis.
 %                userOptions.rootPath
 %                        A string describing the root path where files will be
 %                        saved (inside created directories).
@@ -81,7 +85,7 @@ end%if
 
 % Then export and/or close figures appropriately
 gotoDir(userOptions.rootPath);% , 'Figures'
-fileName = [userOptions.analysisName '_' localOptions.fileName];
+fileName = sprintf('%s_%s_%s',userOptions.projectName,userOptions.analysisName,localOptions.fileName);
 handleCurrentFigure(fileName, userOptions);
 clear thisFileName
 

@@ -8,8 +8,12 @@ function figureRDMs(RDMs, userOptions, localOptions)
 %                All RDMs in here will be concatenated and displayed.
 %
 %        userOptions --- The options struct.
-%                userOptions.analysisName
-%                        A string which is prepended to the saved files.
+%                userOptions.projectName
+%                        A string which is prepended to the saved files. 
+%						 This string is specific to the current project
+%				 userOptions.analysisName
+%                        A string which is prepended to the saved files. 
+% 						 This string is specific to the current analysis.
 %                userOptions.rootPath
 %                        A string describing the root path where files will be
 %                        saved (inside created directories).
@@ -61,8 +65,9 @@ returnHere = pwd;
 
 %% Set defaults and check options struct
 if nargin == 2, localOptions = struct(); end%if:nargin
-if ~isfield(userOptions, 'analysisName'), error('figureInterleavedRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
-if ~isfield(userOptions, 'rootPath'), error('figureInterleavedRDMs:NoRootPath', 'rootPath must be set. See help'); end%if
+if ~isfield(userOptions, 'projectName'), error('figureRDMs:NoProjectName', 'ProjectName must be set. See help'); end%if
+if ~isfield(userOptions, 'analysisName'), error('figureRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
+if ~isfield(userOptions, 'rootPath'), error('figureRDMs:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'saveFigurePDF', false);
 userOptions = setIfUnset(userOptions, 'saveFigurePS', false);
 userOptions = setIfUnset(userOptions, 'saveFigureFig', false);
@@ -102,7 +107,7 @@ else
 end%rankTransform
 
 gotoDir(userOptions.rootPath, 'Figures');
-fileName = [userOptions.analysisName '_' localOptions.fileName];
+fileName = sprintf('%s_%s_%s',userOptions.projectName,userOptions.analysisName, localOptions.fileName);
 handleCurrentFigure(fileName, userOptions);
 
 cd(returnHere);

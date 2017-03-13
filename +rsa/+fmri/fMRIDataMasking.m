@@ -21,7 +21,7 @@ function [varargout] = fMRIDataMasking(fullBrainVols, binaryMasks_nS, betaCorres
 %               number of conditions and sessions.)
 %
 %        userOptions --- The options struct.
-%                userOptions.analysisName
+%                userOptions.projectName
 %                        A string which is prepended to the saved files.
 %                userOptions.rootPath
 %                        A string describing the root path where files will be
@@ -36,12 +36,12 @@ function [varargout] = fMRIDataMasking(fullBrainVols, binaryMasks_nS, betaCorres
 %
 % The following files are saved by this function:
 %        userOptions.rootPath/ImageData/
-%                userOptions.analysisName_responsePatterns.mat
+%                userOptions.projectName_responsePatterns.mat
 %                        Contains the masked brains in a struct such that
 %                        responsePatterns.(mask).(subject) is a [nMaskedVoxels
 %                        nConditions nSessions] matrix.
 %        userOptions.rootPath/Details/
-%                userOptions.analysisName_fMRIDataMasking_Details.mat
+%                userOptions.projectName_fMRIDataMasking_Details.mat
 %                        Contains the userOptions for this execution of the
 %                        function and a timestamp.
 %
@@ -59,14 +59,14 @@ import rsa.util.*
 returnHere = pwd; % We'll come back here later
 
 %% Set defaults and check options struct
-if ~isfield(userOptions, 'analysisName'), error('fMRIDataMasking:NoAnalysisName', 'analysisName must be set. See help'); end%if
+if ~isfield(userOptions, 'projectName'), error('fMRIDataMasking:NoProjectName', 'projectName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('fMRIDataMasking:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'subjectNames', fieldnames(fullBrainVols));
 userOptions = setIfUnset(userOptions, 'maskNames', fieldnames(binaryMasks_nS.(userOptions.subjectNames{1})));
 
-% The analysisName will be used to label the files which are eventually saved.
-MaskedBrainsFilename = [userOptions.analysisName, '_responsePatterns.mat'];
-DetailsFilename = [userOptions.analysisName, '_fMRIDataMasking_Details.mat'];
+% The projectName will be used to label the files which are eventually saved.
+MaskedBrainsFilename = [userOptions.projectName, '_responsePatterns.mat'];
+DetailsFilename = [userOptions.projectName, '_fMRIDataMasking_Details.mat'];
 
 promptOptions.functionCaller = 'fMRIDataMasking';
 promptOptions.defaultResponse = 'S';
