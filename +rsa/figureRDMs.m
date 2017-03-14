@@ -93,7 +93,10 @@ RDMs = interleaveRDMs(RDMs); % Pull the RDMs into a 1-d structured array
 
 %% Now display
 
-opengl software
+try 
+    opengl software
+catch
+end
 if isfield(userOptions, 'imagelabels')
     imagelabels = userOptions.imagelabels;
 else

@@ -24,7 +24,7 @@ import rsa.util.*
 
 returnHere = pwd; % We'll return to the pwd when the function has finished
 
-DetailsFilename = [userOptions.analysisName, '_simulateDataFiles_Details.mat'];
+DetailsFilename = [userOptions.projectName, '_simulateDataFiles_Details.mat'];
 
 promptOptions.functionCaller = 'simulateDataFiles';
 promptOptions.defaultResponse = 'S';

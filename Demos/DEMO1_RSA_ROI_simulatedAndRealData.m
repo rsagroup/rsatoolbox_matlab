@@ -9,7 +9,8 @@ cd ..;addpath(genpath(pwd));cd(returnHere)
 userOptions = defineUserOptions;
 mkdir('DEMO1');
 userOptions.rootPath = [pwd,filesep,'DEMO1'];
-userOptions.analysisName = 'DEMO1';
+userOptions.projectName = 'DEMO1';
+userOptions.analysisName = 'DEMOROI';
 
 
 %% control variables
@@ -112,8 +113,6 @@ categoryCols=[0 0 0
               0 1 0
               0 0.5 1];
 
-
-
 % MDS plot
 categoryIs=[5 6 7 8];
 categoryCols=[0 0 0
@@ -159,8 +158,6 @@ rsa.MDSConditions(rsa.rdm.wrapAndNameRDMs(subjectRDMs(:,:,1),{'single-subject RD
 % one-subject Dendrogram
 rsa.dendrogramConditions(rsa.rdm.wrapAndNameRDMs(subjectRDMs(:,:,3),{'single-subject RDM'}), userOptions,...
 struct('titleString', 'Dendrogram of a single-subject RDM', 'useAlternativeConditionLabels', true, 'alternativeConditionLabels', {blankConditionLabels}, 'figureNumber', 11));
-
-
 
 %% RDM correlation matrix and MDS
 % 2nd order correlation matrix

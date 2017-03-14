@@ -28,4 +28,7 @@ models = rsa.constructModelRDMs(modelRDMs(), userOptions);
 %% Searchlight %%
 %%%%%%%%%%%%%%%%%
 
-rsa.fmri.fMRISearchlight(fullBrainVols, binaryMasks_nS, models, 'SPM', userOptions);
+% prepare the searchlight RDMs
+rsa.fmri.fMRIPrepareSearchlightRDMs(fullBrainVols, binaryMasks_nS, userOptions);
+
+rsa.fmri.fMRISearchlightModelComparison(models, 'SPM', userOptions);

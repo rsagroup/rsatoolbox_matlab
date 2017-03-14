@@ -18,13 +18,15 @@ if ~exist('paperSizeORheightToWidth')||isempty(paperSizeORheightToWidth), paperS
 if ~exist('proportionOfScreenArea')||isempty(proportionOfScreenArea), proportionOfScreenArea=0.25; end
 if ~exist('landscapeFig')||isempty(landscapeFig), landscapeFig=false; end
 
-if figI
+if isnumeric(figI) % old matlab numeric handles
     h=figure(figI(1));
+elseif not(isnumeric(figI)) % new matlab figure class handle
+    h = figI;
 else
     h=figure;
 end
 
-if ~exist('horPos0123')||isempty(horPos0123), horPos0123=mod(mod(h,10),4); end
+if ~exist('horPos0123')||isempty(horPos0123), try horPos0123=mod(mod(h,10),4); catch; horPos0123=mod(mod(h.Number,10),4); end;end
 
 set(h,'Color','w');
 %set(h,'WindowStyle','docked');

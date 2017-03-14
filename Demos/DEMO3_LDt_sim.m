@@ -13,8 +13,8 @@ mkdir('DEMO3')
 % in this pipeline. Change only the names.
 userOptions = projectOptions_demo();
 userOptions.rootPath = [pwd,filesep,'DEMO3'];
-userOptions.analysisName = 'DEMO3';
-
+userOptions.projectName = 'DEMO3';
+userOptions.analysisName = 'LDt_sim';
 % Generate a simulationOptions structure.
 simulationOptions = simulationOptions_demo_LDt();
 %% simulate data for two sessions per subject and compute the

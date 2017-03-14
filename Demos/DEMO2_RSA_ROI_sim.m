@@ -18,6 +18,7 @@ cd Demos;
 % in this pipeline. Change only the names.
 mkdir DEMO2;
 userOptions_common = projectOptions_demo();
+
 % Generate a simulationOptions structure.
 simulationOptions = simulationOptions_demo();
 
@@ -27,9 +28,9 @@ simulationOptions = simulationOptions_demo();
 
 % Generate the SPM files for each subject containing conditions clustered
 % according to preferences in the simulationOptions.
-promptOptions.checkFiles(1).address = fullfile(userOptions_common.rootPath, 'Details', [userOptions_common.analysisName, '_simulateDataFiles_Details.mat']);
-promptOptions.checkFiles(2).address = fullfile(userOptions_common.rootPath, 'Details', [userOptions_common.analysisName, 'True_fMRIDataPreparation_Details.mat']);
-promptOptions.checkFiles(3).address = fullfile(userOptions_common.rootPath, 'Details', [userOptions_common.analysisName, 'Noisy_fMRIDataPreparation_Details.mat']);
+promptOptions.checkFiles(1).address = fullfile(userOptions_common.rootPath, 'Details', [userOptions_common.projectName, userOptions_common.analysisName, '_simulateDataFiles_Details.mat']);
+promptOptions.checkFiles(2).address = fullfile(userOptions_common.rootPath, 'Details', [userOptions_common.projectName, userOptions_common.analysisName, 'True_fMRIDataPreparation_Details.mat']);
+promptOptions.checkFiles(3).address = fullfile(userOptions_common.rootPath, 'Details', [userOptions_common.projectName, userOptions_common.analysisName, 'Noisy_fMRIDataPreparation_Details.mat']);
 
 for fileCount = 1:numel(promptOptions.checkFiles)
     if exist(promptOptions.checkFiles(fileCount).address, 'file')
@@ -45,8 +46,8 @@ if prod(double(promptFlag))
         userOptions_common.forcePromptReply = 'R';
     end  
 end
-userOptions_true = userOptions_common; userOptions_true.analysisName = [userOptions_true.analysisName 'True'];
-userOptions_noisy = userOptions_common; userOptions_noisy.analysisName = [userOptions_noisy.analysisName 'Noisy'];
+userOptions_true = userOptions_common; userOptions_true.projectName = [userOptions_true.projectName 'True'];
+userOptions_noisy = userOptions_common; userOptions_noisy.projectName = [userOptions_noisy.projectName 'Noisy'];
 [betaCorrespondence_true,betaCorrespondence_noisy,fMRI] = rsa.sim.simulateDataFiles(userOptions_common, simulationOptions);
 
 % Load in the 'true' fMRI data
