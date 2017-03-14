@@ -88,7 +88,9 @@ RDMs = interleaveRDMs(RDMs); % Pull the RDMs into a 1-d structured array
 
 %% Now display
 
-opengl software
+% This is not available on mac, it causes an error in Matlab 2014
+% opengl software
+
 if isfield(userOptions, 'imagelabels')
     imagelabels = userOptions.imagelabels;
 else

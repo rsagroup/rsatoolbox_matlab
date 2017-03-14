@@ -13,7 +13,7 @@ import rsa.spm.*
 import rsa.stat.*
 import rsa.util.*
 
-if ~exist('figI'), figI=gcf; end
+if ~exist('figI'), newFigure=gcf; figI=newFigure.Number; end
 if ~exist('paperSizeORheightToWidth')||isempty(paperSizeORheightToWidth), paperSizeORheightToWidth='A4'; end
 if ~exist('proportionOfScreenArea')||isempty(proportionOfScreenArea), proportionOfScreenArea=0.25; end
 if ~exist('landscapeFig')||isempty(landscapeFig), landscapeFig=false; end
@@ -24,7 +24,7 @@ else
     h=figure;
 end
 
-if ~exist('horPos0123')||isempty(horPos0123), horPos0123=mod(mod(h,10),4); end
+if ~exist('horPos0123')||isempty(horPos0123), horPos0123=mod(mod(h.Number,10),4); end
 
 set(h,'Color','w');
 %set(h,'WindowStyle','docked');
