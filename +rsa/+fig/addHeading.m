@@ -22,7 +22,10 @@ else
     heading(heading==95)='-';
 end    
 
-if ~exist('figI','var'), figI=gcf; end
+if ~exist('figI','var')
+    newFigure = gcf;
+    figI=newFigure.Number;
+end
 pageFigure(figI);
 
 if ~exist('x','var'), x=1.11; end
