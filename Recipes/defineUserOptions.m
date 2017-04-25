@@ -17,13 +17,13 @@ function userOptions = defineUserOptions()
 %% Project details
 
 % This name identifies a collection of files which all belong to the same run of a project.
-userOptions.projectName  = 'iRSA_fMRI';
+userOptions.projectName  = 'yourProjectName';
 
 % This name identifies a collection of files which all belong to the same analysis within a project.
-userOptions.analysisName = 'vanilla';
+userOptions.analysisName = 'yourAnalysisName';
 
 % This is the root directory of the project.
-userOptions.rootPath = '/home/adf/charesti/Documents/iRSA_fMRI/mridata2015';
+userOptions.rootPath = '/path/to/your/mridata';
 
 % The path leading to where the scans are stored (not including subject-specific identifiers).
 % "[[subjectName]]" should be used as a placeholder to denote an entry in userOptions.subjectNames
@@ -45,8 +45,8 @@ userOptions.betaPath = fullfile(userOptions.rootPath,'[[subjectName]]','spmmodel
 		
 		% The list of mask filenames (minus .hdr extension) to be used.
 		userOptions.maskNames = { ...
-			'hit',...
-            'evc',...
+			'mask1',...
+            'mask2',...
 			};
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +73,7 @@ userOptions.betaPath = fullfile(userOptions.rootPath,'[[subjectName]]','spmmodel
 
 % The list of subjects to be included in the study.
 userOptions.subjectNames = { ...
-	'CBU101295',...
+	'subject1','subject2',...
 	};% eg CBUXXXXX
 
 % The default colour label for RDMs corresponding to RoI masks (as opposed to models).
@@ -90,7 +90,7 @@ userOptions.getSPMData = true;
 
 %% First-order analysis
 
-userOptions.nConditions = 72;
+userOptions.nConditions = 92;
 % Text lables which may be attached to the conditions for MDS plots.
 [userOptions.conditionLabels{1:userOptions.nConditions}] = deal(' ');
 % userOptions.alternativeConditionLabels = { ...
@@ -102,17 +102,7 @@ userOptions.nConditions = 72;
 % 	};
 % userOptions.useAlternativeConditionLabels = false;
 
-% What colours should be given to the conditions?
-OwnBodyParts = 1:3; OwnFaces = 4:8; OwnPet = 9; OwnPlaces = 10:15; OwnObjects=16:18;
-OtherBodyParts = 19:21; OtherFaces = 22:26; OtherPet = 27; OtherPlaces = 28:33; OtherObjects=34:36;
-GeneralBodyParts = 37:44; GeneralFaces = 45:52; GeneralPets = [53 54]; GeneralPlaces=55:66; GeneralObjects=67:72;
-
-animates = [OwnBodyParts OwnFaces OwnPet OtherBodyParts OtherFaces OtherPet GeneralBodyParts GeneralFaces GeneralPets];
-inanimates = [OwnPlaces OwnObjects OtherPlaces OtherObjects GeneralPlaces GeneralObjects];%setdiff(1:nconditions,animates)
-
-userOptions.conditionColours = zeros(userOptions.nConditions,3);
-userOptions.conditionColours(animates,:) = repmat([1 0 0],length(animates),1);
-userOptions.conditionColours(inanimates,:) = repmat([0 0 1],length(inanimates),1);
+userOptions.conditionColours = [repmat([1 0 0], 48,1); repmat([0 0 1], 44,1)];
 
 % Which distance measure to use when calculating first-order RDMs.
 userOptions.distance = 'Correlation';

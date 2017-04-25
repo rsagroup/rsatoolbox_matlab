@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%
 
 % add spm path
-addpath(genpath('/media/bluebear/software/spm8'));
+addpath(genpath('spm8path'));
 
 toolboxRoot = '/media/bluebear/software/rsatoolbox-branch/rsatoolbox'; addpath(genpath(toolboxRoot)); cd(fullfile(toolboxRoot,'Recipes'))
 userOptions = defineUserOptions();
