@@ -62,7 +62,7 @@ if (isempty(Opt.conditionVec))
     if (isempty(Opt.conditionLabels))
         error('Either Opt.conditionVec or Opt.conditionLabels needs to be set'); 
     end;
-    [Opt.conditionVec,Opt.partition]=rsa.getSPMconditionVec(SPM,Opt.conditionLabels); 
+    [Opt.conditionVec,Opt.partition]=rsa.spm.getSPMconditionVec(SPM,Opt.conditionLabels); 
 else 
     if (isempty(Opt.partition))
         Opt.partition=zeros(nBetas,1); 
@@ -81,7 +81,8 @@ else
     numFiles = length(SPM.xY.VY);
     for i=1:numFiles
         [dir,filename,extension,number]=spm_fileparts(SPM.xY.P(i,:));
-        inFileNames{i} = fullfile(Opt.rootPath,Opt.imageDataDir,sprintf('%s%s%s',filename,extension,number));
+        run = strfind(dir,'run');        
+        inFileNames{i} = fullfile(Opt.rootPath,dir(run:run+3),sprintf('%s%s%s',filename,extension,number));
     end; 
     inFiles = spm_vol(char(inFileNames)); 
 end; 
