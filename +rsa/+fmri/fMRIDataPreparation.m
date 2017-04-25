@@ -111,9 +111,11 @@ if overwriteFlag
 				readPath = replaceWildcards(userOptions.betaPath, '[[betaIdentifier]]', betas(session,condition).identifier, '[[subjectName]]', thisSubject);
                 if strcmp(betaCorrespondence,'SPM')
                     brainMatrix = spm_read_vols(spm_vol(readPath));
-                else
+                elseif strcmp(betaCorrespondence,'mat')% if the user uses a mat file with betaImage variable
                 load(readPath);
                 brainMatrix = betaImage;
+                else
+                    brainMatrix = spm_read_vols(spm_vol(readPath));
                 end
 				brainVector = reshape(brainMatrix, 1, []);
 				subjectMatrix(:, condition, session) = brainVector; % (voxel, condition, session)

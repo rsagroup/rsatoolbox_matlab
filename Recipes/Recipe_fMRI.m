@@ -8,22 +8,27 @@
 %% Initialisation %%
 %%%%%%%%%%%%%%%%%%%%
 
-toolboxRoot = 'toolboxPathOnYourMachine'; addpath(genpath(toolboxRoot));
+% add spm path
+addpath(genpath('/media/bluebear/software/spm8'));
+
+toolboxRoot = '/media/bluebear/software/rsatoolbox-branch/rsatoolbox'; addpath(genpath(toolboxRoot)); cd(fullfile(toolboxRoot,'Recipes'))
 userOptions = defineUserOptions();
 
 %%%%%%%%%%%%%%%%%%%%%%
 %% Data preparation %%
 %%%%%%%%%%%%%%%%%%%%%%
 
-fullBrainVols = rsa.fmri.fMRIDataPreparation('SPM', userOptions);
+% edit the betaCorrespondence.m file to reflect your beta or t-maps structure
+
+fullBrainVols = rsa.fmri.fMRIDataPreparation(betaCorrespondence, userOptions);
 binaryMasks_nS = rsa.fmri.fMRIMaskPreparation(userOptions);
-responsePatterns = rsa.fmri.fMRIDataMasking(fullBrainVols, binaryMasks_nS, 'SPM', userOptions);
+responsePatterns = rsa.fmri.fMRIDataMasking(fullBrainVols, binaryMasks_nS, betaCorrespondence, userOptions);
 
 %%%%%%%%%%%%%%%%%%%%%
 %% RDM calculation %%
 %%%%%%%%%%%%%%%%%%%%%
 
-RDMs  = rsa.constructRDMs(responsePatterns, 'SPM', userOptions);
+RDMs  = rsa.constructRDMs(responsePatterns, betaCorrespondence, userOptions);
 sRDMs = rsa.rdm.averageRDMs_subjectSession(RDMs, 'session');
 RDMs  = rsa.rdm.averageRDMs_subjectSession(RDMs, 'session', 'subject');
 
@@ -54,11 +59,11 @@ for i=1:numel(Models)
     models{i}=Models(i);
 end
 userOptions.RDMcorrelationType='Kendall_taua';
-userOptions.RDMrelatednessTest = 'subjectRFXsignedRank';
+userOptions.RDMrelatednessTest = 'randomisation';% 'subjectRFXsignedRank';
 userOptions.RDMrelatednessThreshold = 0.05;
 userOptions.figureIndex = [10 11];
 userOptions.RDMrelatednessMultipleTesting = 'FDR';
-userOptions.candRDMdifferencesTest = 'subjectRFXsignedRank';
+userOptions.candRDMdifferencesTest = 'conditionRFXbootstrap';%'subjectRFXsignedRank';
 userOptions.candRDMdifferencesThreshold = 0.05;
 userOptions.candRDMdifferencesMultipleTesting = 'none';
 stats_p_r=rsa.compareRefRDM2candRDMs(RDMs(roiIndex), models, userOptions);

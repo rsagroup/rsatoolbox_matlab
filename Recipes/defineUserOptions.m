@@ -17,18 +17,18 @@ function userOptions = defineUserOptions()
 %% Project details
 
 % This name identifies a collection of files which all belong to the same run of a project.
-userOptions.projectName  = 'yourProjectName';
+userOptions.projectName  = 'iRSA_fMRI';
 
 % This name identifies a collection of files which all belong to the same analysis within a project.
-userOptions.analysisName = 'yourAnalysisName';
+userOptions.analysisName = 'vanilla';
 
 % This is the root directory of the project.
-userOptions.rootPath = 'C:\Documents and Settings\hn02\Desktop\rsatoolbox4release\';
+userOptions.rootPath = '/home/adf/charesti/Documents/iRSA_fMRI/mridata2015';
 
 % The path leading to where the scans are stored (not including subject-specific identifiers).
 % "[[subjectName]]" should be used as a placeholder to denote an entry in userOptions.subjectNames
 % "[[betaIdentifier]]" should be used as a placeholder to denote an output of betaCorrespondence.m if SPM is not being used; or an arbitrary filename if SPM is being used.
-userOptions.betaPath = 'pathToYourSingleConditionResponses';% e.g. /imaging/mb01/lexpro/multivariate/ffx_simple/[[subjectName]]/[[betaIdentifier]]
+userOptions.betaPath = fullfile(userOptions.rootPath,'[[subjectName]]','spmmodel','[[betaIdentifier]]');% e.g. /imaging/mb01/lexpro/multivariate/ffx_simple/[[subjectName]]/[[betaIdentifier]]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% FEATUERS OF INTEREST SELECTION OPTIONS %%
@@ -41,11 +41,12 @@ userOptions.betaPath = 'pathToYourSingleConditionResponses';% e.g. /imaging/mb01
 	% The path to a stereotypical mask data file is stored (not including subject-specific identifiers).
 	% "[[subjectName]]" should be used as a placeholder to denote an entry in userOptions.subjectNames
 	% "[[maskName]]" should be used as a placeholder to denote an entry in userOptions.maskNames
-	userOptions.maskPath = 'pathToWhereYourMasksAreStored';%'/imaging/mb01/lexpro/multivariate/ffx_simple/[[subjectName]]/[[maskName]].img';
+	userOptions.maskPath = fullfile(userOptions.rootPath,'[[subjectName]]','masks','[[maskName]].nii');%'/imaging/mb01/lexpro/multivariate/ffx_simple/[[subjectName]]/[[maskName]].img';
 		
 		% The list of mask filenames (minus .hdr extension) to be used.
 		userOptions.maskNames = { ...
-			'mask',...
+			'hit',...
+            'evc',...
 			};
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,7 +59,7 @@ userOptions.betaPath = 'pathToYourSingleConditionResponses';% e.g. /imaging/mb01
 
 		% What is the path to the anatomical (structural) fMRI scans for each subject?
 		% "[[subjectName]]" should be used to denote an entry in userOptions.subjectNames
-		userOptions.structuralsPath = 'paathToWhereYourSubject''s structuralImagesAreStored ';% e.g. /imaging/mb01/lexpro/[[subjectName]]/structurals/
+		userOptions.structuralsPath = fullfile(userOptions.rootPath,'[[subjectName]]','structurals');% e.g. /imaging/mb01/lexpro/[[subjectName]]/structurals/
 	
 		% What are the dimensions (in mm) of the voxels in the scans?
 		userOptions.voxelSize = [3 3 3.75];
@@ -72,7 +73,7 @@ userOptions.betaPath = 'pathToYourSingleConditionResponses';% e.g. /imaging/mb01
 
 % The list of subjects to be included in the study.
 userOptions.subjectNames = { ...
-	'subject1','subject2',...
+	'CBU101295',...
 	};% eg CBUXXXXX
 
 % The default colour label for RDMs corresponding to RoI masks (as opposed to models).
@@ -89,8 +90,9 @@ userOptions.getSPMData = true;
 
 %% First-order analysis
 
+userOptions.nConditions = 72;
 % Text lables which may be attached to the conditions for MDS plots.
-[userOptions.conditionLabels{1:92}] = deal(' ');
+[userOptions.conditionLabels{1:userOptions.nConditions}] = deal(' ');
 % userOptions.alternativeConditionLabels = { ...
 % 	' ', ...
 % 	' ', ...
@@ -101,7 +103,16 @@ userOptions.getSPMData = true;
 % userOptions.useAlternativeConditionLabels = false;
 
 % What colours should be given to the conditions?
-userOptions.conditionColours = [repmat([1 0 0], 48,1); repmat([0 0 1], 44,1)];
+OwnBodyParts = 1:3; OwnFaces = 4:8; OwnPet = 9; OwnPlaces = 10:15; OwnObjects=16:18;
+OtherBodyParts = 19:21; OtherFaces = 22:26; OtherPet = 27; OtherPlaces = 28:33; OtherObjects=34:36;
+GeneralBodyParts = 37:44; GeneralFaces = 45:52; GeneralPets = [53 54]; GeneralPlaces=55:66; GeneralObjects=67:72;
+
+animates = [OwnBodyParts OwnFaces OwnPet OtherBodyParts OtherFaces OtherPet GeneralBodyParts GeneralFaces GeneralPets];
+inanimates = [OwnPlaces OwnObjects OtherPlaces OtherObjects GeneralPlaces GeneralObjects];%setdiff(1:nconditions,animates)
+
+userOptions.conditionColours = zeros(userOptions.nConditions,3);
+userOptions.conditionColours(animates,:) = repmat([1 0 0],length(animates),1);
+userOptions.conditionColours(inanimates,:) = repmat([0 0 1],length(inanimates),1);
 
 % Which distance measure to use when calculating first-order RDMs.
 userOptions.distance = 'Correlation';

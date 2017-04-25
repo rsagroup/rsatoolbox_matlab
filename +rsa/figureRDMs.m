@@ -92,11 +92,13 @@ end
 RDMs = interleaveRDMs(RDMs); % Pull the RDMs into a 1-d structured array
 
 %% Now display
-
 try 
     opengl software
 catch
+% This is not available on UNIX, it causes an error in Matlab 2014
+% opengl software
 end
+
 if isfield(userOptions, 'imagelabels')
     imagelabels = userOptions.imagelabels;
 else
