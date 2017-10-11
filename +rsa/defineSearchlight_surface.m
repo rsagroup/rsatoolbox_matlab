@@ -8,16 +8,20 @@ function [L,exclMask] = defineSearchlight_surface(Surf,Mask,varargin)
 % INPUTS
 %   S:  1x1 (single hemisphere) or 2x1 (both hemispheres) array of 
 %       structures containing the following fields
+%       (following fields are automatically set when using rsa.readSurf
+%       function)
 %       - white     vertices belonging to the white surface
 %       - pial      vertices belonging to the corresponding pial surface
 %       - topo      topology for the white/pial surface
 %
 %   Mask:           structure containing functional mask image with the fields
+%                   (following fields are automatically set when using
+%                   rsa.readMask function)
 %       - dim       1x3 vector with volume dimensions (in voxels)
 %       - mat       4x4 affine transformation matrix that aligns mask with
 %                   anatomical image
-%       - data      vector or array with PROD(VOLDEF.voxsize)
-%                   elements (logical or numerical) with brain mask
+%       - mask      vector or array with PROD(VOLDEF.voxsize)
+%                   elements (logical or numerical) with brain mask 
 %
 % OPTIONS/VARARGIN: 
 %   sphere:         definition of searchlight circle, either one of:
@@ -40,23 +44,23 @@ function [L,exclMask] = defineSearchlight_surface(Surf,Mask,varargin)
 %
 % EXAMPLE 1:
 %   % Define a surface-based searchlight for the left hemisphere only
-%   S = rsa_readSurf({'lh.white.surf.gii'},{'lh.pial.surf.gii'});
-%   M = rsa_readMask('mask.img');
-%   L = rsa_defineSearchlight_surface(S,M);
+%   S = rsa.readSurf({'lh.white.surf.gii'},{'lh.pial.surf.gii'});
+%   M = rsa.readMask('mask.img');
+%   L = rsa.defineSearchlight_surface(S,M);
 %
 % EXAMPLE 2:
 %   % Define a surface-based searchlight for both hemispheres, over a
 %   80 voxel searchlight with a radius of 20mm
-%   S(1).white   = 'lh.white.surf.gii'; 
-%   ,'rh.white.surf.gii'};
-%   pial    = {'lh.pial.surf.gii','rh.pial.surf.gii'};
-%   S       = rsa_readSurf(white,pial);
-%   M       = rsa_readMask('mask.img');
+%   white   = {'lh.white.surf.gii', 'rh.white.surf.gii'};
+%   pial    = {'lh.pial.surf.gii' , 'rh.pial.surf.gii'};
+%   S       = rsa.readSurf(white,pial);
+%   M       = rsa.readMask('mask.img');
 %   L       = rsa.defineSearchlight(S,'mask',M,'sphere',[20 80]);
 %
 % 2/2015 - Joern Diedrichsen & Naveed Ejaz 
 
 import rsa.util.*
+import rsa.surf.*
 
 %% 1. Checking inputs
 %       - optional input arguments
@@ -106,7 +110,7 @@ if ~isempty(Mask)
         error('mask should be a struct with fields .mat and .dim');
     end;
 
-    if isfield(Mask,'data') && prod(Mask.dim) ~= numel(Mask.data)
+    if isfield(Mask,'mask') && prod(Mask.dim) ~= numel(Mask.mask)
         error('Volume mask provided, but number of elements does not match mask.dim')
     end;
 end;
@@ -167,7 +171,7 @@ if (Opt.writeMask)
 end; 
 
 exclMask        = Mask; 
-exclMask.data   = (Mask.data>0)-(inclMask.data>0)>0;    
+exclMask.data   = (Mask.mask>0)-(inclMask.data>0)>0;    
 
 % parameters in case targetvoxcount is set.
 % strategy: use initial radius, then select all voxels with this radius.
