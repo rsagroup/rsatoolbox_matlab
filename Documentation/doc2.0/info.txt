@@ -1,0 +1,2 @@
+A quick primer on how to use markdown to write formatted text with citations/equations etc can be found here.
+https://nejaz1.github.io/docs/codemd/climarkdown/
