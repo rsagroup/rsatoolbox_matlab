@@ -6,16 +6,20 @@ function userOptions = projectOptions_fsl_demo()
 % Copyright (C)
 
 %% Project details
+%Current folder
+curFolder=fileparts(which('projectOptions_fsl_demo.m'));
+
 % This name identifies a collection of files which all belong to the same run of a project.
 userOptions.analysisName = 'DEMO_FSL'; % this is renamed in the code for demos 3-4.
 
 % This is the root directory of the project.
-userOptions.rootPath = [pwd,filesep,'DEMO_FSL'];
+userOptions.rootPath = [curFolder,filesep,'DEMO_FSL'];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %% EXPERIMENTAL SETUP %%
 %%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % The list of subjects to be included in the study.
 userOptions.subjectNames = { ...
@@ -29,9 +33,9 @@ userOptions.run_names = { ...
     };
 userOptions.featsPrefix = '5_';
 userOptions.featsSuffix = '';
-userOptions.featsPath = [pwd,filesep,'FSLData',filesep,'[[subjectName]]',...
+userOptions.featsPath = [curFolder,filesep,'FSLData',filesep,'[[subjectName]]',...
                         filesep,'models',filesep,'glm',filesep,'fingers', ...
-                        filesep, '[[featPrefix]]','[[runName]]','[[featSufix]]','.feat'];
+                        filesep, '[[featPrefix]]','[[runName]]','[[featSuffix]]','.feat'];
 
 userOptions.copes = { ...
     1,2,3,4,5 ...
@@ -65,7 +69,7 @@ userOptions.useAlternativeConditionLabels = false;
 	% The path to a stereotypical mask data file is stored (not including subject-specific identifiers).
 	% "[[subjectName]]" should be used as a placeholder to denote an entry in userOptions.subjectNames
 	% "[[maskName]]" should be used as a placeholder to denote an entry in userOptions.maskNames
-	userOptions.maskPath = [pwd,filesep,'FSLData',filesep,'[[subjectName]]',filesep,'models',filesep,'rsa',filesep,'masks',filesep,'[[maskName]].nii.gz'];
+	userOptions.maskPath = [curFolder,filesep,'FSLData',filesep,'[[subjectName]]',filesep,'models',filesep,'masks',filesep,'[[maskName]].nii.gz'];
 		
 		% The list of mask filenames (minus .hdr extension) to be used.
 	userOptions.maskNames = { ...
