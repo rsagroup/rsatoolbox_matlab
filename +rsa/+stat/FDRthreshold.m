@@ -110,4 +110,8 @@ end
 
 disp([num2str(nSig),' tests exceed the FDR threshold for q<',num2str(q),'.']);
 
+if isempty(pThreshold)
+    pThreshold = inf;
+end
+
 end%function
