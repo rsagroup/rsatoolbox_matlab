@@ -77,3 +77,6 @@ simulationOptions.brainVol = [64 64 32];
 simulationOptions.effectCen = [20 20 15];
 
 simulationOptions.nConditions = 40;
+
+end%function
+

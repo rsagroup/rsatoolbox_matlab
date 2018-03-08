@@ -143,3 +143,5 @@ userOptions.dpi = 300;
 userOptions.tightInset = false;
 
 userOptions.forcePromptReply = 'r';
+
+end%function

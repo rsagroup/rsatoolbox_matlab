@@ -32,8 +32,6 @@ Models.rightCluster = kron([
 			0 0 1 1
 			1 1 0 2
 			1 1 2 0], ones(16,16));
-
-
         
 
 % Models.N = kron([
@@ -47,3 +45,5 @@ Models.random = squareform(pdist(rand(64,64)));
 
 % Models.noStructure = ones(64,64);
 % Models.noStructure(logical(eye(64)))=0;
+
+end%function
