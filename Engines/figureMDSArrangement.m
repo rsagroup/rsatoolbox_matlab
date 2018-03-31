@@ -163,8 +163,8 @@ if isfield(localOptions,'figI_textLabels')&&~isempty(localOptions.figI_textLabel
         % categories undefined: plot all text labels in black
 		veryLocalOptions.textLabels = localOptions.textLabels;
 		veryLocalOptions.dotColours = localOptions.dotColours;
-		if isfield(localOptions, 'dotSize')
-			veryLocalOptions.dotSize = localOptions.dotSize;
+		if isfield(userOptions, 'dotSize')
+			veryLocalOptions.dotSize = userOptions.dotSize;
 		end%if
         plotDotsWithTextLabels(pats_mds_2D,veryLocalOptions);
 		
