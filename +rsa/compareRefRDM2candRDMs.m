@@ -112,7 +112,7 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       correlation. (Note that multiple independent measurements of the
 %       reference or candidate RDMs could also come from repeated
 %       measurements within one subject. We refer to the instances as
-%       ìsubjectsî, because subject random-effects inference is the most
+%       ‚Äúsubjects‚Äù, because subject random-effects inference is the most
 %       common case.)
 %
 %       'randomisation': Test the relatedness of the reference RDM to each
@@ -323,6 +323,10 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       If true(default: false), the figures are saved in post-script
 %       format in userOptions.resultsPath.
 %
+% userOptions.saveFigureEPS
+%       If true(default: false), the figures are saved in EPS format in 
+%       userOptions.resultsPath.
+%
 % userOptions.saveFigureFig
 %       If true (default: false), the figures are saved in Matlab .fig
 %       format in userOptions.resultsPath.
@@ -354,14 +358,6 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %                                    values)
 %       stats_p_r.ceiling:           ceiling lower and upper bounds
 
-import rsa.*
-import rsa.fig.*
-import rsa.fmri.*
-import rsa.rdm.*
-import rsa.sim.*
-import rsa.spm.*
-import rsa.stat.*
-import rsa.util.*
 
 %% set default options
 userOptions = setIfUnset(userOptions, 'RDMcorrelationType', 'Spearman');
@@ -379,6 +375,10 @@ userOptions = setIfUnset(userOptions, 'figureIndex',[1 2]);
 userOptions = setIfUnset(userOptions, 'resultsPath',pwd);
 userOptions = setIfUnset(userOptions, 'saveFigurePDF', true);
 userOptions = setIfUnset(userOptions, 'saveFigurePS', false);
+userOptions = setIfUnset(userOptions, 'saveFigureFig', false);
+userOptions = setIfUnset(userOptions, 'saveFigureEPS', false);
+
+
 userOptions = setIfUnset(userOptions, 'figure1filename', 'compareRefRDM2candRDMs_barGraph');
 userOptions = setIfUnset(userOptions, 'figure2filename', 'compareRefRDM2candRDMs_RDMcomparisonPvalues');
 
@@ -1041,19 +1041,19 @@ title({'\bfthresholded to control the FWE (Bonferroni)',['\rmblack: n.s., dark r
 handleCurrentFigure([userOptions.resultsPath,filesep,userOptions.figure2filename],userOptions);
 
 
-%% save it
-cd(fullfile(userOptions.rootPath));
-if userOptions.saveFiguresPS
-    saveas(gcf,[userOptions.analysisName,'_comparingRefRDM2CandRDMs','.eps'],'eps');
-end
-if userOptions.saveFiguresFig
-    saveas(gcf,[userOptions.analysisName,'_comparingRefRDM2CandRDMs','.fig'],'fig');
-end
-if userOptions.saveFiguresPDF
-    exportCurrentFigAsPDF([userOptions.analysisName,'_comparingRefRDM2CandRDMs'],userOptions);
-end
-if userOptions.saveFiguresPS
-    exportCurrentFigAsPostscript([userOptions.analysisName,'.ps'],userOptions);
-end
-
-end%function
+%% save it (no longer needed)
+% Saving plot to file has already been handled by handleCurrentFigure()
+% above.
+% cd(fullfile(userOptions.rootPath));
+% if userOptions.saveFigureEPS
+%     saveas(gcf,[userOptions.analysisName,'_comparingRefRDM2CandRDMs','.eps'],'eps');
+% end
+% if userOptions.saveFigureFig
+%     saveas(gcf,[userOptions.analysisName,'_comparingRefRDM2CandRDMs','.fig'],'fig');
+% end
+% if userOptions.saveFigurePDF
+%     exportCurrentFigAsPDF([userOptions.analysisName,'_comparingRefRDM2CandRDMs'],userOptions);
+% end
+% if userOptions.saveFigurePS
+%     exportCurrentFigAsPostscript([userOptions.analysisName,'.ps'],userOptions);
+% end
