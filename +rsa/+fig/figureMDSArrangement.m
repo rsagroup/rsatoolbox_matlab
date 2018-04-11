@@ -140,10 +140,7 @@ catch
         catch
             description{1}=[RDMname ', MDS failed...'];
         end
-    end
-    % If MDS failed at the initial trial, print out comment about the MDS
-    % (e.g., changed criterion, added 0.2 to distance)
-    fprintf(['Fail at the initial MDS trial: ',char(description),'\n']);
+    end   
 end    
 
 
