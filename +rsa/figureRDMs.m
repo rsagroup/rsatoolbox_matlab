@@ -33,7 +33,10 @@ function figureRDMs(RDMs, userOptions, localOptions)
 %                        ranks preserved. If false, true values are represented.
 %                        Defaults to true. This is for display only.
 %                userOptions.colourScheme
-%                        A colour scheme for the RDMs. Defualts to jet(64).
+%                        A colour scheme for the RDMs. For Matlab version
+%                        before R2015b,
+%                        defualts to jet(64); for versions afterward,
+%                        defaults to colormap(jet(256)).
 %                        
 %        localOptions --- Further options.
 %                localOptions.figureNumber
@@ -58,7 +61,14 @@ import rsa.stat.*
 import rsa.util.*
 
 returnHere = pwd;
-
+% Detect Matlab version (R2015b changes default color maps: should use
+% colormap() to specify the color of the color bar.
+matlabVersion = str2num(cell2mat(regexp(version('-release'),'\d+','match')));
+if matlabVersion>2015
+    color=colormap(jet(256));
+else
+    color=jet(64);
+end
 %% Set defaults and check options struct
 if nargin == 2, localOptions = struct(); end%if:nargin
 if ~isfield(userOptions, 'analysisName'), error('figureInterleavedRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
@@ -68,7 +78,7 @@ userOptions = setIfUnset(userOptions, 'saveFigurePS', false);
 userOptions = setIfUnset(userOptions, 'saveFigureFig', false);
 userOptions = setIfUnset(userOptions, 'displayFigures', true);
 userOptions = setIfUnset(userOptions, 'rankTransform', true);
-userOptions = setIfUnset(userOptions, 'colourScheme', jet(64));
+userOptions = setIfUnset(userOptions, 'colourScheme', color);
 
 if ~isfield(userOptions,'dpi'), userOptions.dpi=300; end;
 if ~isfield(userOptions,'tightInset')
