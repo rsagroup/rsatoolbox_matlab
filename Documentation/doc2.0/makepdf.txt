@@ -1,0 +1,10 @@
+To install pandoc in mac, install a package manager system called brew. Then execute the following commands to get the relevant binary and filters for pandoc.
+
+brew install pandoc pandoc-citeproc pandoc-crossref
+pip install pandoc-eqnos
+
+To make the pdf, use the following command:
+pandoc -o rsa_toolbox_manual.pdf rsa_toolbox_manual.md --latex-engine=xelatex -F pandoc-crossref --filter pandoc-eqnos -F pandoc-citeproc
+
+
+ 

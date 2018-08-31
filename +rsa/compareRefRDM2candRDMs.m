@@ -20,8 +20,8 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 % to assess, for each pair of candidate RDMs, which of the two RDMs is more
 % consistent with the reference RDM. A significant pairwise difference is
 % indicated by a horizontal line above the corresponding two bars. Each bar
-% comes with an error bar, which indicates the standard error, estimated by 
-% the same procedure as is used for the pairwise candidate comparisons 
+% comes with an error bar, which indicates the standard error, estimated by
+% the same procedure as is used for the pairwise candidate comparisons
 % (dependent on input data and userOptions, see below).
 %
 % Statistical inference on the correlation between the reference RDM and
@@ -112,7 +112,7 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       correlation. (Note that multiple independent measurements of the
 %       reference or candidate RDMs could also come from repeated
 %       measurements within one subject. We refer to the instances as
-%       “subjects”, because subject random-effects inference is the most
+%       ï¿½subjectsï¿½, because subject random-effects inference is the most
 %       common case.)
 %
 %       'randomisation': Test the relatedness of the reference RDM to each
@@ -148,7 +148,7 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       subjects and conditions. This more conservative test attempts to
 %       support inference generalising across both subjects and stimuli (to
 %       their respective populations). Again, the usual caveats for basic
-%       bootstrap tests apply. 
+%       bootstrap tests apply.
 %
 %       'none': Omit the test of RDM relatedness.
 %
@@ -183,7 +183,7 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       this setting, userOptions.RDMrelatednessThreshold is interpreted as
 %       the uncorrected p threshold.
 %
-% userOptions.candRDMdifferencesTest 
+% userOptions.candRDMdifferencesTest
 %       'subjectRFXsignedRank' (default, data permitting): For each pair of
 %       candidate RDMs, perform a statistical comparison to determine which
 %       candidate RDM better explains the reference RDM by using the
@@ -309,7 +309,7 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       pairwise candidate RDM comparisons. The first panel shows the
 %       uncorrected-p matrix. The second panel shows the thresholded
 %       uncorrected-p matrix. The third panel shows the FDR-thresholded p
-%       matrix. The fourth panel shows the Bonferroni-thresholded p matrix. 
+%       matrix. The fourth panel shows the Bonferroni-thresholded p matrix.
 %
 % userOptions.resultsPath  (default: pwd, i.e. current working directory)
 %       This argument specifies the absolute path in which both figures are
@@ -327,7 +327,7 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       If true (default: false), the figures are saved in Matlab .fig
 %       format in userOptions.resultsPath.
 %
-% userOptions.figure1filename  
+% userOptions.figure1filename
 %       The filename for the bargraph figure, if chosen to be saved
 %       (default: 'compareRefRDM2candRDMs_barGraph').
 %
@@ -341,11 +341,11 @@ function stats_p_r=compareRefRDM2candRDMs(refRDM, candRDMs, userOptions)
 %       effect sizes and p values.
 %       stats_p_r.candRelatedness_r: average correlations to reference RDM
 %       stats_p_r.candRelatedness_p: corresponding uncorrected p values
-%       stats_p_r.SEs:               standard errors of average RDM 
+%       stats_p_r.SEs:               standard errors of average RDM
 %                                    correlations
 %       stats_p_r.candDifferences_r: matrix of bar-height differences
 %                                    (i.e. average RDM-correlation
-%                                    differences) 
+%                                    differences)
 %       stats_p_r.candDifferences_p: matrix of p values for all pairwise
 %                                    candidate comparisons
 %       stats_p_r.orderedCandidateRDMnames: candidate RDM names in the
@@ -465,9 +465,9 @@ nSubjects = size(refRDM_stack,3);
 % end
 % ceilingUpperBound=mean(rs_ceilUpper);
 % ceilingLowerBound=mean(rs_ceilLower_LOO);
-% 
+%
 % stats_p_r.ceiling = [ceilingLowerBound,ceilingUpperBound];
-% 
+%
 [ceilingUpperBound, ceilingLowerBound, bestFitRDM]=ceilingAvgRDMcorr(refRDM_stack,userOptions.RDMcorrelationType,false);
 stats_p_r.ceiling = [ceilingLowerBound,ceilingUpperBound];
 
@@ -529,7 +529,7 @@ if nRefRDMinstances>=12
     fprintf('Averaging all instances of each candidate RDM.\n');
 else
     fprintf('Found less than 12 instances of the reference RDM.\n');
-    
+
     if std(nsCandRDMinstances)==0 && nsCandRDMinstances(1)>=12
         fprintf('Found %d instances of all candidate RDMs. Using these for random-effects inference.\n',nsCandRDMinstances(1));
         fprintf('Averaging all instances of the reference RDM.\n');
@@ -550,10 +550,10 @@ end
 % decide RDM-relatedness test
 if isequal(userOptions.RDMrelatednessTest,'subjectRFXsignedRank') || isequal(userOptions.RDMrelatednessTest,'subjectRFXbootstrap') || isequal(userOptions.RDMrelatednessTest,'subjectConditionRFXbootstrap')
     % user requested subject random-effects inference (by signed-rank or bootstrap test)
-    
+
     if isequal(subjectRFXacross,'refRDMinstances');
         fprintf('Using %d instances of the reference RDM for random-effects test of RDM relatedness.\n',nRefRDMinstances);
-        
+
     elseif isequal(subjectRFXacross,'candRDMinstances')
         %         fprintf('Found less than 12 instances of the reference RDM.'); %
         %         we are already saying this earlier
@@ -574,40 +574,51 @@ switch userOptions.RDMrelatednessTest,
         nSubjects = size(cand2refSims,1);
         es = std(cand2refSims)/sqrt(nSubjects);
         es = es(sortedIs);
-        
-        
-        
+
+
+
     case 'subjectRFXbootstrap'
         fprintf('\nPerforming subject bootstrap test of RDM relatedness (subject as random effect).\n');
         userOptions.resampleSubjects=1;userOptions.resampleConditions=0;
-        
-        [realRs bootstrapEs pairwisePs_bootSubj bootstrapRs] = bootstrapRDMs(refRDM_stack, meanCandRDMs, userOptions);
+
+        [realRs bootstrapEs pairwisePs_bootSubj bootstrapRs] = ...
+            bootstrapRDMs( ...
+            refRDM_stack, meanCandRDMs, userOptions);
+
         % bootstrapRs is now nCandRDMs x nBootstrap
-        bootstrapRs=bootstrapRs';% transpose to make it nBootstrap x nCandRDMs
+        bootstrapRs=bootstrapRs';% transpose to make it nBootstrap
+                                 % x nCandRDMs
         for candI = 1:numel(candRDMs)
-            [ps(candI)] = signrank_onesided(bootstrapRs(:,candI));
+            [ci_lo(candI), ci_up(candI), ps(candI)] = bootConfint( ...
+                cand2refSims(:,candI), bootstrapRs(:,candI), 'greater', ...
+                userOptions);
         end
         ps = ps(sortedIs);
         stats_p_r.candRelatedness_p = ps;
         es = std(bootstrapRs);
         es = es(sortedIs);
-        
-        
+
+
     case 'subjectConditionRFXbootstrap'
         fprintf('\nPerforming subject and condition bootstrap test of RDM relatedness (subject and condition as random effects).\n');
         userOptions.resampleSubjects=1;userOptions.resampleConditions=1;
-        
-        [realRs bootstrapEs pairwisePs_bootSubjCond bootstrapRs] = bootstrapRDMs(refRDM_stack, meanCandRDMs, userOptions);
+
+        [realRs bootstrapEs pairwisePs_bootSubj bootstrapRs] = ...
+            bootstrapRDMs( ...
+            refRDM_stack, meanCandRDMs, userOptions);
+
         % bootstrapRs is now nCandRDMs x nBootstrap
         bootstrapRs=bootstrapRs';% nBootstrap x nCandRDMs
         for candI = 1:numel(candRDMs)
-            [ps(candI)] = signrank_onesided(bootstrapRs(:,candI));
+            [ci_lo(candI), ci_up(candI), ps(candI)] = bootConfint( ...
+                cand2refSims(:,candI), bootstrapRs(:,candI), 'greater', ...
+                userOptions);
         end
         ps = ps(sortedIs);
         stats_p_r.candRelatedness_p = ps;
         es = std(bootstrapRs);es = es(sortedIs);
-                
-        
+
+
     case 'randomisation'
         fprintf('\nPerforming condition-label randomisation test of RDM relatedness (fixed effects).\n');
         nRandomisations = userOptions.nRandomisations;
@@ -626,7 +637,7 @@ switch userOptions.RDMrelatednessTest,
         end%if
         % make space for null-distribution of correlations
         rs_null=nan(userOptions.nRandomisations,numel(candRDMs));
-        
+
         % index method would require on the order of n^2*nRandomisations
         % memory, so i'll go slowly for now...
         %tic
@@ -637,7 +648,7 @@ switch userOptions.RDMrelatednessTest,
                 else
                     randomIndexSeq = randomPermutation(n);
                 end%if
-                
+
                 rdmA_rand_vec=vectorizeRDM(meanRefRDM(randomIndexSeq,randomIndexSeq));
                 for candI = 1:numel(candRDMs)
                     rs_null(randomisationI,candI)=rankCorr_Kendall_taua(rdmA_rand_vec',rdms(candI,:)');
@@ -655,7 +666,7 @@ switch userOptions.RDMrelatednessTest,
                 else
                     randomIndexSeq = randomPermutation(n);
                 end%if
-                
+
                 rdmA_rand_vec=vectorizeRDM(meanRefRDM(randomIndexSeq,randomIndexSeq));
                 for candI = 1:numel(candRDMs)
                     rs_null(randomisationI,candI)=raeSpearmanCorr(rdmA_rand_vec',rdms(candI,:)');
@@ -673,7 +684,7 @@ switch userOptions.RDMrelatednessTest,
                 else
                     randomIndexSeq = randomPermutation(n);
                 end%if
-                
+
                 rdmA_rand_vec=vectorizeRDM(meanRefRDM(randomIndexSeq,randomIndexSeq));
                 rs_null(randomisationI,:)=corr(rdmA_rand_vec',rdms','type',userOptions.RDMcorrelationType,'rows','pairwise');
                 if mod(randomisationI,floor(userOptions.nRandomisations/100))==0
@@ -683,7 +694,7 @@ switch userOptions.RDMrelatednessTest,
             end % randomisationI
             fprintf('\n');
         end
-        
+
         % p-values from the randomisation test
         for candI = 1:numel(candRDMs)
             p_randCondLabels(candI) = 1 - relRankIn_includeValue_lowerBound(rs_null(:,candI),y(candI)); % conservative
@@ -695,7 +706,7 @@ switch userOptions.RDMrelatednessTest,
         end
         p_randCondLabels_fwe = p_randCondLabels_fwe(sortedIs);
         stats_p_r.candRelatedness_p = [p_randCondLabels;p_randCondLabels_fwe];
-        
+
     otherwise
         fprintf('Not performing any test of RDM relatedness.\n');
 end
@@ -707,10 +718,10 @@ if isequal(userOptions.candRDMdifferencesTest,'subjectRFXsignedRank') || isequal
     switch subjectRFXacross
         case 'refRDMinstances';
             fprintf('Using %d instances of the reference RDM for random-effects tests comparing pairs of candidate RDMs.\n',nRefRDMinstances);
-            
+
         case 'candRDMinstances'
             fprintf('Using %d instances of all candidate RDMs for random-effects tests comparing pairs of candidate RDMs.\n',nsCandRDMinstances(1));
-            
+
         otherwise
             fprintf('Attempting to revert to condition-bootstrap tests comparing pairs of candidate RDMs.\n');
             if conditionRFX
@@ -745,39 +756,75 @@ switch userOptions.candRDMdifferencesTest,
         fprintf('Performing subject bootstrap test comparing candidate RDMs (subject as random effect).\n');
         if ~exist('pairwisePs_bootSubj','var')
             [realRs bootstrapEs pairwisePs_bootSubj bootstrapRs] = bootstrapRDMs(refRDM_stack, meanCandRDMs, userOptions);
+            for candI = 1:numel(candRDMs)
+                [ci_lo(candI), ci_up(candI)] = bootConfint( ...
+                    cand2refSims(:,candI), bootstrapRs(:,candI), 'greater', ...
+                    userOptions);
+            end
         end
         hold on
-        errorbar(1:numel(candRDMs),Ys,bootstrapEs(sortedIs),'Color',[0 0 0],'LineWidth',...
+        errorbar(1:numel(candRDMs),y_sorted, y_sorted - ci_lo(sortedIs), ...
+            ci_up(sortedIs) - y_sorted,'Color',[0 0 0],'LineWidth',...
             2,'LineStyle','none');
-        
-        pairWisePs = pairwisePs_bootSubj;
+
+        pairWisePs = nan(numel(candRDMs));
+        for candI = 1:(numel(candRDMs)-1)
+            bsI = bootstrapRs(:,candI);
+            cand2refSimsI = cand2refSims(:,candI);
+            for candJ = (candI+1):numel(candRDMs)
+                bsJ = bootstrapRs(:,candJ);
+                cand2refSimsJ = cand2refSims(:,candJ);
+                [~, ~, pairWisePs(candI, candJ)] = bootConfint( ...
+                    cand2refSimsI - cand2refSimsJ, bsI - bsJ, ...
+                    'two-tailed', userOptions);
+                pairWisePs(candJ, candI) = pairWisePs(candI, candJ);
+            end
+        end
         stats_p_r.candDifferences_p = pairWisePs(sortedIs,sortedIs);
         stats_p_r.SEs = bootstrapEs(sortedIs);
-          
+
     case 'subjectConditionRFXbootstrap'
         fprintf('Performing condition and subject bootstrap test comparing candidate RDMs (condition and subject as random effects).\n');
         if ~exist('pairwisePs_bootSubjCond','var')
             [realRs bootstrapEs pairwisePs_bootSubjCond bootstrapRs] = bootstrapRDMs(refRDM_stack, meanCandRDMs, userOptions);
         end
-        
+
         hold on
         errorbar(1:numel(candRDMs),y_sorted,bootstrapEs(sortedIs),'Color',[0 0 0],'LineWidth',...
                 2,'LineStyle','none');
-    
+
         pairWisePs = pairwisePs_bootSubjCond;
         stats_p_r.candDifferences_p = pairWisePs(sortedIs,sortedIs);
         stats_p_r.SEs = bootstrapEs(sortedIs);
-        
+
     case 'conditionRFXbootstrap'
         fprintf('Performing condition bootstrap test comparing candidate RDMs (subject as random effect).\n');
         userOptions.resampleSubjects=0;userOptions.resampleConditions=1;
         [realRs bootstrapEs pairwisePs bootstrapRs] = bootstrapRDMs(refRDM_stack, meanCandRDMs, userOptions);
+        for candI = 1:numel(candRDMs)
+            [ci_lo(candI), ci_up(candI)] = bootConfint( ...
+                cand2refSims(:,candI), bootstrapRs(:,candI), 'greater', ...
+                userOptions);
+        end
+        pairWisePs = nan(numel(candRDMs));
+        for candI = 1:(numel(candRDMs)-1)
+            bsI = bootstrapRs(:,candI);
+            cand2refSimsI = cand2refSims(:,candI);
+            for candJ = (candI+1):numel(candRDMs)
+                bsJ = bootstrapRs(:,candJ);
+                cand2refSimsJ = cand2refSims(:,candJ);
+                [~, ~, pairWisePs(candI, candJ)] = bootConfint( ...
+                    cand2refSimsI - cand2refSimsJ, bsI - bsJ, ...
+                    'two-tailed', userOptions);
+                pairWisePs(candJ, candI) = pairWisePs(candI, candJ);
+            end
+        end
         stats_p_r.candDifferences_p = pairwisePs(sortedIs,sortedIs);
         stats_p_r.SEs = bootstrapEs(sortedIs);
         hold on
         errorbar(1:numel(candRDMs),y_sorted,bootstrapEs(sortedIs),'Color',[0 0 0],'LineWidth',...
                 2,'LineStyle','none');
-        
+
     otherwise
         fprintf('Not performing any test for comparing pairs of candidate RDMs.\n');
 end
@@ -802,18 +849,18 @@ alpha(h,0.5);
 %% add the p-values from RDM relatedness tests
 if ~isequal(userOptions.RDMrelatednessTest,'none')
     ps = stats_p_r.candRelatedness_p(1,:);
-    
+
     pStringCell = cell(1, numel(candRDMs));
-    
+
     if isequal(userOptions.RDMrelatednessMultipleTesting,'none') || isequal(userOptions.RDMrelatednessMultipleTesting,'FWE')
         thresh = userOptions.RDMrelatednessThreshold;
     elseif isequal(userOptions.RDMrelatednessMultipleTesting,'FDR')
         thresh = FDRthreshold(ps,userOptions.candRDMdifferencesThreshold);
     end
-    
+
     if isequal(userOptions.RDMrelatednessMultipleTesting,'FWE')
         ps_fwe = stats_p_r.candRelatedness_p(2,sortedIs);
-        
+
         for test = 1:numel(candRDMs)
             if isequal(userOptions.plotpValues,'*')
                 if ps(test) <= ps_fwe(test)
@@ -855,7 +902,7 @@ if ~isequal(userOptions.RDMrelatednessTest,'none')
             end%switch:pIndication
         end%for:test
     end % isequal(userOptions.RDMrelatednessTest....
-    
+
     for test = 1:numel(candRDMs)
         switch userOptions.plotpValues
             case '*'
@@ -884,7 +931,7 @@ switch userOptions.candRDMdifferencesMultipleTesting
         pMat(logical(eye(numel(candRDMs)))) = 0;
         allPairwisePs = squareform(pMat);
         threshold = FDRthreshold(allPairwisePs,thresh);
-        
+
     case 'FWE'
         nTests = numel(candRDMs)*(numel(candRDMs)-1)/2;
         threshold = thresh/nTests;

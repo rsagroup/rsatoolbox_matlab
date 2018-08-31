@@ -20,7 +20,7 @@ function [L,exclMask] = defineSearchlight_volume(ROIMask,Mask,varargin)
 %       - dim       1x3 vector with volume dimensions (in voxels)
 %       - mat       4x4 affine transformation matrix that aligns mask with
 %                   anatomical image
-%       - data      vector or array with PROD(VOLDEF.voxsize)
+%       - mask      vector or array with PROD(VOLDEF.voxsize)
 %                   elements (logical or numerical) with brain mask
 %
 % OPTIONS/VARARGIN: 
@@ -40,11 +40,10 @@ function [L,exclMask] = defineSearchlight_volume(ROIMask,Mask,varargin)
 %   Define a volumetric searchlight over the volume of the cerebellum, as
 %   defined by a mask in anatomical space, using all the voxels available
 %   in the functional mask. Each searchlight will have 100 voxels 
-%   M           = spm_vol('glm/p03/mask.img'); % 
-%   M.data      = spm_read_vols(M);
 %   ROI         = spm_vol('anatomical/p03_anatomical_cerebellum.nii');
 %   ROI.data    = spm_read_vols(ROI);
-%   L           = rsa.defineSearchlight_volume(M,'sphere',[50 100]);
+%   M           = rsa.readMask('glm/p03/mask.img');
+%   L           = rsa.defineSearchlight_volume(ROI,M,'sphere',[50 100]);
 %
 % 2/2015 - Joern Diedrichsen & Naveed Ejaz 
 

@@ -38,7 +38,7 @@ function L = defineSearchlight(Structures,Mask,varargin)
 %       - dim       1x3 vector with volume dimensions (in voxels)
 %       - mat       4x4 affine transformation matrix that aligns mask with
 %                   anatomical image
-%       - data      vector or array with PROD(VOLDEF.voxsize)
+%       - mask      vector or array with PROD(VOLDEF.voxsize)
 %                   elements (logical or numerical) with brain mask
 %
 % OPTIONS/VARARGIN:
