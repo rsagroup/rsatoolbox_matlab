@@ -16,7 +16,8 @@ mkdir('DEMO4');
 % Generate a userOptions structure
 userOptions = projectOptions_demo();
 userOptions.rootPath = [pwd,filesep,'DEMO4'];
-userOptions.analysisName = 'DEMO4';
+userOptions.projectName = 'DEMO4';
+userOptions.analysisName = 'searchlight';
 
 % Generate a simulationOptions structure.
 simulationOptions = simulationOptions_demo_SL();
@@ -45,22 +46,38 @@ DetailsFilename = [userOptions.analysisName, '_fMRISearchlight_Details.mat'];
 
 %% simulate the data and compute the correlation maps per subject
 
+userOptions.searchlightRadius = 9;
+userOptions.writeOut = 0;
+userOptions.subjectNames = [];
+mask = m;
 for subI = 1:Nsubjects
     subject = ['subject',num2str(subI)];
+    userOptions.subjectNames{subI}=subject;
     maskName = 'mask';
-    fprintf(['simulating fullBrain volumes for subject %d \n'],subI)
-    
+    fprintf(['simulating fullBrain volumes for subject %d \n'],subI)    
     [B_true,Mask,Y_true, fMRI_sub] = rsa.sim.simulateClusteredfMRIData_fullBrain(simulationOptions);
     B_noisy = fMRI_sub.B;
     singleSubjectVols = B_noisy';
-    userOptions.searchlightRadius = 9;mask = m;
-    fprintf(['computing correlation maps for subject %d \n'],subI)
-    [rs, ps, ns, searchlightRDMs.(subject)] = rsa.fmri.searchlightMapping_fMRI(singleSubjectVols, models, mask, userOptions, searchlightOptions);
+    fullBrainVols.(subject)=singleSubjectVols;   
+    binaryMasks_nS.(subject).(maskName) = m;    
+    fprintf(['preparing simulated data maps for subject %d \n'],subI)
+end
+
+rsa.fmri.fMRIPrepareSearchlightRDMs(fullBrainVols, binaryMasks_nS, userOptions)
+[rMaps_ns,pMaps_nS]=rsa.fmri.fMRISearchlightModelComparison(models,binaryMasks_nS, 'SPM', userOptions);
+modelname = fieldnames(rMaps_ns);
+
+for subI = 1:Nsubjects
+    fprintf('saving simluated r-maps for subject %d \n',subI)
+    subject = ['subject',num2str(subI)];
+    rs = rMaps_ns.(modelname{1}).(subject).(maskName);
     rsa.util.gotoDir(userOptions.rootPath, 'Maps');
     save(['rs_',subject,'.mat'],'rs');
     clear rs searchlightRDMs;
     cd(returnHere);
 end
+
+
 %% display the design matrix, model RDMs and simulated RDMs and the SL
 rsa.fig.selectPlot(1);
 subplot(321);imagesc(fMRI_sub.X);axis square
@@ -108,7 +125,7 @@ for modelI = 1:numel(models)
             for z=1:size(thisModelSims,3)
                 if mask(x,y,z) == 1
                     [h p1(x,y,z)] = ttest(squeeze(thisModelSims(x,y,z,:)),0,0.05,'right');
-                    [p2(x,y,z)] = rsa.util.signrank_onesided(squeeze(thisModelSims(x,y,z,:)));
+                    [p2(x,y,z)] = rsa.stat.signrank_onesided(squeeze(thisModelSims(x,y,z,:)));
                 else
                     p1(x,y,z) = NaN;
                     p2(x,y,z) = NaN;
@@ -128,22 +145,22 @@ for modelI = 1:numel(models)
     supraThreshMarked_sr(p2 <= pThrsh_sr) = 1;
     
     % display the location where the effect was inserted (in green):
-    brainVol = rsa.gmri.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
-    brainVol_effectLoc = rsa.gmri.addBinaryMapToVol(brainVol,Mask.*mask,[0 1 0]);
+    brainVol = rsa.fmri.addRoiToVol(rsa.util.map2vol(anatVol),rsa.util.mask2roi(mask),[1 0 0],2);
+    brainVol_effectLoc = rsa.fmri.addBinaryMapToVol(brainVol,Mask.*mask,[0 1 0]);
     rsa.fig.showVol(brainVol_effectLoc,'simulated effect [green]',2);
     rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO4_simulatedEffectRegion'],userOptions);
     
     % display the FDR-thresholded maps on a sample anatomy (signed rank test) :
-    brainVol = rsa.fmri.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
+    brainVol = rsa.fmri.addRoiToVol(rsa.util.map2vol(anatVol),rsa.util.mask2roi(mask),[1 0 0],2);
     brainVol_sr = rsa.fmri.addBinaryMapToVol(brainVol,supraThreshMarked_sr.*mask,[1 1 0]);
     rsa.fig.showVol(brainVol_sr,'signrank, E(FDR) < .05',3)
     rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO4_signRank'],userOptions);
     
     % display the FDR-thresholded maps on a sample anatomy (t-test) :
-    brainVol = rsa.fmri.addRoiToVol(map2vol(anatVol),mask2roi(mask),[1 0 0],2);
+    brainVol = rsa.fmri.addRoiToVol(rsa.util.map2vol(anatVol),rsa.util.mask2roi(mask),[1 0 0],2);
     brainVol_t = rsa.fmri.addBinaryMapToVol(brainVol,supraThreshMarked_t.*mask,[1 1 0]);
     rsa.fig.showVol(brainVol_t,'t-test, E(FDR) < .05',4)
-    rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO2_tTest'],userOptions);
+    rsa.fig.handleCurrentFigure([returnHere,filesep,'DEMO4',filesep,'results_DEMO4_tTest'],userOptions);
 end
 
 cd(returnHere);

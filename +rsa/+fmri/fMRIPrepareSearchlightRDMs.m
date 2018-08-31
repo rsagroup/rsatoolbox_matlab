@@ -1,11 +1,10 @@
-function [varargout] = fMRISearchlight(fullBrainVols, binaryMasks_nS, models, betaCorrespondence, userOptions)
+function [varargout] = fMRIPrepareSearchlightRDMs(fullBrainVols, binaryMasks_nS, userOptions)
 %
-% fMRISearchlight is a function which takes some full brain volumes of data,
-% some binary masks and some models and perfoms a searchlight in the data within
-% each mask, matching to each of the models.  Saved are native-space r-maps for
-% each model.
+% fMRIPrepareSearchlightRDMs is a function which takes some full brain volumes of data,
+% some binary masks and perfoms a searchlight in the data within
+% each mask.  Saved are native-space vectorised RDMs for each subject.
 %
-% [rMaps_sS, maskedSmoothedRMaps_sS, searchlightRDMs[, rMaps_nS, nMaps_nS] =]
+% [searchlightRDMs, nMaps_nS, ] =]
 %                                 fMRISearchlight(fullBrainVols,
 %                                                 binaryMasks_nS,
 %                                                 models,
@@ -19,12 +18,6 @@ function [varargout] = fMRISearchlight(fullBrainVols, binaryMasks_nS, models, be
 %        binaryMasks_nS --- The native- (subject-) space masks.
 %               binaryMasks_nS.(subject).(mask) is a [x y z]-sized binary matrix
 %               (the same size as the native-space 3D beta images.
-%
-%        models --- A stack of model RDMs in a structure.
-%               models is a [1 nModels] structure with fields:
-%                       RDM
-%                       name
-%                       color
 %
 %        betaCorrespondence --- The array of beta filenames.
 %               betas(condition, session).identifier is a string which referrs
@@ -67,14 +60,6 @@ function [varargout] = fMRISearchlight(fullBrainVols, binaryMasks_nS, models, be
 %                                        subject where appropriate.
 %
 % The following files are saved by this function:
-%        userOptions.rootPath/Maps/
-%                userOptions.analysisName_fMRISearchlight_Maps.mat
-%                        Contains the searchlight statistical maps in struct so
-%                        that rMaps_nS.(modelName).(subject).(maskName),
-%                        rMaps_sS.(modelName).(subject).(maskName),
-%                        maskedSmoothedRMaps_sS.(modelName).(subject).(maskName)
-%                        and nMaps_nS.(modelName).(subject).(maskName) contain
-%                        the appropriate data.
 %        userOptions.rootPath/RDMs/
 %                userOptions.analysisName_fMRISearchlight_RDMs.mat
 %                        Contains the RDMs for each searchlight so that
@@ -85,6 +70,7 @@ function [varargout] = fMRISearchlight(fullBrainVols, binaryMasks_nS, models, be
 %                        function and a timestamp.
 %
 % Cai Wingfield 2-2010, 3-2010
+% Ian Charest 3-2017 refactored in two-step approach: 1 - searchlightRDMpreparation, 2 - searchlightModelComparison
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
@@ -101,21 +87,19 @@ returnHere = pwd; % We'll come back here later
 
 %% Set defaults and check options struct
 if ~isfield(userOptions, 'projectName'), error('fMRISearchlight:NoProjectName', 'ProjectName must be set. See help'); end%if
-if ~isfield(userOptions, 'analysisName'), error('fMRISearchlight:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('fMRISearchlight:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'subjectNames', fieldnames(fullBrainVols));
 userOptions = setIfUnset(userOptions, 'maskNames', fieldnames(binaryMasks_nS.(userOptions.subjectNames{1})));
 if ~isfield(userOptions, 'voxelSize'), error('fMRISearchlight:NoVoxelSize', 'voxelSize must be set. See help'); end%if
 
 
-% The analysisName will be used to label the files which are eventually saved.
-mapsFilename = sprintf('%s_%s_fMRISearchlight_Maps.mat',userOptions.projectName,userOptions.analysisName);
-RDMsFilename = sprintf('%s_%s_fMRISearchlight_RDMs.mat',userOptions.projectName); % the brain RDMs don't change from analysis to analysis.
-DetailsFilename = sprintf('%s_%s_fMRISearchlight_Details.mat',userOptions.projectName,userOptions.analysisName);
+% The projectName will be used to label the files which are eventually saved.
+RDMsFilename = sprintf('%s_fMRISearchlight_RDMs.mat',userOptions.projectName); % the brain RDMs don't change from analysis to analysis.
+DetailsFilename = sprintf('%s_fMRISearchlightRDMs_Details.mat',userOptions.projectName);
 
-promptOptions.functionCaller = 'fMRISearchlight';
+promptOptions.functionCaller = 'fMRIPrepareSearchlightRDMs';
 promptOptions.defaultResponse = 'S';
-promptOptions.checkFiles(1).address = fullfile(userOptions.rootPath, 'Maps', mapsFilename);
+promptOptions.checkFiles(1).address = fullfile(userOptions.rootPath, 'RDMs', RDMsFilename);
 promptOptions.checkFiles(2).address = fullfile(userOptions.rootPath, 'Details', DetailsFilename);
 
 overwriteFlag = overwritePrompt(userOptions, promptOptions);
@@ -129,199 +113,61 @@ if overwriteFlag
 	searchlightOptions.monitor = false;
 	searchlightOptions.fisher = true;
 	
-	warpFlags.interp = 1;
-	warpFlags.wrap = [0 0 0];
-	warpFlags.vox = userOptions.voxelSize; % [3 3 3.75]
-	warpFlags.bb = [-78 -112 -50; 78 76 85];
-	warpFlags.preserve = 0;
-	
 	fprintf('Shining RSA searchlights...\n');
 
 	for subjectNumber = 1:nSubjects % and for each subject...
 	
 		tic;%1
 
-		fprintf(['\t...in the brain of subject ' num2str(subjectNumber) ' of ' num2str(nSubjects)]);
+		fprintf(['\t...in the brain of subject ' num2str(subjectNumber) ' of ' num2str(nSubjects) '...\n']);
 
 		% Figure out which subject this is
 		subject = userOptions.subjectNames{subjectNumber};
-		
-		if ischar(betaCorrespondence) && strcmpi(betaCorrespondence, 'SPM')
-			betas = getDataFromSPM(userOptions);
-		else
-			betas = betaCorrespondence;
-		end%if:SPM
-
-		searchlightOptions.nSessions = size(betas, 1);
-		searchlightOptions.nConditions = size(betas, 2);
-
-		readFile = replaceWildcards(userOptions.betaPath, '[[subjectName]]', subject, '[[betaIdentifier]]', betas(1,1).identifier);
-		subjectMetadataStruct = spm_vol(readFile);
-%		subjectMetadataStruct = spawnSPMStruct;
-		
+        
+        % Full brain data volume to perform searchlight on
+        singleSubjectVols = fullBrainVols.(subject);
+        
+        searchlightOptions.nSessions = size(singleSubjectVols,3);
+        searchlightOptions.nConditions = size(singleSubjectVols, 2);
+	
 		for maskNumber = 1:nMasks % For each mask...
 	
 			% Get the mask
 			maskName = userOptions.maskNames{maskNumber};
-			mask = binaryMasks_nS.(subject).(maskName);
-			
-			% Full brain data volume to perform searchlight on
-			singleSubjectVols = fullBrainVols.(subject);
+			mask = binaryMasks_nS.(subject).(maskName);			
 
 			% Do the searchlight! ZOMG, this takes a while...
-			[rs, ps, ns, searchlightRDMs.(subject)] = searchlightMapping_fMRI(singleSubjectVols, models, mask, userOptions, searchlightOptions); % ps are from linear correlation p-values, and so aren't too useful here.
+			[nMaps_nS.(subject).(maskName),searchlightRDMs.(subject).(maskName), mappingMask_actual.(subject).(maskName)] = defineSearchlightRDMs(singleSubjectVols, mask, userOptions, searchlightOptions); 
 			
-			nMaps_nS.(subject).(maskName) = ns(:,:,:); % How many voxels contributed to the searchlight centred at each point. (Those with n==1 are excluded because the results aren't multivariate.)
-			
-			for modelNumber = 1:numel(models)
-				
-				modelName = spacesToUnderscores(models(modelNumber).name);
-				
-				% Store results in indexed volumes
-				rMaps_nS.(modelName).(subject).(maskName) = rs(:,:,:,modelNumber); % r-values for correlation with each model
-				
-				%% Save native space version
-				
-				% Write the native-space r-map to a file
-				rMapMetadataStruct_nS = subjectMetadataStruct;
-				rMapMetadataStruct_nS.fname = fullfile(userOptions.rootPath, 'Maps', [userOptions.analysisName '_rMap_' maskName '_' modelName '_' subject '.img']);
-				rMapMetadataStruct_nS.descrip =  'R-map';
-				rMapMetadataStruct_nS.dim = size(rMaps_nS.(modelName).(subject).(maskName));
-				
-				gotoDir(userOptions.rootPath, 'Maps');
-				
-				rsa.spm.spm_write_vol(rMapMetadataStruct_nS, rMaps_nS.(modelName).(subject).(maskName));
-				
-				if isfield(userOptions, 'structuralsPath')
+		end
 
-					% Write the native-space mask to a file
-					maskMetadataStruct_nS = subjectMetadataStruct;
-					maskMetadataStruct_nS.fname = fullfile(userOptions.rootPath, 'Maps', [userOptions.analysisName '_nativeSpaceMask_' maskName '_' modelName '_' subject '.img']);
-					maskMetadataStruct_nS.descrip =  'Native space mask';
-					maskMetadataStruct_nS.dim = size(mask);
-					
-					rsa.spm.spm_write_vol(maskMetadataStruct_nS, mask);
-
-					% Load in common space warp definition
-% 					wildFiles = replaceWildcards(fullfile(userOptions.structuralsPath, ['*' subject '*_seg_sn.mat']), '[[subjectName]]', subject);
-                    wildFiles = replaceWildcards(fullfile(userOptions.structuralsPath, ['*_seg_sn.mat']), '[[subjectName]]', subject);
-					matchingFiles = dir(wildFiles);
-					warpDefFilename = replaceWildcards(fullfile(userOptions.structuralsPath, matchingFiles(1).name), '[[subjectName]]', subject);
-
-					% Warp and write common space r-maps to disk
-					spm_write_sn(rMapMetadataStruct_nS,warpDefFilename,warpFlags);
-
-					% Warp and write common space masks to disk
-					spm_write_sn(maskMetadataStruct_nS,warpDefFilename,warpFlags);
-
-					% Now read them back in
-
-					% Where are they?
-					[warpedPath_rMap, warpedFile_rMap, warpedExt_rMap, warpedVersion_rMap] = fileparts(rMapMetadataStruct_nS.fname);
-					[warpedPath_mask, warpedFile_mask, warpedExt_mask, warpedVersion_mask] = fileparts(maskMetadataStruct_nS.fname);
-
-					% Warped versions are prefixed with 'w'
-					warpedFile_rMap = ['w' warpedFile_rMap];
-					warpedFile_mask = ['w' warpedFile_mask];
-
-					% Read them from the disk
-					rMaps_sS.(modelName).(subject).(maskName) = spm_read_vols(spm_vol(fullfile(warpedPath_rMap, [warpedFile_rMap warpedExt_rMap]))); % sS for standard space
-					mask_sS = spm_read_vols(spm_vol(fullfile(warpedPath_mask, [warpedFile_mask warpedExt_mask])));
-
-					% Fix the normalisation of the mask
-					maskMetadataStruct_sS = spm_vol(fullfile(warpedPath_rMap, [warpedFile_rMap warpedExt_rMap]));
-					maskMetadataStruct_sS.fname = fullfile(userOptions.rootPath, 'Maps', [userOptions.analysisName '_commonSpaceMask_' maskName '_' modelName '_' subject '.img']);
-					maskMetadataStruct_sS.descrip =  'Common space mask';
-					maskMetadataStruct_sS.dim = size(mask_sS);
-
-					maskThreshold = 0.01;
-					mask_sS(mask_sS < maskThreshold) = 0;
-					mask_sS(isnan(mask_sS)) = 0;
-					
-					maskMetadataStruct_sS.dim = size(mask_sS);
-					
-					rsa.spm.spm_write_vol(maskMetadataStruct_sS, mask_sS);
-
-					% Smooth the normalised data
-
-					% Smoothed versions are prefixed with 's'
-					smoothedWarpedFile_rMap = ['s' warpedFile_rMap];
-
-					% Smooth it
-					smoothingKernel_fwhm = [10 10 10];
-					spm_smooth(fullfile(warpedPath_rMap, [warpedFile_rMap warpedExt_rMap]), fullfile(warpedPath_rMap, [smoothedWarpedFile_rMap warpedExt_rMap]), smoothingKernel_fwhm);
-
-					% Read it back in
-					smoothedDataMetadataStruct = spm_vol(fullfile(warpedPath_rMap, [smoothedWarpedFile_rMap warpedExt_rMap]));
-					smoothedData = spm_read_vols(smoothedDataMetadataStruct);
-
-					% Mask the smoothed data by the sS mask
-					maskedData = smoothedData;
-					maskedData(mask_sS == 0) = NaN;
-					maskedSmoothedRMaps_sS.(modelName).(subject).(maskName) = maskedData;
-
-					% Write it back to disk
-					maskedDataMetadataStruct_nS = smoothedDataMetadataStruct;
-					maskedDataMetadataStruct_nS.fname = fullfile(userOptions.rootPath, 'Maps', ['msw' userOptions.analysisName '_rMap_' maskName '_' modelName '_' subject '.img']); % 'msw' for 'masked, smoothed, warped'
-					maskedDataMetadataStruct_nS.descrip =  'Masked smoothed normalised data';
-					maskedDataMetadataStruct_nS.dim = size(maskedData);
-					
-					rsa.spm.spm_write_vol(maskedDataMetadataStruct_nS, maskedData);
-					
-				end%if:structuralsPath
-
-			end%for:models
-			
-			clear fullBrainVolumes rs ps ns;
-			
-			fprintf(':');
-
-		end%for:maskNumber
-		
-		t = toc;%1
-		fprintf([' [' num2str(ceil(t)) 's]\n']);
-		
-	end%for:subjectNumber
+	end
 
 	%% Save relevant info
 
 	timeStamp = datestr(now);
 
-	fprintf(['Saving searchlight maps to ' fullfile(userOptions.rootPath, 'Maps', mapsFilename) '\n']);
-	gotoDir(userOptions.rootPath, 'Maps');
-	if isfield(userOptions, 'structuralsPath')
-		save(mapsFilename, 'rMaps_nS', 'rMaps_sS', 'maskedSmoothedRMaps_sS', 'nMaps_nS');
-	else
-		save(mapsFilename, 'rMaps_nS', 'nMaps_nS');
-	end%if
-	
 	fprintf(['Saving RDMs to ' fullfile(userOptions.rootPath, 'RDMs', RDMsFilename) '\n']);
 	gotoDir(userOptions.rootPath, 'RDMs');
-	save(RDMsFilename, 'searchlightRDMs');
+	save(RDMsFilename, 'searchlightRDMs','nMaps_nS','mappingMask_actual','-v7.3');
 	
 	fprintf(['Saving Details to ' fullfile(userOptions.rootPath, 'Details', DetailsFilename) '\n']);
 	gotoDir(userOptions.rootPath, 'Details');
 	save(DetailsFilename, 'timeStamp', 'userOptions');
-	
+
 else
-	fprintf(['Loading previously saved maps from ' fullfile(userOptions.rootPath, 'Maps', mapsFilename) '...\n']);
-	load(fullfile(userOptions.rootPath, 'Maps', mapsFilename));
 	fprintf(['Loading previously saved RDMs from ' fullfile(userOptions.rootPath, 'RDMs', RDMsFilename) '...\n']);
 	load(fullfile(userOptions.rootPath, 'RDMs', RDMsFilename));
 end%if
 
-if nargout == 3
-	varargout{1} = rMaps_sS;
-	varargout{2} = maskedSmoothedRMaps_sS;
-	varargout{3} = searchlightRDMs;
-elseif nargout == 5
-	varargout{1} = rMaps_sS;
-	varargout{2} = maskedSmoothedRMaps_sS;
-	varargout{3} = searchlightRDMs;
-	varargout{4} = rMaps_nS;
-	varargout{5} = nMaps_nS;
+if nargout == 1
+	varargout{1} = searchlightRDMs;
+elseif nargout ==3	
+	varargout{1} = searchlightRDMs;
+	varargout{2} = nMaps_ns;
+    varargout{3} = mappingMask_actual;
 elseif nargout > 0
-	error('0, 3 or 5 arguments out, please.');
+	error('0, 1, or 3 arguments out, please.');
 end%if:nargout
 
 cd(returnHere); % And go back to where you started
@@ -334,26 +180,18 @@ end%function
 %%%%%%%%%%%%%%%%%%%
 
 
-function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrainVolumes, models, mask, userOptions, localOptions)
+function [n, searchlightRDMs, mappingMask_actual] = defineSearchlightRDMs(fullBrainVolumes, mask, userOptions, localOptions)
 
 	% ARGUMENTS
 	% fullBrainVolumes	A voxel x condition x session matrix of activity
 	% 				patterns.
 	%
-	% models		A struct of model RDMs.
 	%
 	% mask     		A 3d or 4d mask to perform the searchlight in.
 	%
 	% userOptions and localOptions
 	%
 	% RETURN VALUES
-	% smm_rs        4D array of 3D maps (x by y by z by model index) of
-	%               correlations between the searchlight pattern similarity
-	%               matrix and each of the model similarity matrices.
-	%
-	% smm_ps        4D array of 3D maps (x by y by z by model index) of p
-	%               values computed for each corresponding entry of smm_rs.
-	%
 	% n             an array of the same dimensions as the volume, which
 	%               indicates for each position how many voxels contributed
 	%               data to the corresponding values of the infomaps.
@@ -362,9 +200,8 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 	%               outside the input-data mask or voxel with all-zero
 	%               time-courses (as can arise from head-motion correction).
 	%
-	% mappingMask_actual
-	%               3D mask indicating locations for which valid searchlight
-	%               statistics have been computed.
+	% searchlightRDMs
+	%               searchlightRDMs are x,y,x by nPairWiseComparisons
 	%
 	% Based on Niko Kriegeskorte's searchlightMapping_RDMs.m
 	%
@@ -405,9 +242,6 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 	
 	clear fullBrainVolumes;
 
-	% Prepare models
-	modelRDMs_ltv = permute(unwrapRDMs(vectorizeRDMs(models)), [3 2 1]);
-
 	% Prepare masks
 	mask(isnan(mask)) = 0; % Just in case!
 	if ndims(mask)==3
@@ -432,7 +266,6 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 
 	% Other data
 	volSize_vox=size(inputDataMask);
-	nModelRDMs=size(modelRDMs_ltv,1);
 	rad_vox=searchlightRad_mm./voxSize_mm;
 	minMargin_vox=floor(rad_vox);
 
@@ -495,10 +328,9 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 	n=nan(volSize_vox);
 
 	%% similarity-graph-map the volume with the searchlight
-	smm_bestModel=nan(volSize_vox);
-	smm_ps=nan([volSize_vox,nModelRDMs]);
-	smm_rs=nan([volSize_vox,nModelRDMs]);
-	searchlightRDMs = nan([nConditions, nConditions, volSize_vox]);
+    nComparisons = (nConditions^2-nConditions)/2;
+    
+	searchlightRDMs = nan([nComparisons, volSize_vox]);
 
 	if monitor
 		h_progressMonitor=progressMonitor(1, nVox_mappingMask_request,  'Similarity-graph-mapping...');
@@ -517,7 +349,7 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 			end%if
 		end%if
 
-		[x y z]=ind2sub(volSize_vox,mappingMask_request_INDs(cMappingVoxI));
+		[x,y,z]=ind2sub(volSize_vox,mappingMask_request_INDs(cMappingVoxI));
 
 		% compute (sub)indices of (vox)els (c)urrently (ill)uminated by the spherical searchlight
 		cIllVoxSUBs=repmat([x,y,z],[size(ctrRelSphereSUBs,1) 1])+ctrRelSphereSUBs;
@@ -555,67 +387,18 @@ function [smm_rs, smm_ps, n, searchlightRDMs] = searchlightMapping_fMRI(fullBrai
 		searchlightRDM = vectorizeRDM(searchlightRDM);
 		
 		% Locally store the full brain's worth of indexed RDMs.
-		searchlightRDMs(:, :, x, y, z) = squareform(searchlightRDM);
+		searchlightRDMs(:, x, y, z) = searchlightRDM;
 		
-		try
-			[rs, ps] = corr(searchlightRDM', modelRDMs_ltv', 'type', 'Spearman', 'rows', 'pairwise');
-		catch
-			[rs, ps] = corr(searchlightRDM', modelRDMs_ltv, 'type', 'Spearman', 'rows', 'pairwise');
-		end%try
-		
-		if localOptions.fisher
-			for i = 1:numel(rs)
-				rs(i) = fisherTransform(rs(i));
-			end%for:i
-		end%if
-		
-	%	[ignore, bestModelI] = max(rs);
-		
-	%    smm_bestModel(x,y,z) = bestModelI;
-		smm_ps(x,y,z,:) = ps;
-		smm_rs(x,y,z,:) = rs;
 		
 	end%for:cMappingVoxI
 
 	%% END OF THE BIG LOOP! %%
-
-	if monitor
-		fprintf('\n');
+    fprintf('\n');
+	if monitor		
 		close(h_progressMonitor);
 	end
 
 	mappingMask_actual=mappingMask_request;
-	mappingMask_actual(isnan(sum(smm_rs,4)))=0;
-
-	%% visualize
-	if monitor
-		aprox_p_uncorr=0.001;
-		singleModel_p_crit=aprox_p_uncorr/nModelRDMs; % conservative assumption model proximities nonoverlapping
-
-		smm_min_p=min(smm_ps,[],4);
-		smm_significant=smm_min_p<singleModel_p_crit;
-
-		vol=map2vol(mask);
-		vol2=map2vol(mask);
-		
-		colors=[1 0 0
-				0 1 0
-				0 1 1
-				1 1 0
-				1 0 1];
-		
-		for modelRDMI=1:nModelRDMs
-			vol=addBinaryMapToVol(vol, smm_significant&(smm_bestModel==modelRDMI), colors(modelRDMI,:));
-	% 		vol2=addBinaryMapToVol(vol2, smm_bestModel==modelRDMI, colors(modelRDMI,:));
-		end
-		
-		showVol(vol);
-		
-	% 	vol2 = vol2*0.1;
-	% 	vol2(vol<1) = vol(vol<1);
-	% 	
-	% 	showVol(vol2);
-		
-	end%if
+	mappingMask_actual(isnan(sum(searchlightRDMs,1)))=0;
 
 end%function

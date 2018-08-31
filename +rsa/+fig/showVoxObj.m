@@ -53,7 +53,7 @@ else
     clear mapORcoords;
 end
 
-if ~exist('materialDef','var'), materialDef=[0   0.5   2.3  1 0.4]; end
+if ~exist('materialDef','var'), materialDef=[0   0.5   0.7  1 0.4]; end
 
 if adjustMargin
     [x,y,z]=ind2sub(size(map),find(map));

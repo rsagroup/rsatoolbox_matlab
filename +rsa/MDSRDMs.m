@@ -7,42 +7,52 @@ function MDSRDMs(varargin)
 % representational geometries are similar. RDMs, RDMs2, ...: Structure of
 % RDMs. All RDMs in here will be placed on an MDS plot.
 %     
-% userOptions: The options structure.
+% 	userOptions: The options structure. 
+%
+%				 userOptions.projectName
+%               		 A string which is prepended to the saved files. 
+%		    	   	     This string is specific to the current project
+%		  		 userOptions.analysisName
+%		         	     A string which is prepended to the saved files. 
+%		   				 This string is specific to the current analysis.     
+%     			 userOptions.rootPath: 
+%						 A string describing the root path where files
+%  					     will be saved (inside created directories).%     
+%		         userOptions.saveFigurePDF: 
+%					     A Boolean value. If true, the figure is
+%					     saved as a PDF. Defaults to false.
+%                userOptions.saveFigurePS: 
+%				  	     A Boolean value. If true, the figure is
+%     					 saved as a PS. Defaults to false.
+%     			 userOptions.saveFigureFig: 
+% 						 A Boolean value. If true, the figure is
+%					     saved as a MATLAB .fig file. Defaults to false.
+%     			 userOptions.displayFigures: 
+% 					     A Boolean value. If true, the figure
+%				         remains open after it is created. Defaults to true.     
+%			     userOptions.criterion: 
+% 						 The criterion which will be minimised to optimise
+% 					     the MDS arrangement. Defaults to metric stress.     
+%     			 userOptions.rubberbands: 
+% 						 Boolean value. If true, rubberbands
+%					     indicating MDS distortion are drawn on the MDS plot.
+% 						 Defaults to true.
 %     
-% userOptions.analysisName: A string which is prepended to the saved files.
-%     
-%     userOptions.rootPath: A string describing the root path where files
-%     will be saved (inside created directories).
-%     
-%     userOptions.saveFigurePDF: A Boolean value. If true, the figure is
-%     saved as a PDF. Defaults to false.
-%     
-%     userOptions.saveFigurePS: A Boolean value. If true, the figure is
-%     saved as a PS. Defaults to false.
-%     
-%     userOptions.saveFigureFig: A Boolean value. If true, the figure is
-%     saved as a MATLAB .fig file. Defaults to false.
-%     
-%     userOptions.displayFigures: A Boolean value. If true, the figure
-%     remains open after it is created. Defaults to true.
-%     
-%     userOptions.criterion: The criterion which will be minimised to
-%     optimise the MDS arrangement. Defaults to metric stress.
-%     
-%     userOptions.rubberbands: Boolean value. If true, rubberbands
-%     indicating MDS distortion are drawn on the MDS plot. Defaults to
-%     true.
-%     
-%     localOptions: Further options specific to this function.
-%      localOptions.titleString: If set, this will replace the default
-%      title for the MDS plots.
-% 
-% localOptions.name localOptions.figureNumber: If specified, this will set
-% the figure number of the produced figure. Otherwise the figure number
-% will be randomly generated (and probably large).
+%   localOptions: Further options specific to this function.
+%
+%      			localOptions.titleString: 
+% 							 If set, this will replace the default
+%				             title for the MDS plots.% 
+% 				localOptions.name: 
+% 							 more specific name to give to the figure.
+% 				localOptions.figureNumber: 
+% 						     If specified, this will set the figure number of
+% 							 the produced figure. Otherwise the figure number
+%							 will be randomly generated (and probably large).
 
 %
-% Cai Wingfield 5-2010%__________________________________________________________________________
+% Cai Wingfield 5-2010
+%__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
 import rsa.*
@@ -74,6 +84,7 @@ if nRDMs < 3
 end%if:nRDMs<3
 
 %% Set defaults and check options struct
+if ~isfield(userOptions, 'projectName'), error('MDSRDMs:NoProjectName', 'ProjectName must be set. See help'); end%if
 if ~isfield(userOptions, 'analysisName'), error('MDSRDMs:NoAnalysisName', 'analysisName must be set. See help'); end%if
 if ~isfield(userOptions, 'rootPath'), error('MDSRDMs:NoRootPath', 'rootPath must be set. See help'); end%if
 userOptions = setIfUnset(userOptions, 'saveFigurePDF', false);

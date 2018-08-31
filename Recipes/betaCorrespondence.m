@@ -1,4 +1,4 @@
-function betas = betaCorrespondence();
+function betas = betaCorrespondence()
 %
 %  betaCorrespondence.m is a simple function which should combine
 %  three things: preBeta:	a string which is at the start of each file
@@ -24,24 +24,15 @@ function betas = betaCorrespondence();
 %__________________________________________________________________________
 % Copyright (C) 2010 Medical Research Council
 
-preBeta = '[[subjectName]]_';
+nconditions = 72;
 
-% betas(session, condition).identifier = ???
-betas(1,1).identifier = 'session1_condition1';
-betas(1,2).identifier = 'session1_condition2';
-betas(1,3).identifier = 'session1_condition3';
-betas(1,4).identifier = 'session1_condition4';
-betas(1,5).identifier = 'session1_condition5';
-% betas(1,6).identifier = 'session1_condition6';
-% betas(1,7).identifier = 'session1_condition7';
-% betas(1,8).identifier = 'session1_condition8';
-
-postBeta = '_experiment1.img';
-
-for session = 1:size(betas,1)
-	for condition = 1:size(betas,2)
-		betas(session,condition).identifier = [preBeta betas(session,condition).identifier postBeta];
-	end%for
-end%for
+for condI=1:nconditions
+    if condI<10
+        fill = '000';
+    else
+        fill = '00';
+    end
+    betas(1,condI).identifier = sprintf('spmT_%s%d.img',fill,condI);
+end
 
 end%function

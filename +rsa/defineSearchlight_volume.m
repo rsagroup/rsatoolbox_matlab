@@ -48,6 +48,7 @@ function [L,exclMask] = defineSearchlight_volume(ROIMask,Mask,varargin)
 % 2/2015 - Joern Diedrichsen & Naveed Ejaz 
 
 import rsa.spm.*
+import rsa.surfing.surfing_eucldist rsa.surfing.surfing_inds2subs
 
 %% 1. Checking inputs
 Opt.sphere    = [30 160]; % 30mm radius volumetric sphere, 160 voxels
@@ -93,8 +94,8 @@ inclMask.data   = spm_read_vols(inclMask);
 %	- calculate voxels of interest and center voxels
 mask        = logical(inclMask.data(:)>0);
 centeridxs  = find(mask);   
-c_centers   = surfing_inds2subs(inclMask.dim,centeridxs)'; 
-c_voxels    = surfing_inds2subs(inclMask.dim,find(mask))'; 
+c_centers   = rsa.surfing.surfing_inds2subs(inclMask.dim,centeridxs)'; 
+c_voxels    = rsa.surfing.surfing_inds2subs(inclMask.dim,find(mask))'; 
 centers     = uint32(c_centers);
 voxels      = uint32(c_voxels);
 ncent       = size(centers,2); 
@@ -110,7 +111,7 @@ voxmax      = zeros(ncent,1);       % top right voxel
 %% 4. Estimate linear indices, voxmin/voxmax for a sphere centered at each center index
 spm_progress_bar('Init',100);
 for k=1:ncent
-    ds = surfing_eucldist(c_centers(:,k),c_voxels);
+    ds = rsa.surfing.surfing_eucldist(c_centers(:,k),c_voxels);
     if fixedradius
         a       = voxels(:,ds<radius);
         rs(k,1) = radius; 
@@ -124,7 +125,7 @@ for k=1:ncent
     n(k,1)          = size(a,2);
     voxmin(k,1:3)   = min(a,[],2)';
     voxmax(k,1:3)   = max(a,[],2)';
-    li{k,1}         = surfing_subs2inds(inclMask.dim,a(1:3,:)')';
+    li{k,1}         = rsa.surfing.surfing_subs2inds(inclMask.dim,a(1:3,:)')';
     n(k,1)          = numel(li{k});
 
     spm_progress_bar('set',(k/ncent)*100);
@@ -138,7 +139,7 @@ L.voxmax    = voxmax;
 L.voxel     = centeridxs;
 
 
-%% 6. Cleanung & writing out exclusion mask
+%% 6. Cleaning & writing out exclusion mask
 Vin(1) = Mask; 
 Vin(2) = inclMask; 
 if (Opt.writeMask) 
@@ -146,6 +147,8 @@ if (Opt.writeMask)
     Vo.fname =  'exclMask.nii'; 
     exclMask        = spm_imcalc(Vin,Vo,'((i1>0)-(i2>0)>0)');
     exclMask.data   = spm_read_vols(exclMask);
+elseif nargout > 1
+    exclMask = []; 
 end; 
 try
     delete('inclMask.nii');

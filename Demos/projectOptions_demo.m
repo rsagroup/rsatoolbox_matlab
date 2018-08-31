@@ -16,6 +16,8 @@ function userOptions = projectOptions_demo()
 
 %% Project details
 % This name identifies a collection of files which all belong to the same run of a project.
+userOptions.projectName = 'DEMO2'; % this is renamed in the code for demos 3-4.
+
 userOptions.analysisName = 'DEMO2'; % this is renamed in the code for demos 3-4.
 
 % This is the root directory of the project.
