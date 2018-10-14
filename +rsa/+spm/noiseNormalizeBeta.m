@@ -15,17 +15,18 @@ function [u_hat,resMS,Sw_hat,beta_hat,shrinkage,trRR]=noiseNormalizeBeta(Y,SPM,v
 %                 the Ledoit-Wolf method. 
 % OUTPUT:
 %    u_hat:       estimated true activity patterns (beta_hat after multivariate noise normalization),
-%    resMS:       residual mean-square - diagonal of the Var-cov matrix, 1 by P
+%    resMS:       residual mean-square - diagonal of the Var-cov matrix of the average beta weight, 1 by P  
 %    Sw_hat:      overall voxel error variance-covariance matrix (PxP), before regularisation 
 %    beta_hat:    estimated raw regression coefficients, K*R by P
-%    shrinkage:   applied shrinkage factor 
+%    shrinkage:   applied shrinkage facto 
 %    trRR:        Trace of the squared residual spatial correlation matrix
 %                 This number provides an estimate for the residual spatial
 %                 correlation. For variance-estimation, the effective
 %                 number of voxels are effVox = numVox^2/trRR 
 % Alexander Walther, Joern Diedrichsen
 % joern.diedrichsen@googlemail.com
-% 2/2015
+% 10/2018: Updated scaling of prehwitened-betas, to take into account the
+% variance of betas (bCov).
 Opt.normmode = 'overall';  % Either runwise or overall
 Opt.shrinkage = []; 
 Opt = rsa.getUserOptions(varargin,Opt);
@@ -65,30 +66,34 @@ switch (Opt.normmode)
             idxT    = partT==i;             % Time points for this partition 
             idxQ    = partQ==i;             % Regressors for this partition 
             numFilt = size(xX.K(i).X0,2);   % Number of filter variables for this run 
-
-            [Sw_reg(:,:,i),shrinkage(i),Sw_hat(:,:,i)]=rsa.stat.covdiag(res(idxT,:),sum(idxT)-sum(idxQ)-numFilt-1,'shrinkage',Opt.shrinkage);                    %%% regularize Sw_hat through optimal shrinkage
-            % Postmultiply by the inverse square root of the estimated matrix 
-            [V,L]=eig(Sw_reg(:,:,i));       % This is overall faster and numerical more stable than Sw_hat.^-1/2
+            
+            % in the scaling of the noise, take into account mean beta-variance 
+            [Sw_reg(:,:,i),shrinkage(i),Sw_hat(:,:,i)]=rsa.stat.covdiag(res(idxT,:),SPM.xX.trRV/(Nrun*mean(diag(SPM.xX.Bcov))),'shrinkage',Opt.shrinkage);                    %%% regularize Sw_hat through optimal shrinkage
+            % Calculating sq over the eigenvalues is numerically more
+            % stable than sq = Sw_reg^-1/2 
+            [V,L]=eig(Sw_reg(:,:,i));   
             l=diag(L);
             sq(:,:,i) = V*bsxfun(@rdivide,V',sqrt(l)); % Slightly faster than sq = V*diag(1./sqrt(l))*V';
+            % Postmultiply by the inverse square root of the estimated matrix 
             u_hat(idxQ,:)=beta_hat(idxQ,:)*sq(:,:,i);
         end;
         shrinkage=mean(shrinkage);
         Sw_hat = mean(Sw_hat,3); 
         Sw_reg = mean(Sw_reg,3); 
     case 'overall'              %%% do overall noise normalization
-        [Sw_reg,shrinkage,Sw_hat]=rsa.stat.covdiag(res,SPM.xX.erdf,'shrinkage',Opt.shrinkage);   %%% regularize Sw_hat through optimal shrinkage
+        % in the scaling of the noise, take into account mean beta-variance 
+        [Sw_reg,shrinkage,Sw_hat]=rsa.stat.covdiag(res,SPM.xX.trRV/mean(diag(SPM.xX.Bcov)),'shrinkage',Opt.shrinkage);   %%% regularize Sw_hat through optimal shrinkage
 
         % Postmultiply by the inverse square root of the estimated matrix 
-        [V,L]=eig(Sw_reg);
+        [V,L]=eig(Sw_reg);  % in the scaling of the noise, take into account mean beta-variance 
         l=diag(L);
         sq = V*bsxfun(@rdivide,V',sqrt(l)); % Slightly faster than sq = V*diag(1./sqrt(l))*V';
         u_hat=beta_hat*sq;
 end;
 
-% Return the diagonal of Sw_hat 
+% Return the diagonal of Sw_hat - also weighted by the mean variance of beta-hat 
 if (nargout>1)
-    resMS=sum(res.^2)./SPM.xX.erdf;
+    resMS=sum(res.^2)./SPM.xX.trRV*mean(diag(SPM.xX.Bcov));
 end; 
 
 % return the trace of the residual covariance matrix

@@ -80,15 +80,14 @@ switch (Opt.normmethod)
                     idxT = partT==i;
                     idxN = partN==i;
                     numFilt = size(xX.K(i).X0,2);
-                    sum(idxT)-sum(idxN)-numFilt-1;
-                    [Sw_hat(:,:,i),shrink(i)]=covdiag(res(idxT,:),sum(idxT)-sum(idxN)-numFilt-1);                    %%% regularize Sw_hat through optimal shrinkage
+                    [Sw_hat(:,:,i),shrink(i)]=covdiag(res(idxT,:),SPM.xX.trRV/(numPart*mean(diag(SPM.xX.Bcov))));   %%% regularize Sw_hat through optimal shrinkage
                     [V,L]=eig(Sw_hat(:,:,i));       % This is overall faster and numerical more stable than Sw_hat.^-1/2
                     l=diag(L);
                     sq = V*bsxfun(@rdivide,V',sqrt(l)); % Slightly faster than sq = V*diag(1./sqrt(l))*V';
                     KWY(idxT,:)=KWY(idxT,:)*sq;
                 end;
             case 'overall'
-                Sw_hat=covdiag(res,SPM.xX.erdf);    % regularize Sw_hat through optimal shrinkage
+                Sw_hat=covdiag(res,SPM.xX.trRV/mean(diag(SPM.xX.Bcov)));    % regularize Sw_hat through optimal shrinkage
                 [V,L]=eig(Sw_hat);                  % This is overall faster and numerical more stable than Sw_hat.^-1/2
                 l=diag(L);
                 sq = V*bsxfun(@rdivide,V',sqrt(l)); % Slightly faster than sq = V*diag(1./sqrt(l))*V';
