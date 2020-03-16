@@ -58,7 +58,7 @@ numCond = max(conditionVec);
 if (length(conditionVec)<numReg)
     conditionVec=[conditionVec;zeros(numReg-length(conditionVec),1)];
 end;
-Z = indicatorMatrix('identity_p',conditionVec);
+Z = rsa.util.indicatorMatrix('identity_p',conditionVec);
 nonInterest = all(Z==0,2);   % Regressors not in the conditions
 numNonInterest = sum(nonInterest);
 Z(nonInterest,end+1:end+sum(numNonInterest))=eye(numNonInterest);
@@ -107,7 +107,7 @@ switch (Opt.normmethod)
                     KWY(idxT,:)=KWY(idxT,:)*sq;
                 end;
             case 'overall'
-                Sw_hat=covdiag(res,SPM.xX.erdf);    % regularize Sw_hat through optimal shrinkage
+                Sw_hat=rsa.stat.covdiag(res,SPM.xX.erdf);    % regularize Sw_hat through optimal shrinkage
                 [V,L]=eig(Sw_hat);                  % This is overall faster and numerical more stable than Sw_hat.^-1/2
                 l=diag(L);
                 sq = V*bsxfun(@rdivide,V',sqrt(l)); % Slightly faster than sq = V*diag(1./sqrt(l))*V';
