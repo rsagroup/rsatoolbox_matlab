@@ -69,7 +69,7 @@ if ~isfield(userOptions, 'analysisName'), error('fMRIDataPreparation:NoAnalysisN
 if ~isfield(userOptions, 'rootPath'), error('fMRIDataPreparation:NoRootPath', 'rootPath must be set. See help'); end%if
 if ~isfield(userOptions, 'betaPath'), error('fMRIDataPreparation:NoBetaPath', 'betaPath must be set. See help'); end%if
 if ~isfield(userOptions, 'subjectNames'), error('fMRIDataPreparation:NoSubjectNames', 'subjectNames must be set. See help'); end%if
-if (~isfield(userOptions, 'conditionLabels') && ischar(betaCorrespondence) && strcpmi(betaCorrespondence, 'SPM')), error('fMRIDataPreparation:NoConditionLabels', 'conditionLables must be set if the data is being extracted from SPM.'); end%if
+if (~isfield(userOptions, 'conditionLabels') && ischar(betaCorrespondence) && strcmpi(betaCorrespondence, 'SPM')), error('fMRIDataPreparation:NoConditionLabels', 'conditionLables must be set if the data is being extracted from SPM.'); end%if
 
 % The filenames contain the analysisName as specified in the user options file
 ImageDataFilename = [userOptions.analysisName, '_ImageData.mat'];

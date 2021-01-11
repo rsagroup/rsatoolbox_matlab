@@ -1,4 +1,4 @@
-function [realRs bootstrapEs pairwisePs bootstrapRs] = bootstrapRDMs(bootstrappableReferenceRDMs, candRDMs, userOptions)
+function [realRs, bootstrapEs, pairwisePs, bootstrapRs] = bootstrapRDMs(bootstrappableReferenceRDMs, candRDMs, userOptions)
 % [realRs bootstrapEs pairwisePs bootstrapRs] = ...
 %                        bootstrapRDMs(bootstrappableReferenceRDMs, ...
 %                                                candRDMs, ...
@@ -115,31 +115,38 @@ end
 n = 0; k=0;
 
 fprintf('\n');
+
+% Need to create one candidate RDM for each reference because we don't want
+% to correlate averaged RDMs.
+candRDMs3rd = cell(nCandRDMs, 1);
+for candRDMI = 1:nCandRDMs
+    candRDMs3rd{candRDMI} = repmat(candRDMs(:,:,candRDMI), ...
+        [1, 1, nSubjects]);
+end
+
 for candRDMI = 1:nCandRDMs
     for b = 1:userOptions.nBootstrap
         n = n + 1;
         localReferenceRDMs = bootstrappableReferenceRDMs(resampledConditionIs(b,:),resampledConditionIs(b,:),resampledSubjectIs(b,:));
-        localTestRDM = candRDMs(resampledConditionIs(b,:), resampledConditionIs(b,:), candRDMI);
-        
-        averageBootstrappedRDM = mean(localReferenceRDMs, 3);
-        
+        localTestRDM = candRDMs3rd{candRDMI}(resampledConditionIs(b,:), resampledConditionIs(b,:), resampledSubjectIs(b,:));
+
         if isequal(userOptions.RDMcorrelationType,'Kendall_taua')
             %             tic
-            bootstrapRs(candRDMI, b)=rankCorr_Kendall_taua(vectorizeRDMs(averageBootstrappedRDM)',vectorizeRDMs(localTestRDM)');
+            bootstrapRs(candRDMI, b)=mean(diag(rankCorr_Kendall_taua(squeeze(vectorizeRDMs(localReferenceRDMs)),squeeze(vectorizeRDMs(localTestRDM)))));
             %             toc
         elseif isequal(userOptions.RDMcorrelationType,'raeSpearman')
             %             tic
-            %             bootstrapRs(candRDMI, b)=raeSpearmanCorr(vectorizeRDMs(averageBootstrappedRDM)',vectorizeRDMs(localTestRDM)');
+            %             bootstrapRs(candRDMI, b)=raeSpearmanCorr(vectorizeRDMs(averageBootstrappedRDM),vectorizeRDMs(localTestRDM));
             %             toc
             %             tic
-            bootstrapRs(candRDMI, b)=raeSpearmanCorr(vectorizeRDMs(averageBootstrappedRDM)',vectorizeRDMs(localTestRDM)');
+            bootstrapRs(candRDMI, b)=mean(diag(raeSpearmanCorr(vectorizeRDMs(localReferenceRDMs),vectorizeRDMs(localTestRDM))));
             %             toc
         else
             %             tic
-            bootstrapRs(candRDMI, b) = corr(vectorizeRDMs(averageBootstrappedRDM)',vectorizeRDMs(localTestRDM)','type',userOptions.distanceMeasure,'rows','pairwise');
+            bootstrapRs(candRDMI, b) = mean(diag(corr(squeeze(vectorizeRDMs(localReferenceRDMs)), squeeze(vectorizeRDMs(localTestRDM)), 'type',userOptions.distanceMeasure,'rows','pairwise')));
             %             toc
         end
-        
+
         if mod(n,floor(userOptions.nBootstrap*nCandRDMs/100))==0
             fprintf('%d%% ',floor(100*n/(userOptions.nBootstrap*nCandRDMs)));
             if mod(n,floor(userOptions.nBootstrap*nCandRDMs/10))==0, fprintf('\n'); end;
