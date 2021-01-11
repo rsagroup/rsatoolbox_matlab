@@ -8,7 +8,7 @@ function userOptions = defineUserOptions()
 %  a new name, so all will not be lost if you don't do this).
 %
 %  For a guide to how to fill out the fields in this file, consult
-%  the documentation folder (particularly the userOptions_guide.m)
+%  the docu mentation folder (particularly the userOptions_guide.m)
 %
 %  Cai Wingfield 11-2009
 %__________________________________________________________________________
